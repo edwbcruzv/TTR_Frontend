@@ -1,3 +1,3 @@
 # TT_Frontend hecho con React + Vite
 
-Rama release by cruz
+Rama develop by cruz
