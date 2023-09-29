@@ -3,15 +3,20 @@ import { Button,
   Container,
   Typography,
   Grid,
-  Paper
+  Paper, AppBar, Toolbar, IconButton
 } from '@mui/material';
-
+import { Menu } from '@mui/icons-material'
+import AppFrame from '../components/frames/AppFrame';
+import NavBarHome from '../components/navbars/NavBarHome';
 
 const WelcomePage = props => {
   return (
+    <AppFrame>
+      <NavBarHome/>      
+
     <Container maxWidth="md">
       <Grid container justify="center" alignItems="center" style={{ minHeight: '100vh' }}>
-        <Grid item xs={12}>
+        <Grid item xs={12}>      
           <Paper style={{ padding: '16px', textAlign: 'center' }}>
             <Typography variant="h4" gutterBottom>
               ¡Bienvenido a nuestro sitio web!
@@ -27,6 +32,7 @@ const WelcomePage = props => {
         </Grid>
       </Grid>
     </Container>
+    </AppFrame>
   )
 }
 
