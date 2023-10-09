@@ -30,7 +30,7 @@ export default function useForm(initialForm,validateForm,endpointForm,timeResetF
         
         // Mientras no existan errores en el objeto errors se enviara el formulario
         if (Object.keys(errors).length===0) {
-            alert(`enviando formulario:${JSON.stringify(form)}`)
+            // alert(`enviando formulario:${JSON.stringify(form)}`)
             setLoading(true) // estado de carga 
             helperHTTP().post(
                 endpointForm,
@@ -49,6 +49,7 @@ export default function useForm(initialForm,validateForm,endpointForm,timeResetF
                 setTimeout(() => {
                     setResponse(false) // Aqui esperamos n segundos para restablecer el formulario
                 }, timeResetForm*1000);
+                console.log(res)
                 return res
             })
         }else{

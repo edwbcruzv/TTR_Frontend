@@ -60,7 +60,7 @@ function validationForm(form) {
 
   if (!form.username.trim()) {
     errors.username = "El campo Email es requerido.";
-  } else if (!regexEmail.test(form.username.trim())) {
+  } else if (!regexName.test(form.username.trim())) {
     errors.username = "Inserte un Email valido.";
   }
 
