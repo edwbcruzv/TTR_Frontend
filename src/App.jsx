@@ -18,6 +18,8 @@ import LoginStudentPage from './pages/Student/LoginStundentPage'
 
 import NotFoundPage from './pages/NotFoundPage'
 
+import { UserProvider } from './context/UserContext'
+
 
 const App = props => {
   return (
@@ -28,11 +30,13 @@ const App = props => {
 
       <Route path='/' element={<WelcomePage/>} ></Route>
       
-      <Route path='/admin' element={<AdminPage/>}>
-        <Route index element={<DashboardAdminPage/>} ></Route>
-        <Route path='login' element={<LoginAdminPage/>} ></Route>
-        <Route path='register-users' element={<RegisterUsersPage/>} ></Route>
-      </Route>
+      <UserProvider>
+        <Route path='/admin' element={<AdminPage/>}>
+          <Route index element={<DashboardAdminPage/>} ></Route>
+          <Route path='login' element={<LoginAdminPage/>} ></Route>
+          <Route path='register-users' element={<RegisterUsersPage/>} ></Route>
+        </Route>
+      </UserProvider>
       
       <Route path='/student' element={<StudentPage/>} >
         <Route index element={<DashboardStudentPage/>} ></Route>
