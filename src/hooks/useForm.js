@@ -8,6 +8,7 @@ export default function useForm(initialForm,validateForm,endpointForm,timeResetF
     const [errors, setErrors] = useState({})
     const [loading, setLoading] = useState(false)
     const [response, setResponse] = useState(null)
+    const [resBody, setResBody] = useState(null)
 
     // esta funcion leera todos los cambios generales del formulario y lo actualizara
     function handleChange(e) {
@@ -49,7 +50,7 @@ export default function useForm(initialForm,validateForm,endpointForm,timeResetF
                 setTimeout(() => {
                     setResponse(false) // Aqui esperamos n segundos para restablecer el formulario
                 }, timeResetForm*1000);
-                console.log(res)
+                setResBody(res)
                 return res
             })
         }else{
@@ -58,6 +59,7 @@ export default function useForm(initialForm,validateForm,endpointForm,timeResetF
     }
 
     return {
+        resBody,
         form,
         errors,
         loading,

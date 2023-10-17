@@ -4,6 +4,8 @@ import { AppBar, Box, Button, IconButton, Toolbar, Typography } from '@mui/mater
 import MenuIcon from '@mui/icons-material/Menu';
 import { useNavigate } from 'react-router-dom';
 
+
+
 const NavBarHome = props => {
     const navigate = useNavigate()
   return (
@@ -22,8 +24,7 @@ const NavBarHome = props => {
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
             Bienvenido
           </Typography>
-          <Button onClick={()=>navigate('/student/login')} color="inherit">Alumno</Button>
-          <Button onClick={()=>navigate('/teacher/login')} color="inherit">Teacher</Button>
+          <Button onClick={props.handleOpen} color="inherit">Login</Button>
         </Toolbar>
       </AppBar>
     </Box>

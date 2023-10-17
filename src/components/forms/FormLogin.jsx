@@ -1,10 +1,12 @@
-import React from "react";
+import React, { useEffect } from "react";
 import PropTypes from "prop-types";
 import useForm from "../../hooks/useForm";
 import Grid from "@mui/material/Grid";
 import Loader from "../Loaders/Loader";
 import Message from "../Messages/Message";
 import Typography from '@mui/material/Typography'
+import useUser from "../../hooks/useUser";
+import { useNavigate } from "react-router-dom";
 
 const style_inputs = {
   border: "thin solid #dedede",
@@ -71,7 +73,9 @@ function validationForm(form) {
 }
 
 const FormLogin = ({uri, title}) => {
+
   const {
+    resBody,
     form,
     errors,
     loading,
@@ -80,6 +84,27 @@ const FormLogin = ({uri, title}) => {
     handleBlur,
     handleSubmit,
   } = useForm(initialForm, validationForm,uri,0);
+
+  const {isLogged,login}=useUser()
+
+  const navigate = useNavigate()
+
+  useEffect(() => {
+    console.log("first")
+    if(response){
+      login(resBody.jwt)
+    }
+
+    if(isLogged){
+      navigate('/admin')
+    }
+    return () => {
+      console.log("bye")
+    }
+  }, [response,isLogged])
+  
+
+
   return (
     <Grid
       container

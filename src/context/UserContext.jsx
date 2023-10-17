@@ -1,11 +1,10 @@
-import { useState } from "react";
-
-const { createContext } = require("react");
+import { useState, createContext } from "react";
 
 
 const UserContext = createContext()
 
-const initialJwt=null
+const initialJwt=window.sessionStorage.getItem('jwt') //  se cierra el navegador el token se elimina
+// const initialJwt=window.localStorage.getItem('jwt') // se cierra el navegador el token se quedara guardado
 
 const UserProvider = ({children}) => {
     const [jwt, setJwt] = useState(initialJwt)
