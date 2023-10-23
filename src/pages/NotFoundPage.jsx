@@ -1,9 +1,11 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Button, Container, Typography } from '@mui/material'
+import { useNavigate } from 'react-router-dom'
 
 
 const NotFoundPage = props => {
+  const navigate = useNavigate()
   return (
     <Container maxWidth="md" style={{ textAlign: 'center', paddingTop: '100px' }}>
       <Typography variant="h3" gutterBottom>
@@ -13,7 +15,7 @@ const NotFoundPage = props => {
         La página que estás buscando no se encuentra.
       </Typography>
       <Button
-        
+        onClick={() => navigate('/')}
         variant="contained"
         color="primary"
       >

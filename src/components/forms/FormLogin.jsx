@@ -5,7 +5,7 @@ import Grid from "@mui/material/Grid";
 import Loader from "../Loaders/Loader";
 import Message from "../Messages/Message";
 import Typography from '@mui/material/Typography'
-import useUser from "../../hooks/useUser";
+import useAuth from "../../hooks/useAuth";
 import { useNavigate } from "react-router-dom";
 
 const style_inputs = {
@@ -85,25 +85,31 @@ const FormLogin = ({uri, title}) => {
     handleSubmit,
   } = useForm(initialForm, validationForm,uri,0);
 
-  const {isLogged,login}=useUser()
+  const {jwt,login,isAuth,isAdmin,isTeacher,isStudent}=useAuth()
 
   const navigate = useNavigate()
 
   useEffect(() => {
-    console.log("first")
+    // console.log(resBody)
+
     if(response){
       login(resBody.jwt)
     }
-
-    if(isLogged){
-      navigate('/admin')
+    // console.log(isAuth,isAdmin,isTeacher,isStudent)
+    if(isAuth){
+      // Si se recibe el token adecurdo se permite el acceso y se redireccion
+      console.log(jwt)
+      if (isAdmin) {
+        navigate('/admin')        
+      }else if (isTeacher) {
+        navigate('/teacher')
+      }else if (isStudent) {
+        navigate('/student')
+      }
+      console.log("Cambiando a Dashboard.")
     }
-    return () => {
-      console.log("bye")
-    }
-  }, [response,isLogged])
-  
-
+    
+  }, [response,login])
 
   return (
     <Grid
@@ -144,8 +150,8 @@ const FormLogin = ({uri, title}) => {
         <input type="submit" value="Enviar" style={style_button} />
       </form>
       {loading && <Loader />}
-      {response && (
-        <Message msg="Los datos fueron enviados" bgColor="#198754" />
+      {loading && !isAuth && (
+        <Message msg="Los datos son incorrectos" bgColor="#198754" />
       )}
     </Grid>
   );

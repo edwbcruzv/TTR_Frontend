@@ -27,7 +27,7 @@ export const helperHTTP = () => {
             delete options.body
         }
 
-        console.log(options)
+        // console.log(options)
 
         // si despues de tres segundos no hay respuesta de un servidor abortamos
         setTimeout(() => controller.abort(), 3000)

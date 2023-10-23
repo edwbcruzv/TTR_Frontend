@@ -3,19 +3,19 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 
 import WelcomePage from "./pages/WelcomePage";
 
-import AdminPage from "./pages/Admin/AdminPage";
+import AdminProtected from "./pages/Admin/AdminProtected";
 import DashboardAdminPage from "./pages/Admin/DashboardAdminPage";
-import RegisterUsersPage from "./pages/Admin/RegisterUsersPage";
 
-import TeacherPage from "./pages/Teacher/TeacherPage";
 import DashboardTeacherPage from "./pages/Teacher/DashboardTeacherPage";
+import TeacherProtected from "./pages/Teacher/TeacherProtected";
 
-import StudentPage from "./pages/Student/StudentPage";
 import DashboardStudentPage from "./pages/Student/DashboardStudentPage";
+import StudentProtected from "./pages/Student/StudentProtected";
 
 import NotFoundPage from "./pages/NotFoundPage";
 
 import { UserProvider } from "./context/UserContext";
+
 
 const App = (props) => {
   return (
@@ -26,19 +26,15 @@ const App = (props) => {
           <Routes>
             <Route path="/" element={<WelcomePage />}></Route>
 
-            <Route path="/admin" element={<AdminPage />}>
+            <Route path="/admin" element={<AdminProtected />}>
               <Route index element={<DashboardAdminPage />}></Route>
-              <Route
-                path="register-users"
-                element={<RegisterUsersPage />}
-              ></Route>
             </Route>
 
-            <Route path="/student" element={<StudentPage />}>
+            <Route path="/student" element={<StudentProtected />}>
               <Route index element={<DashboardStudentPage />}></Route>
             </Route>
 
-            <Route path="/teacher" element={<TeacherPage />}>
+            <Route path="/teacher" element={<TeacherProtected />}>
               <Route index element={<DashboardTeacherPage />}></Route>
             </Route>
 
