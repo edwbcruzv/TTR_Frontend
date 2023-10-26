@@ -14,34 +14,38 @@ import StudentProtected from "./pages/Student/StudentProtected";
 
 import NotFoundPage from "./pages/NotFoundPage";
 
-import { UserProvider } from "./context/UserContext";
+import AuthProvider from "./context/AuthContext";
+import { PublicProtected } from "./pages/PublicProtected";
+
 
 
 const App = (props) => {
   return (
     <>
-      <UserProvider>
+      <AuthProvider>
         <BrowserRouter>
           {/* Dentro de Routes se declaran las rutas y el componente al que va a direcciones, los componentes deben te derminar en Page.jsx */}
           <Routes>
-            <Route path="/" element={<WelcomePage />}></Route>
-
-            <Route path="/admin" element={<AdminProtected />}>
-              <Route index element={<DashboardAdminPage />}></Route>
+            <Route element={<PublicProtected />}>
+              <Route path="/" element={<WelcomePage />}></Route>
             </Route>
 
-            <Route path="/student" element={<StudentProtected />}>
-              <Route index element={<DashboardStudentPage />}></Route>
+            <Route  element={<AdminProtected />}>
+              <Route path="/admin" element={<DashboardAdminPage />}></Route>
             </Route>
 
-            <Route path="/teacher" element={<TeacherProtected />}>
-              <Route index element={<DashboardTeacherPage />}></Route>
+            <Route  element={<StudentProtected />}>
+              <Route path="/student" element={<DashboardStudentPage />}></Route>
+            </Route>
+
+            <Route  element={<TeacherProtected />}>
+              <Route path="/teacher" element={<DashboardTeacherPage />}></Route>
             </Route>
 
             <Route path="*" element={<NotFoundPage />}></Route>
           </Routes>
         </BrowserRouter>
-      </UserProvider>
+      </AuthProvider>
     </>
   );
 };

@@ -5,8 +5,9 @@ import Grid from "@mui/material/Grid";
 import Loader from "../Loaders/Loader";
 import Message from "../Messages/Message";
 import Typography from '@mui/material/Typography'
-import useAuth from "../../hooks/useAuth";
 import { useNavigate } from "react-router-dom";
+import useAuth from "../../hooks/useAuth";
+import { ROL_ADMIN, ROL_STUDENT, ROL_TEACHER } from "../../utils/jwt_data";
 
 const style_inputs = {
   border: "thin solid #dedede",
@@ -85,7 +86,7 @@ const FormLogin = ({uri, title}) => {
     handleSubmit,
   } = useForm(initialForm, validationForm,uri,0);
 
-  const {jwt,login,isAuth,isAdmin,isTeacher,isStudent}=useAuth()
+  const {setToken} = useAuth()
 
   const navigate = useNavigate()
 
@@ -93,23 +94,31 @@ const FormLogin = ({uri, title}) => {
     // console.log(resBody)
 
     if(response){
-      login(resBody.jwt)
-    }
-    // console.log(isAuth,isAdmin,isTeacher,isStudent)
-    if(isAuth){
+      setToken(resBody.jwt)
+      localStorage.setItem('token',resBody.jwt)
       // Si se recibe el token adecurdo se permite el acceso y se redireccion
-      console.log(jwt)
-      if (isAdmin) {
-        navigate('/admin')        
-      }else if (isTeacher) {
-        navigate('/teacher')
-      }else if (isStudent) {
-        navigate('/student')
+      console.log(response, resBody.jwt)
+      
+      const [header, payload, signature] = resBody.jwt.split('.')
+      const payloadJson = JSON.parse(atob(payload))
+      switch (payloadJson.rol) {
+        case ROL_ADMIN:
+          navigate('/admin') 
+          break;
+        case ROL_TEACHER:
+          navigate('/teacher')
+          break;
+        case ROL_STUDENT:
+          navigate('/student')
+          break;
+        default:
+          console.log("sin Rol")
+          break;
       }
       console.log("Cambiando a Dashboard.")
     }
     
-  }, [response,login])
+  }, [response])
 
   return (
     <Grid
@@ -150,7 +159,7 @@ const FormLogin = ({uri, title}) => {
         <input type="submit" value="Enviar" style={style_button} />
       </form>
       {loading && <Loader />}
-      {loading && !isAuth && (
+      {loading && (
         <Message msg="Los datos son incorrectos" bgColor="#198754" />
       )}
     </Grid>
