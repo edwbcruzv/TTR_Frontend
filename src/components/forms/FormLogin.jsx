@@ -58,7 +58,7 @@ const initialForm = {
 function validationForm(form) {
   let errors = {};
 
-  let regexName = /^[A-Za-zÑñÁáÉéÍíÓóÚúÜü\s]+$/;
+  let regexName = /^[A-Za_-zÑñÁáÉéÍíÓóÚúÜü\s]+$/;
   let regexEmail = /^(\w+[/./-]?){1,}@[a-z]+[/.]\w{2,}$/
 
   if (!form.username.trim()) {
