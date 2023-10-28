@@ -5,7 +5,6 @@ import { Button,
   Grid,
   Paper
 } from '@mui/material';
-import AppFrame from '../components/frames/AppFrame';
 import NavBarHome from '../components/navbars/NavBarHome';
 
 import Box from '@mui/material/Box';
@@ -34,11 +33,12 @@ const WelcomePage = props => {
 
 
   return (
-    <AppFrame>
+    <>
       <NavBarHome handleOpen={handleOpen}/>      
 
     <Container maxWidth="md">
       <Grid container justify="center" alignItems="center" style={{ minHeight: '100vh' }}>
+
         <Grid item xs={12}>      
           <Paper style={{ padding: '16px', textAlign: 'center' }}>
             <Typography variant="h4" gutterBottom>
@@ -51,8 +51,10 @@ const WelcomePage = props => {
             <Button  variant="contained" color="primary" style={{ marginTop: '16px' }}>
               Comenzar
             </Button>
+        {/* aqui la bienvenida */}
           </Paper>
         </Grid>
+
         <Modal
         open={open}
         onClose={handleClose}
@@ -65,7 +67,7 @@ const WelcomePage = props => {
       </Modal>
       </Grid>
     </Container>
-    </AppFrame>
+    </>
   )
 }
 

@@ -15,8 +15,10 @@ import AccountCircle from '@mui/icons-material/AccountCircle';
 import MailIcon from '@mui/icons-material/Mail';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import MoreIcon from '@mui/icons-material/MoreVert';
-import useAuth from '../../hooks/useAuth';
 import { useNavigate } from 'react-router-dom';
+import { useState } from 'react';
+import { useEffect } from 'react';
+import useAuth from '../../hooks/useAuth';
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -58,8 +60,20 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   },
 }));
 
-export default function NavBarUser() {
-  const navigate = useNavigate()
+export default function NavBarUser({handleDrawerMenu}) {
+  const {token, setToken} = useAuth();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+  
+    return () => {
+      // Elimina el token del almacenamiento local
+    localStorage.removeItem("token");
+    // Redirige a la página de inicio
+    navigate("/");
+    }
+  }, [token])
+  
 
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
@@ -103,11 +117,7 @@ export default function NavBarUser() {
     >
       <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
       <MenuItem onClick={handleMenuClose}>My account</MenuItem>
-      <MenuItem onClick={()=>{
-        localStorage.removeItem('token')
-        navigate('/')
-
-      }}>Logout</MenuItem>
+      <MenuItem onClick={()=>setToken(null)}>Logout</MenuItem>
     </Menu>
   );
 
@@ -173,6 +183,7 @@ export default function NavBarUser() {
             color="inherit"
             aria-label="open drawer"
             sx={{ mr: 2 }}
+            onClick={handleDrawerMenu(true)}
           >
             <MenuIcon />
           </IconButton>
