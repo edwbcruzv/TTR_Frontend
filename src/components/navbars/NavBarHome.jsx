@@ -10,7 +10,7 @@ const NavBarHome = props => {
     const navigate = useNavigate()
   return (
     <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="static">
+      <AppBar position="fixed">
         <Toolbar>
           <IconButton
             size="large"
