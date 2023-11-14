@@ -1,0 +1,93 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Oswald&family=Poppins&family=Roboto+Condensed&family=Roboto:wght@500&display=swap');
+.grid-container{
+    background-color: #1c2630;
+}
+.form-register{
+    font-family: 'Poppins';
+    margin: 0;
+    padding: 0;
+    background-color: #29313c;
+    padding: 60px 80px 60px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    border-radius: 10px;
+}
+.form-register h2{
+    color: #fff;
+    font-weight: 500;
+    text-transform: uppercase;
+    font-size: 1.25em;
+    letter-spacing: 0.1em;
+    margin-bottom: 50px;
+}
+.input-box{
+    position: relative;
+    width: 300px;
+    margin-bottom: 10px;
+}
+
+.input-box .input-data{
+    position: relative;
+    width: 100%;
+    padding: 10px 0;
+    background: transparent;
+    border: none;
+    border-bottom: 2px solid #999;
+    outline: none;
+    color: #fff;
+    font-size: 1em;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+}
+.input-box label{
+    position: absolute;
+    left: 0;
+    padding: 15px 0;
+    pointer-events: none;
+    color: #999;
+    text-transform: uppercase;
+}
+.input-box label span{
+    position: relative;
+    display: inline-flex;
+    letter-spacing: 0.05em;
+    transition: 0.2s ease-in-out;
+}
+.input-box .input-data:focus ~ label span,
+.input-box .input-data:valid ~ label span{
+    color: #77DD77;
+    letter-spacing: 0.15em;
+    transform: translateY(-25px);
+}
+
+.input-box .input-data:focus,
+.input-box .input-data:valid{
+    border-bottom: 2px solid #77DD77;
+}
+.btn-register{
+    background-color: #77DD77;
+    border: none;
+    padding: 15px;
+    border-radius: 50px;
+    color: #1c2630;
+    font-weight: 600;
+    font-size: 1.15em;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    cursor: pointer;
+    transition: 0.5s;
+}
+.btn-register:hover{
+    letter-spacing: 0.35em;
+}
+.form-register p{
+    color:#fff;
+    text-transform: uppercase;
+}
+.form-register p a{
+    color: #77DD77;
+    font-weight: 500;
+    text-decoration: none;
+}
