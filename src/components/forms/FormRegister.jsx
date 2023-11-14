@@ -5,9 +5,8 @@ import useForm from "../../hooks/useForm";
 import Loader from "../Loaders/Loader";
 import Message from "../Messages/Message";
 import Typography from "@mui/material/Typography";
-import "./css/formregister.css"
-import "./css/formRegister"
-
+import "../../../public/styles/formregister.css";
+import "../../../public/scripts/formRegister";
 
 const style_errors = {
   color: "#dc3545"

@@ -1,10 +1,10 @@
 import React from "react";
-import "./estilosLuis/parallax.css"
-import mountain_behind from "./mountains_behind.png"
-import stars from "./stars.png"
-import mountains_front from "./mountains_front.png"
-import moon from "./moon.png"
-import "./estilosLuis/parallax.js"
+import "../../../public/styles/parallax.css"
+import mountain_behind from "../../../public/images/mountains_behind.png"
+import stars from "../../../public/images/stars.png"
+import mountains_front from "../../../public/images/mountains_front.png"
+import moon from "../../../public/images/moon.png"
+import "../../../public/scripts/parallax.js"
 const Parallax = ()=>{
     return(
         <div className="parallax">

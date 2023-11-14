@@ -7,8 +7,8 @@ import Message from "../Messages/Message";
 import Typography from "@mui/material/Typography";
 import useAuth from "../../hooks/useAuth";
 import { useNavigate } from "react-router-dom";
-import "./css/formregister.css";
-import "./css/formRegister";
+import "../../../public/styles/formregister.css";
+import "../../../public/scripts/formRegister";
 
 
 
@@ -86,34 +86,38 @@ const FormLogin = ({ uri, title }) => {
       alignItems="center"
       alignContent="center"
       wrap="wrap"
+      className="grid-container"
     >
       <Typography variant="h2" color="initial">{title}</Typography>
-      <form onSubmit={handleSubmit} style={style_form}>
-        <input
+      <form onSubmit={handleSubmit} className="form-register">
+      <div className="input-box">
+      <input
           type="text"
           name="username"
-          placeholder="Usuario"
           onBlur={handleBlur}
           onChange={handleChange}
           value={form.username}
           required
-          style={style_inputs}
+          className="input-data"
         />
-        {errors.username && <p style={style_errors}>{errors.username}</p>}
-
-        <input
+        <label>Usuario o email</label>
+        {/* {errors.username && <p style={style_errors}>{errors.username}</p>} */}
+      </div>
+      <div className="input-box">
+      <input
           type="password"
           name="password"
-          placeholder="Contraseña"
           onBlur={handleBlur}
           onChange={handleChange}
           value={form.password}
           required
-          style={style_inputs}
+          className="input-data"
         />
-        {errors.password && <p style={style_errors}>{errors.password}</p>}
+        <label>Contraseña</label>
+        {/* {errors.password && <p style={style_errors}>{errors.password}</p>} */}
 
-        <input type="submit" value="Enviar" style={style_button} />
+      </div>
+        <input type="submit" value="Enviar" />
       </form>
       {loading && <Loader />}
       {loading && !isAuth && (

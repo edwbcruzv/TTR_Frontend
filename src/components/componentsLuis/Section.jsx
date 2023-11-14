@@ -1,6 +1,5 @@
 import React, { Component } from "react";
-import "./estilosLuis/section.css";
-import fondo1 from "../componentsLuis/fondo1.png"
+import "../../../public/styles/style.css";
 export default class Section extends Component {
   render() {
     return (

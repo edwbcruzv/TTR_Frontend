@@ -57,17 +57,17 @@
 }
 .input-box .input-data:focus ~ label span,
 .input-box .input-data:valid ~ label span{
-    color: #77DD77;
+    color: #9d5ceb;
     letter-spacing: 0.15em;
     transform: translateY(-25px);
 }
 
 .input-box .input-data:focus,
 .input-box .input-data:valid{
-    border-bottom: 2px solid #77DD77;
+    border-bottom: 2px solid #9d5ceb;
 }
 .btn-register{
-    background-color: #77DD77;
+    background-color: #9d5ceb;
     border: none;
     padding: 15px;
     border-radius: 50px;
@@ -87,7 +87,7 @@
     text-transform: uppercase;
 }
 .form-register p a{
-    color: #77DD77;
+    color: #9d5ceb;
     font-weight: 500;
     text-decoration: none;
 }
