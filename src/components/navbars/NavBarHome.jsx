@@ -1,5 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import Section from '../componentsLuis/Section';
 import { AppBar, Box, Button, IconButton, Toolbar, Typography } from '@mui/material'
 import MenuIcon from '@mui/icons-material/Menu';
 import { useNavigate } from 'react-router-dom';
@@ -27,6 +28,7 @@ const NavBarHome = props => {
           <Button onClick={props.handleOpen} color="inherit">Login</Button>
         </Toolbar>
       </AppBar>
+      
     </Box>
   )
 }
