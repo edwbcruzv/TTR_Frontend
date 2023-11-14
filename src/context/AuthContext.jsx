@@ -4,11 +4,9 @@ const AuthContext = createContext()
 
 const AuthProvider = ({children}) => {
     const [token, setToken] = useState(localStorage.getItem('token'))
-    // const [isAdmin, setIsAdmin] = useState(false)
-    // const [isTeacher, setIsTeacher] = useState(false)
-    // const [isStudent, setIsStudent] = useState(false)
+    const [rol, setRol] = useState(null)
   
-    const values = {token, setToken}
+    const values = {token, setToken,rol, setRol}
 
   return (
     <AuthContext.Provider value={values} >{children}</AuthContext.Provider>

@@ -1,13 +1,12 @@
 import React from 'react'
 import MiniDrawerFrame from '../../components/Drawers/MiniDrawerFrame'
 
-const DashboardAdminPage = () => {
-
+const CasesPage = () => {
   return (
     <MiniDrawerFrame >
-      Dashoboard
+      Casos
     </MiniDrawerFrame>
   )
 }
 
-export default DashboardAdminPage
+export default CasesPage

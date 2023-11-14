@@ -6,6 +6,10 @@ import { Navigate, Outlet } from 'react-router-dom'
 export const PublicProtected = () => {
     const {token} = useAuth()
     
+    if (token === "undefined") {
+      localStorage.removeItem("token");
+      return <Navigate to="/" replace />
+    }
   
     if (token) {
         const [header, payload, signature] = token.split('.')

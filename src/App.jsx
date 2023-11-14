@@ -5,6 +5,7 @@ import WelcomePage from "./pages/WelcomePage";
 
 import AdminProtected from "./pages/Admin/AdminProtected";
 import DashboardAdminPage from "./pages/Admin/DashboardAdminPage";
+import UsersPage from "./pages/Admin/UsersPage";
 
 import DashboardTeacherPage from "./pages/Teacher/DashboardTeacherPage";
 import TeacherProtected from "./pages/Teacher/TeacherProtected";
@@ -16,7 +17,9 @@ import NotFoundPage from "./pages/NotFoundPage";
 
 import AuthProvider from "./context/AuthContext";
 import { PublicProtected } from "./pages/PublicProtected";
-
+import SchoolsPage from "./pages/Admin/SchoolsPage";
+import CasesPage from "./pages/Admin/CasesPage";
+import ConfigPage from "./pages/ConfigPage";
 
 
 const App = (props) => {
@@ -30,8 +33,12 @@ const App = (props) => {
               <Route path="/" element={<WelcomePage />}></Route>
             </Route>
 
-            <Route  element={<AdminProtected />}>
-              <Route path="/admin" element={<DashboardAdminPage />}></Route>
+            <Route path="/admin" element={<AdminProtected />}>
+              <Route index element={<DashboardAdminPage />}></Route>
+              <Route path="users" element={<UsersPage />}></Route>
+              <Route path="schools" element={<SchoolsPage />}></Route>
+              <Route path="cases" element={<CasesPage />}></Route>
+              <Route path="config" element={<ConfigPage />}></Route>
             </Route>
 
             <Route  element={<StudentProtected />}>
