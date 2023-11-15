@@ -10,6 +10,7 @@ import { URI_BACKEND } from "../utils/urls";
 import FormRegister from "../components/forms/FormRegister";
 import Parallax from "../components/componentsLuis/Parallax";
 import Section from "../components/componentsLuis/Section";
+import "../../public/styles/navbarhome.css"
 
 
 const style = {
@@ -30,7 +31,7 @@ const WelcomePage = (props) => {
 
   return (
     <AppFrame>
-      <NavBarHome handleOpen={handleOpen} />
+      {/* <NavBarHome handleOpen={handleOpen} className = "nav-bar-home" /> */}
 
       <Container maxWidth="md">
         <Modal
