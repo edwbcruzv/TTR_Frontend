@@ -31,7 +31,7 @@ const WelcomePage = (props) => {
 
   return (
     <AppFrame>
-      {/* <NavBarHome handleOpen={handleOpen} className = "nav-bar-home" /> */}
+      <NavBarHome handleOpen={handleOpen} />
 
       <Container maxWidth="md">
         <Modal
@@ -41,7 +41,7 @@ const WelcomePage = (props) => {
           aria-describedby="modal-modal-description"
         >
           <Box sx={style}>
-            <FormLogin uri={URI_BACKEND("auth/login")} title="Lgin" />
+            <FormRegister uri={URI_BACKEND("auth/login")} title="" />
           </Box>
         </Modal>
       </Container>

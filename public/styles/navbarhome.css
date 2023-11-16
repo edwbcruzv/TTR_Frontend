@@ -1,5 +1,32 @@
-.nav-bar-home{
-    background: transparent;
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+.header{
+    top: 0;
+    left: 0;
+    width: 100%;
+    padding: 30px 100px;
+    position: absolute;
     display: flex;
-    background-color: red;
+    z-index: 10000;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.header .texto{
+    color: #fff;
+    font-weight: 700;
+    font-size: 2em;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    pointer-events: none;
+}
+.header .btn-login{
+    color: #fff;
+    font-weight: 700;
+    font-size: 2em;
+    text-transform: uppercase;
+    letter-spacing: 2px;
 }

@@ -10,8 +10,6 @@ import { useNavigate } from "react-router-dom";
 import "../../../public/styles/formregister.css";
 import "../../../public/scripts/formRegister";
 
-
-
 const style_errors = {
   fontWeight: "bold",
   color: "#dc3545",
@@ -40,7 +38,7 @@ function validationForm(form) {
   return errors;
 }
 
-const FormLogin = ({ uri, title }) => {
+const FormLogin = ({ uri}) => {
   const {
     resBody,
     form,
@@ -88,36 +86,36 @@ const FormLogin = ({ uri, title }) => {
       wrap="wrap"
       className="grid-container"
     >
-      <Typography variant="h2" color="initial">{title}</Typography>
+      
       <form onSubmit={handleSubmit} className="form-register">
-      <div className="input-box">
-      <input
-          type="text"
-          name="username"
-          onBlur={handleBlur}
-          onChange={handleChange}
-          value={form.username}
-          required
-          className="input-data"
-        />
-        <label>Usuario o email</label>
-        {/* {errors.username && <p style={style_errors}>{errors.username}</p>} */}
-      </div>
-      <div className="input-box">
-      <input
-          type="password"
-          name="password"
-          onBlur={handleBlur}
-          onChange={handleChange}
-          value={form.password}
-          required
-          className="input-data"
-        />
-        <label>Contraseña</label>
-        {/* {errors.password && <p style={style_errors}>{errors.password}</p>} */}
-
-      </div>
-        <input type="submit" value="Enviar" />
+        <div className="input-box">
+          <h2>Inicia sesión</h2>
+          <input
+            type="text"
+            name="username"
+            onBlur={handleBlur}
+            onChange={handleChange}
+            value={form.username}
+            required
+            className="input-data"
+          />
+          <label>Usuario o email</label>
+          {/* {errors.username && <p style={style_errors}>{errors.username}</p>} */}
+        </div>
+        <div className="input-box">
+          <input
+            type="password"
+            name="password"
+            onBlur={handleBlur}
+            onChange={handleChange}
+            value={form.password}
+            required
+            className="input-data"
+          />
+          <label>Contraseña</label>
+          {/* {errors.password && <p style={style_errors}>{errors.password}</p>} */}
+        </div>
+        <input type="submit" value="Enviar" className="btn-register"/>
       </form>
       {loading && <Loader />}
       {loading && !isAuth && (
