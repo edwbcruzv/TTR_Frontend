@@ -10,7 +10,8 @@ import { URI_BACKEND } from "../utils/urls";
 import FormRegister from "../components/forms/FormRegister";
 import Parallax from "../components/componentsLuis/Parallax";
 import Section from "../components/componentsLuis/Section";
-import "../../public/styles/navbarhome.css"
+import Sectionizq from "../components/componentsLuis/Sectionizq"
+import Footer from "../components/componentsLuis/Footer";
 
 
 const style = {
@@ -46,14 +47,13 @@ const WelcomePage = (props) => {
         </Modal>
       </Container>
       <Parallax />
-      <Section 
-      posicion = "izquierda"
-      texto="Lorem ipsum dolor sit amet consectetur adipisicing elit. Commodi vel voluptates, iusto dolorum 
-      at ut incidunt nostrum, accusantium, tenetur exercitationem recusandae rem laudantium dolorem harum odit qui sunt. 
-      Exercitationem, consectetur!"
-      ></Section>
-      <Section></Section>
-      <Section></Section>
+      <Section
+        titulo = "Hola"
+        lado = "izq"
+      />
+      <Sectionizq />
+      <Section />
+      <Footer />
     </AppFrame>
   );
 };
