@@ -93,7 +93,7 @@ const FormLogin = ({uri, title}) => {
   useEffect(() => {
     // console.log(resBody)
 
-    if(response){
+    if(response && resBody.jwt){
       setToken(resBody.jwt)
       localStorage.setItem('token',resBody.jwt)
       // Si se recibe el token adecurdo se permite el acceso y se redireccion
