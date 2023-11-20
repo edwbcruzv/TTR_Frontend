@@ -4,6 +4,7 @@ import Tab from '@mui/material/Tab';
 import TabContext from '@mui/lab/TabContext';
 import TabList from '@mui/lab/TabList';
 import TabPanel from '@mui/lab/TabPanel';
+import TableUsers from '../Tables/TableUsers';
 
 export default function LabTabs() {
   const [value, setValue] = React.useState('1');
@@ -22,9 +23,9 @@ export default function LabTabs() {
             <Tab label="Alumnos" value="3" />
           </TabList>
         </Box>
-        <TabPanel value="1">Lista de Administradores</TabPanel>
-        <TabPanel value="2">Lista de Profesores</TabPanel>
-        <TabPanel value="3">Lista de Alumnos</TabPanel>
+        <TabPanel value="1"><TableUsers/></TabPanel>
+        <TabPanel value="2"><TableUsers/></TabPanel>
+        <TabPanel value="3"><TableUsers/></TabPanel>
       </TabContext>
     </Box>
   );

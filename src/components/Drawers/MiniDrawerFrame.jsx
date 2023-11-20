@@ -32,8 +32,7 @@ import AddIcon from '@mui/icons-material/Add';
 import PostAddIcon from '@mui/icons-material/PostAdd';
 
 const itemsHeader = [
-  {textItem: "Inicio", path:"", iconItem:<MailIcon />},
-  {textItem: "Informacion", path:"", iconItem:<MailIcon />}
+  {textItem: "Inicio", path:"", iconItem:<MailIcon />}
 ]
 
 
@@ -159,15 +158,14 @@ export default function MiniDrawerFrame({children}) {
     case ROL_ADMIN:
       itemsBody.push(
         {textItem: "Usuarios", path:"admin/users", iconItem:<MailIcon />},
-        {textItem: "Escuelas", path:"admin/schools", iconItem:<MailIcon />},
         {textItem: "Casos", path:"admin/cases", iconItem:<MailIcon />}
       )
         break;
     case ROL_TEACHER:
       itemsBody.push(
         {textItem: "Mis Casos", path:"", iconItem:<MailIcon />},
-        {textItem: "Casos por Revisar", path:"", iconItem:<MailIcon />},
-        {textItem: "Mis Clases", path:"teacher", iconItem:<MailIcon />}
+        {textItem: "Mis Grupos", path:"teacher", iconItem:<MailIcon />},
+        {textItem: "Casos por Revisar", path:"", iconItem:<MailIcon />}
       )
         break;
     case ROL_STUDENT:
