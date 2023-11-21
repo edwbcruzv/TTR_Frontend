@@ -1,16 +1,15 @@
 import React from 'react'
+import { useEffect } from 'react'
 import PropTypes from 'prop-types'
 import Grid from '@mui/material/Grid'
-import useForm from "../../hooks/useForm";
 import Loader from "../Loaders/Loader";
 import Message from "../Messages/Message";
-import Typography from '@mui/material/Typography'
 import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import FormControl from '@mui/material/FormControl';
-import FormLabel from '@mui/material/FormLabel';
 import { useState } from 'react';
+import useForm from '../../hooks/useForm';
 
 
 
@@ -55,18 +54,7 @@ const style_inputs = {
     fontWeight: "bold",
     color: "#dc3545",
   };
-  
-  const initialForm = {
     
-      "username": "",
-      "email": "",
-      "password": "",
-      "nombre": "",
-      "apellido_materno": "",
-      "apellido_paterno": ""
-    
-  };
-  
   function validationForm(form) {
     let errors = {};
   
@@ -109,29 +97,7 @@ const style_inputs = {
     return errors;
   }
 
-
-const FormRegister = () => {
-  const [value, setValue] = useState(null);
-  const [uri, setUri] = useState(null)
-
-  const handleChangeRadioBtn = (event) => {
-    setValue(event.target.value);
-
-    switch (event.target.value) {
-      case "Admin":
-          setUri()
-        break;
-      case "Profesor":
-          setUri()
-        break;
-      case "Estudiante":
-          setUri()
-        break;
-      default:
-        setUri(null)
-        break;
-    }
-  };
+function FormUser({ createData, updateData, dataToEdit, url,setUrl }) {
 
   const {
     form,
@@ -140,8 +106,53 @@ const FormRegister = () => {
     response,
     handleChange,
     handleBlur,
-    handleSubmit,
-  } = useForm(initialForm, validationForm,uri,0);
+    handleReset
+  } = useForm(dataToEdit, validationForm);
+  console.log(form)
+  const [valueRbtn, setValue] = useState(null);
+
+  const handleChangeRadioBtn = (event) => {
+    setValue(event.target.value);
+    switch (event.target.value) {
+      case "Admin":
+          setUrl("usuario")
+        break;
+      case "Profesor":
+          setUrl("profesor")
+        break;
+      case "Estudiante":
+          setUrl("estudiante")
+        break;
+      default:
+        setUri(null)
+        break;
+    }
+  };
+
+    
+    
+    const handleSubmit =(e)=>{
+        e.preventDefault() // para que no se autoprocese el frmulario
+        validateForm(form)
+        if(!errors.username || errors.email){
+          alert("Datos incompletos")
+          return
+        }
+
+        // id de un formulario es nulo: se crea un nuevo dato
+        if(form.id===null){
+          console.log("se creo un dato")
+          createData(form)
+        }else{
+          // si no es nulo se editara un formulario ya existente 
+          console.log("Actualizand")
+          updateData(form)
+        }
+
+        // se limpia el formulario
+        handleReset()
+    }
+
   return (
     <Grid
       container
@@ -152,16 +163,19 @@ const FormRegister = () => {
       alignContent="center"
       wrap="wrap"
     >
+      <h3>{
+          dataToEdit?"Editar":"Agregar"
+          }</h3>
       <Grid item>
-
+        {form.id ||
       <FormControl>
-      <RadioGroup
-        row
-        aria-labelledby="demo-row-radio-buttons-group-label"
-        name="row-radio-buttons-group"
-        value={value}
-        onChange={handleChangeRadioBtn }
-      >
+          <RadioGroup
+          row
+          aria-labelledby="demo-row-radio-buttons-group-label"
+          name="row-radio-buttons-group"
+          value={valueRbtn}
+          onChange={handleChangeRadioBtn }
+          >
         <FormControlLabel value="Admin" control={<Radio />} label="Administrador" />
         <FormControlLabel value="Profesor" control={<Radio />} label="Profesor" />
         <FormControlLabel value="Estudiante" control={<Radio />} label="Estudiante" />
@@ -173,10 +187,8 @@ const FormRegister = () => {
         /> */}
       </RadioGroup>
     </FormControl>
+      }
     </Grid>
-
-      <Typography variant="h2" color="initial">{value}</Typography>
-
 
       <form onSubmit={handleSubmit} style={style_form}>
       <Grid container
@@ -269,7 +281,8 @@ const FormRegister = () => {
           />
         {errors.password && <p style={style_errors}>{errors.password}</p>}
         </Grid>
-      {value === "Profesor" &&
+      {valueRbtn === "Profesor" &&
+      <>
       <Grid item xs={4}>
         <input
           type="text"
@@ -280,12 +293,10 @@ const FormRegister = () => {
           value={form.cedula}
           required
           style={style_inputs}
-        />
+          />
         {errors.cedula && <p style={style_errors}>{errors.cedula}</p>}
       </Grid>
-      }
-
-      { value === "Profesor" &&
+      
       <Grid item xs={4}>
         <input
           type="text"
@@ -296,12 +307,14 @@ const FormRegister = () => {
           value={form.escuela}
           required
           style={style_inputs}
-        />
+          />
         {errors.escuela && <p style={style_errors}>{errors.escuela}</p>}
       </Grid>
+          </>
       }
 
-    {value === "Estudiante" &&
+    {valueRbtn === "Estudiante" &&
+    <>
       <Grid item xs={4}>
         <input
           type="text"
@@ -315,8 +328,7 @@ const FormRegister = () => {
           />
         {errors.boleta && <p style={style_errors}>{errors.boleta}</p>}
       </Grid>
-      }
-      {value === "Estudiante" &&
+     
       <Grid item xs={4}>
         <input
           type="text"
@@ -327,21 +339,17 @@ const FormRegister = () => {
           value={form.semestre}
           required
           style={style_inputs}
-        />
+          />
         {errors.semestre && <p style={style_errors}>{errors.semestre}</p>}
       </Grid>
+      </>
       }
       </Grid>
-      {value && <input type="submit" value="Enviar" style={style_button} />}
+      <input type="submit" value="Enviar" style={style_button} />
       </form>
-      {loading && <Loader />}
-      {response && (
-        <Message msg="Los datos fueron enviados" bgColor="#198754" />
-      )}
+      
     </Grid>
   );
-};
+}
 
-FormRegister.propTypes = {}
-
-export default FormRegister
+export default FormUser

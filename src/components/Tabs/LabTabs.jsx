@@ -23,9 +23,9 @@ export default function LabTabs() {
             <Tab label="Alumnos" value="3" />
           </TabList>
         </Box>
-        <TabPanel value="1"><TableUsers/></TabPanel>
-        <TabPanel value="2"><TableUsers/></TabPanel>
-        <TabPanel value="3"><TableUsers/></TabPanel>
+        <TabPanel value="1"><TableUsers url={"usuario"}/></TabPanel>
+        <TabPanel value="2"><TableUsers url={"profesor"}/></TabPanel>
+        <TabPanel value="3"><TableUsers url={"estudiante"}/></TabPanel>
       </TabContext>
     </Box>
   );

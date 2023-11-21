@@ -1,5 +1,4 @@
 import React from 'react'
-import FormRegister from '../../components/forms/FormRegister'
 import { URI_BACKEND } from '../../utils/urls'
 import MiniDrawerFrame from '../../components/Drawers/MiniDrawerFrame'
 import LabTabs from '../../components/Tabs/LabTabs'
@@ -8,6 +7,7 @@ import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
 import Button from '@mui/material/Button';
 import { useState } from 'react'
+import CrudUser from '../../components/forms/CrudUser'
 
 const style = {
   position: 'absolute',
@@ -73,9 +73,7 @@ const UsersPage = props => {
         aria-describedby="parent-modal-description"
       >
         <Box sx={{ ...style, width: 1000 }}>
-          
-        <FormRegister />
-          {/* <ChildModal /> */}
+        <CrudUser />
         </Box>
       </Modal>
 
