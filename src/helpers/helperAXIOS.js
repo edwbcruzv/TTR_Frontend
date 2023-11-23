@@ -23,7 +23,7 @@ export const helperAXIOS = () => {
             };
 
             const response = await customAxios(config);
-            
+            // console.log("DESDEHelper:"+response)
             return {
                 data: response.data,
                 status: response.status,

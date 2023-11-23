@@ -51,21 +51,11 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
   },
 }));
 
-const handleUpdate = (url,id,setOpenDialogUpdate) =>{
-  console.log(URI_BACKEND(`${url}/${id}`))
-  setOpenDialogUpdate(true)
-}
 
-const handleDelete = (url,id,token,setOpenDialogDelete) =>{
-  // const {Data,IsPending,Error}=useAxios(URI_BACKEND(`${url}/${id}`),"DEL",token)
-  console.log(URI_BACKEND(`${url}/${id}`))
-  setOpenDialogDelete(true)
-}
-
-const RowTableItems = ({list_headers,elem_obj,index_obj}) =>{
+const RowTableItems = ({list_headers,elem_obj,index}) =>{
   // console.log(list_headers,elem_obj,index_obj)
   return(
-    <StyledTableRow key={index_obj}>
+    <StyledTableRow key={index}>
       {list_headers &&
         list_headers.map((elem_key,index) => <StyledTableCell key={index} align="right">{elem_obj[elem_key]}</StyledTableCell>)
       }
@@ -75,9 +65,8 @@ const RowTableItems = ({list_headers,elem_obj,index_obj}) =>{
 
 
 
-function TableUsers({url}) {
+function TableUsers({url,viewDataEdit,deleteData}) {
   const {token} = useAuth()
-  const [openUpdate, setOpenUpdate] = React.useState(false)
   const [openDialogDelete, setOpenDialogDelete] = React.useState(false)
 
   const {Data,IsPending,Error}=useAxios(URI_BACKEND(url),"GET",token)
@@ -87,30 +76,17 @@ function TableUsers({url}) {
   if (IsPending===false && Data) {
     data = Data.map((elem) => ({
       ...elem,
-      editar: <Button onClick={() => handleUpdate(url,elem["id"],token,setOpenUpdate)} color="info">Editar</Button>,
-      eliminar: <Button onClick={() => handleDelete(url,elem["id"],token,setOpenDialogDelete)} color="error">Eliminar</Button>,
+      editar: <Button onClick={() => viewDataEdit(elem["id"])} color="info">Editar</Button>,
+      eliminar: <Button onClick={() => deleteData(elem["id"])} color="error">Eliminar</Button>,
     }))
-    // console.log(data)
+    console.log(data)
     list_headers = Object.keys(data[0])
     list_headers.splice( list_headers.indexOf('password_hash'),1)
     // console.log(list_headers)
   }
-  const handleClose = () => {
-    setOpenUpdate(false);
-  };
   
   return (
     <>
-    <Modal
-        open={openUpdate}
-        onClose={handleClose}
-        aria-labelledby="parent-modal-title"
-        aria-describedby="parent-modal-description"
-      >
-        <Box sx={{ ...style, width: 1000 }}>
-        <CrudUser />
-        </Box>
-      </Modal>
     <DialogConfirm contentText={"¿Desea eliminar a esta persona?"} openDialog={openDialogDelete} setOpenDialog={setOpenDialogDelete}/>
     <TableContainer component={Paper}>
       <Table sx={{ minWidth: 700 }} aria-label="customized table">
@@ -123,7 +99,7 @@ function TableUsers({url}) {
         </TableHead>
         <TableBody>
           {list_headers && data &&
-            data.map((elem_obj,index_obj)=>RowTableItems({list_headers,elem_obj,index_obj}))
+            data.map((elem_obj,index)=>RowTableItems({list_headers,elem_obj,index}))
           }
           </TableBody>
       </Table>
@@ -133,7 +109,8 @@ function TableUsers({url}) {
 }
 
 TableUsers.propType = {
-  url:PropTypes.string.isRequired
+  url:PropTypes.string.isRequired,
+  viewDataEdit:PropTypes.func.isRequired
 }
 
 export default TableUsers

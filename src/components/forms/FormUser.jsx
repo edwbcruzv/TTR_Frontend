@@ -10,6 +10,7 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import FormControl from '@mui/material/FormControl';
 import { useState } from 'react';
 import useForm from '../../hooks/useForm';
+import { ROL_ADMIN, ROL_STUDENT, ROL_TEACHER } from '../../utils/jwt_data';
 
 
 
@@ -97,22 +98,47 @@ const style_inputs = {
     return errors;
   }
 
-function FormUser({ createData, updateData, dataToEdit, url,setUrl }) {
+function FormUser({ createData, updateData, dataToEdit,setDataToEdit, url,setUrl }) {
 
   const {
     form,
     errors,
-    loading,
-    response,
     handleChange,
     handleBlur,
     handleReset
   } = useForm(dataToEdit, validationForm);
-  console.log(form)
-  const [valueRbtn, setValue] = useState(null);
+  const [valueRbtn, setValueRbtn] = useState(null);
+  
+  useEffect(() => {
+    console.log(form)
+    switch (form.rol) {
+      case ROL_ADMIN:
+        setUrl("usuario")
+        setValueRbtn("Admin")
+        break;
+      case ROL_TEACHER:
+        setUrl("profesor")
+        setValueRbtn("Profesor")
+        break;
+      case ROL_STUDENT:
+        setUrl("estudiante")
+        setValueRbtn("Estudiante")
+        break;
+      default:
+        setUrl(null)
+        break;
+    }
+  
+    return () => {
+      handleReset()
+      setDataToEdit(null)
+    }
+  }, [])
+  
+
 
   const handleChangeRadioBtn = (event) => {
-    setValue(event.target.value);
+    setValueRbtn(event.target.value);
     switch (event.target.value) {
       case "Admin":
           setUrl("usuario")
@@ -124,16 +150,17 @@ function FormUser({ createData, updateData, dataToEdit, url,setUrl }) {
           setUrl("estudiante")
         break;
       default:
-        setUri(null)
+        setUrl(null)
         break;
     }
   };
-
+  
+  console.log(url)
     
     
     const handleSubmit =(e)=>{
         e.preventDefault() // para que no se autoprocese el frmulario
-        validateForm(form)
+        validationForm(form)
         if(!errors.username || errors.email){
           alert("Datos incompletos")
           return
@@ -163,9 +190,6 @@ function FormUser({ createData, updateData, dataToEdit, url,setUrl }) {
       alignContent="center"
       wrap="wrap"
     >
-      <h3>{
-          dataToEdit?"Editar":"Agregar"
-          }</h3>
       <Grid item>
         {form.id ||
       <FormControl>
