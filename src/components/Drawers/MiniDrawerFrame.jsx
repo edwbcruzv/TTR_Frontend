@@ -163,15 +163,15 @@ export default function MiniDrawerFrame({children}) {
         break;
     case ROL_TEACHER:
       itemsBody.push(
-        {textItem: "Mis Casos", path:"", iconItem:<MailIcon />},
-        {textItem: "Mis Grupos", path:"teacher", iconItem:<MailIcon />},
-        {textItem: "Casos por Revisar", path:"", iconItem:<MailIcon />}
+        {textItem: "Mis Casos", path:"teacher/cases", iconItem:<MailIcon />},
+        {textItem: "Mis Grupos", path:"teacher/groups", iconItem:<MailIcon />},
+        {textItem: "Casos por Revisar", path:"teacher/revision", iconItem:<MailIcon />}
       )
         break;
     case ROL_STUDENT:
       itemsBody.push(
-        {textItem: "Casos pendientes", path:"student", iconItem:<MailIcon />},
-        {textItem: "Mis Equipos", path:"student", iconItem:<MailIcon />}
+        {textItem: "Casos pendientes", path:"student/cases", iconItem:<MailIcon />},
+        {textItem: "Mis Equipos", path:"student/teams", iconItem:<MailIcon />}
       )
     break;
     default:

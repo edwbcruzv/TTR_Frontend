@@ -20,6 +20,11 @@ import { PublicProtected } from "./pages/PublicProtected";
 import SchoolsPage from "./pages/Admin/SchoolsPage";
 import CasesPage from "./pages/Admin/CasesPage";
 import ConfigPage from "./pages/ConfigPage";
+import CasesTeacherPage from "./pages/Teacher/CasesTeacherPage";
+import GroupsTeacherPage from "./pages/Teacher/GroupsTeacherPage";
+import RevisionTeacherPage from "./pages/Teacher/RevisionTeacherPage";
+import CasesStudentPage from "./pages/Student/CasesStudentPage";
+import TeamsStudentPage from "./pages/Student/TeamsStudentPage";
 
 
 const App = (props) => {
@@ -31,6 +36,7 @@ const App = (props) => {
           <Routes>
             <Route element={<PublicProtected />}>
               <Route path="/" element={<WelcomePage />}></Route>
+              <Route path="/recovery" element={<WelcomePage />}></Route>
             </Route>
 
             <Route path="/admin" element={<AdminProtected />}>
@@ -41,13 +47,22 @@ const App = (props) => {
               <Route path="config" element={<ConfigPage />}></Route>
             </Route>
 
-            <Route  element={<StudentProtected />}>
-              <Route path="/student" element={<DashboardStudentPage />}></Route>
+            <Route  path="/student" element={<StudentProtected />}>
+              <Route index element={<DashboardStudentPage />}></Route>
+              <Route path="cases" element={<CasesStudentPage/>}  />
+              <Route path="teams" element={<TeamsStudentPage/>}  />
+
             </Route>
 
-            <Route  element={<TeacherProtected />}>
-              <Route path="/teacher" element={<DashboardTeacherPage />}></Route>
+            <Route path="/teacher" element={<TeacherProtected />}>
+              <Route index element={<DashboardTeacherPage />}></Route>
+              <Route path="cases" element={<CasesTeacherPage/>}  />
+              <Route path="groups" element={<GroupsTeacherPage/>}  />
+              <Route path="revision" element={<RevisionTeacherPage/>}  />
             </Route>
+
+            <Route path="config" element={<ConfigPage/>}  />
+            
 
             <Route path="*" element={<NotFoundPage />}></Route>
           </Routes>

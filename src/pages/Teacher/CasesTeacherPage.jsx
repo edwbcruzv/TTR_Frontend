@@ -1,17 +1,16 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 import MiniDrawerFrame from '../../components/Drawers/MiniDrawerFrame'
+import FormCaseStepper from '../../components/forms/Cases/FormCaseStepper'
 import { CrudCaseProvider } from '../../context/CrudCaseContext'
-import CrudUser from '../../components/forms/CrudUser'
 
-const DashboardTeacherPage = props => {
+const CasesTeacherPage = () => {
   return (
     <MiniDrawerFrame>
-      <CrudUser/>
+        <CrudCaseProvider>
+        <FormCaseStepper />
+      </CrudCaseProvider>
     </MiniDrawerFrame>
   )
 }
 
-DashboardTeacherPage.propTypes = {}
-
-export default DashboardTeacherPage
+export default CasesTeacherPage
