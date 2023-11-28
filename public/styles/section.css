@@ -32,7 +32,7 @@
 .section h1{
     margin-top: 50px;
     top:50px;
-    font-size: 1rem;
+    font-size: 3rem;
     z-index: 999;
     font-family: 'Roboto Condensed';
     color: rgb(255, 255, 255);
@@ -60,7 +60,7 @@
     
 }
 .div-imagen{
-    background-color: #9d5ceb;
+    background: linear-gradient(#2b1055,#7597de);
 }
 .boton-login{
     background-color: white;

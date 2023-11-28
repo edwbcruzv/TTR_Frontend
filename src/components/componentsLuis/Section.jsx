@@ -5,7 +5,7 @@ const Section = (props) =>{
     return (
       <section className="section">
         <div className="div-imagen">
-          <img src={props.imagen} alt="" />
+          <img src={props.imagen} />
         </div>
         <div className="div-texto">
           <h1>{props.titulo}</h1>

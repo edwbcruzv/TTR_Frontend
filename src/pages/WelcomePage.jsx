@@ -12,8 +12,9 @@ import Parallax from "../components/componentsLuis/Parallax";
 import Section from "../components/componentsLuis/Section";
 import Sectionizq from "../components/componentsLuis/Sectionizq"
 import Footer from "../components/componentsLuis/Footer";
-
-
+import bus from "../../public/images/bus.png"
+import students from "../../public/images/students.png"
+import alumnos from "../../public/images/alumnos.png"
 const style = {
   position: "absolute",
   top: "50%",
@@ -42,17 +43,26 @@ const WelcomePage = (props) => {
           aria-describedby="modal-modal-description"
         >
           <Box sx={style}>
-            <FormRegister uri={URI_BACKEND("auth/login")} title="" />
+            <FormLogin uri={URI_BACKEND("auth/login")} title="" />
           </Box>
         </Modal>
       </Container>
       <Parallax />
       <Section
         titulo = "Hola"
-        lado = "izq"
+        imagen = {bus}
+        texto = "Lorem ipsum dolor sit amet consectetur adipisicing elit. Sit ipsum perferendis odit soluta! Quidem vitae eaque facere illum. Ipsum esse quas, quod delectus repellendus velit rem harum quisquam eius voluptate."
       />
-      <Sectionizq />
-      <Section />
+      <Sectionizq
+        titulo = "Hola"
+        texto = "Lorem ipsum dolor sit amet consectetur adipisicing elit. Sit ipsum perferendis odit soluta! Quidem vitae eaque facere illum. Ipsum esse quas, quod delectus repellendus velit rem harum quisquam eius voluptate."
+        imagen = {students}
+      />
+      <Section 
+        titulo = "Hola"
+        texto = "Lorem ipsum dolor sit amet consectetur adipisicing elit. Sit ipsum perferendis odit soluta! Quidem vitae eaque facere illum. Ipsum esse quas, quod delectus repellendus velit rem harum quisquam eius voluptate."
+        imagen = {alumnos}
+      />
       <Footer />
     </AppFrame>
   );
