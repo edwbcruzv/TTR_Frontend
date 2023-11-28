@@ -7,6 +7,7 @@ import StepContent from '@mui/material/StepContent';
 import Button from '@mui/material/Button';
 import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
+import FormStepCase from './FormStepCase';
 
 const steps = [
   {
@@ -88,6 +89,7 @@ export default function CaseFormStepper() {
               {step.label}
             </StepLabel>
             <StepContent>
+              <FormStepCase/>
               <Typography>{step.description}</Typography>
               <Box sx={{ mb: 2 }}>
                 <div>
