@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Alert, List } from '@mui/material'
+import { Alert, List, Tooltip } from '@mui/material'
 import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
@@ -18,15 +18,18 @@ const renderListItem = (textItem, path, iconItem,onClickItemMenu) => {
             }}
             onClick={() => onClickItemMenu(path)}
           >
+            <Tooltip title={textItem} placement="right">
+
             <ListItemIcon
               sx={{
                 minWidth: 0,
                 mr: open ? 3 : 'auto',
                 justifyContent: 'center',
               }}
-            >
+              >
               {iconItem}
             </ListItemIcon>
+            </Tooltip>
             <ListItemText primary={textItem} sx={{ opacity: open ? 1 : 0 }} onClick={() => onClickItemMenu(path)} />
           </ListItemButton>
         </ListItem>

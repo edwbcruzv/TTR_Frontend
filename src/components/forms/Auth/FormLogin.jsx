@@ -1,13 +1,13 @@
 import React, { useEffect } from "react";
 import PropTypes from "prop-types";
-import useForm from "../../hooks/useForm";
+import useForm from "../../../hooks/useForm";
 import Grid from "@mui/material/Grid";
-import Loader from "../Loaders/Loader";
-import Message from "../Messages/Message";
+import Loader from "../../Loaders/Loader";
+import Message from "../../Messages/Message";
 import Typography from '@mui/material/Typography'
 import { useNavigate } from "react-router-dom";
-import useAuth from "../../hooks/useAuth";
-import { ROL_ADMIN, ROL_STUDENT, ROL_TEACHER } from "../../utils/jwt_data";
+import useAuth from "../../../hooks/useAuth";
+import { ROL_ADMIN, ROL_STUDENT, ROL_TEACHER } from "../../../utils/jwt_data";
 
 const style_inputs = {
   border: "thin solid #dedede",

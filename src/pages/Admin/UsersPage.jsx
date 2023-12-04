@@ -1,88 +1,22 @@
 import React from 'react'
-import { URI_BACKEND } from '../../utils/urls'
 import MiniDrawerFrame from '../../components/Drawers/MiniDrawerFrame'
-import LabTabs from '../../components/Tabs/LabTabs'
 import Typography from '@mui/material/Typography'
-import Box from '@mui/material/Box';
-import Modal from '@mui/material/Modal';
-import Button from '@mui/material/Button';
-import { useState } from 'react'
-import CrudUser from '../../components/forms/CrudUser'
-
-const style = {
-  position: 'absolute',
-  top: '50%',
-  left: '50%',
-  transform: 'translate(-50%, -50%)',
-  width: 400,
-  bgcolor: 'background.paper',
-  border: '2px solid #000',
-  boxShadow: 24,
-  pt: 2,
-  px: 4,
-  pb: 3,
-};
-
-function ChildModal() {
-  const [open, setOpen] = React.useState(false);
-  const handleOpen = () => {
-    setOpen(true);
-  };
-  const handleClose = () => {
-    setOpen(false);
-  };
-
-  return (
-    <React.Fragment>
-      <Button onClick={handleOpen}>Open Child Modal</Button>
-      <Modal
-        open={open}
-        onClose={handleClose}
-        aria-labelledby="child-modal-title"
-        aria-describedby="child-modal-description"
-      >
-        <Box sx={{ ...style, width: 200 }}>
-          <h2 id="child-modal-title">Text in a child modal</h2>
-          <p id="child-modal-description">
-            Lorem ipsum, dolor sit amet consectetur adipisicing elit.
-          </p>
-          <Button onClick={handleClose}>Close Child Modal</Button>
-        </Box>
-      </Modal>
-    </React.Fragment>
-  );
-}
+import CrudUser from '../../components/forms/Users/CrudUser'
+import { CrudUserProvider } from '../../context/CrudUserContext'
+import LabTabs from '../../components/forms/Users/LabTabs'
+import { Divider } from '@mui/material'
 
 const UsersPage = props => {
-  const [open, setOpen] = useState(false);
-  const handleOpen = () => {
-    setOpen(true);
-  };
-  const handleClose = () => {
-    setOpen(false);
-  };
-
   return (
     <MiniDrawerFrame>
       <Typography variant="h3" color="primary">Usuarios</Typography>
-      <Button onClick={handleOpen}>Registrar Usuarios</Button>
-      <Modal
-        open={open}
-        onClose={handleClose}
-        aria-labelledby="parent-modal-title"
-        aria-describedby="parent-modal-description"
-      >
-        <Box sx={{ ...style, width: 1000 }}>
-        <CrudUser />
-        </Box>
-      </Modal>
-
-        <LabTabs/>
-        
+      <CrudUserProvider>
+      <CrudUser />
+      <Divider/>
+      <LabTabs/>
+      </CrudUserProvider>
     </MiniDrawerFrame>
   )
 }
-
-UsersPage.propTypes = {}
 
 export default UsersPage

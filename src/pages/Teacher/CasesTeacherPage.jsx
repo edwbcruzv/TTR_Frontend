@@ -5,10 +5,10 @@ import FullScreenCaseCreate from '../../components/forms/Cases/FullScreenCaseCre
 import { Divider } from '@mui/material'
 import TableCases from '../../components/forms/Cases/TableCases'
 
-const CasesPage = () => {
+const CasesTeacherPage = () => {
   return (
-    <MiniDrawerFrame >
-      <CrudCaseProvider>
+    <MiniDrawerFrame>
+        <CrudCaseProvider>
         <FullScreenCaseCreate/>
         <Divider/>
         <TableCases/>
@@ -17,4 +17,4 @@ const CasesPage = () => {
   )
 }
 
-export default CasesPage
+export default CasesTeacherPage

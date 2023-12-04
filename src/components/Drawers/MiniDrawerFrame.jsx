@@ -30,15 +30,23 @@ import ListItemFrame from './ListItemFrame';
 import { ROL_ADMIN, ROL_STUDENT, ROL_TEACHER } from '../../utils/jwt_data';
 import AddIcon from '@mui/icons-material/Add';
 import PostAddIcon from '@mui/icons-material/PostAdd';
+import SettingsIcon from '@mui/icons-material/Settings';
+import HomeIcon from '@mui/icons-material/Home';
+import PeopleOutlinedIcon from '@mui/icons-material/PeopleOutlined';
+import CasesOutlinedIcon from '@mui/icons-material/CasesOutlined';
+import GroupsOutlinedIcon from '@mui/icons-material/GroupsOutlined';
+import Diversity3OutlinedIcon from '@mui/icons-material/Diversity3Outlined';
+import PendingActionsOutlinedIcon from '@mui/icons-material/PendingActionsOutlined';
+import AssignmentLateOutlinedIcon from '@mui/icons-material/AssignmentLateOutlined';
 
 const itemsHeader = [
-  {textItem: "Inicio", path:"", iconItem:<MailIcon />}
+  {textItem: "Inicio", path:"", iconItem:<HomeIcon />}
 ]
 
 
 
 const itemsFooter = [
-  {textItem: "Configuracion", path:"config", iconItem:<MailIcon />}
+  {textItem: "Configuracion", path:"config", iconItem:<SettingsIcon />}
 ]
 
 const drawerWidth = 240;
@@ -157,21 +165,21 @@ export default function MiniDrawerFrame({children}) {
   switch (rol) {
     case ROL_ADMIN:
       itemsBody.push(
-        {textItem: "Usuarios", path:"admin/users", iconItem:<MailIcon />},
-        {textItem: "Casos", path:"admin/cases", iconItem:<MailIcon />}
+        {textItem: "Usuarios", path:"admin/users", iconItem:<PeopleOutlinedIcon />},
+        {textItem: "Casos", path:"admin/cases", iconItem:<CasesOutlinedIcon />}
       )
         break;
     case ROL_TEACHER:
       itemsBody.push(
-        {textItem: "Mis Casos", path:"", iconItem:<MailIcon />},
-        {textItem: "Mis Grupos", path:"teacher", iconItem:<MailIcon />},
-        {textItem: "Casos por Revisar", path:"", iconItem:<MailIcon />}
+        {textItem: "Mis Casos", path:"teacher/cases", iconItem:<CasesOutlinedIcon />},
+        {textItem: "Mis Grupos", path:"teacher/groups", iconItem:<GroupsOutlinedIcon />},
+        {textItem: "Casos por Revisar", path:"teacher/revision", iconItem:<PendingActionsOutlinedIcon />}
       )
         break;
     case ROL_STUDENT:
       itemsBody.push(
-        {textItem: "Casos pendientes", path:"student", iconItem:<MailIcon />},
-        {textItem: "Mis Equipos", path:"student", iconItem:<MailIcon />}
+        {textItem: "Casos pendientes", path:"student/cases", iconItem:<AssignmentLateOutlinedIcon />},
+        {textItem: "Mis Equipos", path:"student/teams", iconItem:<Diversity3OutlinedIcon />}
       )
     break;
     default:
@@ -355,7 +363,7 @@ export default function MiniDrawerFrame({children}) {
               <AddIcon />
             </IconButton> 
               </> }
-            <IconButton size="large" aria-label="show 4 new mails" color="inherit">
+            {/* <IconButton size="large" aria-label="show 4 new mails" color="inherit">
               <Badge badgeContent={4} color="error">
                 <MailIcon />
               </Badge>
@@ -368,7 +376,7 @@ export default function MiniDrawerFrame({children}) {
               <Badge badgeContent={17} color="error"> 
                 <NotificationsIcon />
               </Badge>
-            </IconButton>
+            </IconButton> */}
             <IconButton
               size="large"
               edge="end"
