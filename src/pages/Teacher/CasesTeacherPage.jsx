@@ -1,13 +1,17 @@
 import React from 'react'
 import MiniDrawerFrame from '../../components/Drawers/MiniDrawerFrame'
-import FormCaseStepper from '../../components/forms/Cases/FormCaseStepper'
 import { CrudCaseProvider } from '../../context/CrudCaseContext'
+import FullScreenCaseCreate from '../../components/forms/Cases/FullScreenCaseCreate'
+import { Divider } from '@mui/material'
+import TableCases from '../../components/forms/Cases/TableCases'
 
 const CasesTeacherPage = () => {
   return (
     <MiniDrawerFrame>
         <CrudCaseProvider>
-        <FormCaseStepper />
+        <FullScreenCaseCreate/>
+        <Divider/>
+        <TableCases/>
       </CrudCaseProvider>
     </MiniDrawerFrame>
   )

@@ -37,18 +37,18 @@ const placeholder = 'Escribe algo...';
 
 const theme = 'snow';
 
-const FormCaseStep = props => {
-  const [value, setValue] = useState('');
-  useEffect(() => {
-    console.log(value)
-  }, [value])
-  
+function quitarAcentos(cadena) {
+  return cadena.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+}
 
+const FormCaseStep = ({label,value, setValue}) => {
+  let cadenaSinAcentos = quitarAcentos(label)
+  // console.log(value[cadenaSinAcentos])
   return (
     <>
   <ReactQuill
-    value={value}
-    onChange={setValue}
+    value={value[cadenaSinAcentos]}
+    onChange={(e)=> setValue({...value,[cadenaSinAcentos]:e})}
     modules={modules}
     formats={formats}
     placeholder={placeholder}

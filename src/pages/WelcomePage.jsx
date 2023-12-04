@@ -9,8 +9,8 @@ import NavBarHome from '../components/navbars/NavBarHome';
 
 import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
-import FormLogin from '../components/forms/FormLogin';
 import { URI_BACKEND } from '../utils/urls';
+import FormLogin from '../components/forms/Auth/FormLogin';
 
 const style = {
   position: 'absolute',

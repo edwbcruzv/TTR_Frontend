@@ -1,21 +1,17 @@
 import * as React from 'react';
 import { styled } from '@mui/material/styles';
-import PropTypes from 'prop-types'
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell, { tableCellClasses } from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
-import Box from '@mui/material/Box';
-import Modal from '@mui/material/Modal';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-import useAuth from '../../hooks/useAuth';
-import { URI_BACKEND } from '../../utils/urls';
-import useAxios from '../../hooks/useAxios';
 import Button from '@mui/material/Button'
-import DialogConfirm from '../Dialogs/DialogConfirm';
-import CrudUser from '../forms/CrudUser';
+import useAuth from '../../../hooks/useAuth';
+import { URI_BACKEND } from '../../../utils/urls';
+import useAxios from '../../../hooks/useAxios';
+import DialogConfirm from '../../Dialogs/DialogConfirm';
 
 const style = {
   position: 'absolute',
@@ -65,7 +61,7 @@ const RowTableItems = ({list_headers,elem_obj,index}) =>{
 
 
 
-function TableUsers({url,viewDataEdit,deleteData}) {
+export default function TableCases({url}) {
   const {token} = useAuth()
   const [openDialogDelete, setOpenDialogDelete] = React.useState(false)
 
@@ -87,7 +83,7 @@ function TableUsers({url,viewDataEdit,deleteData}) {
   
   return (
     <>
-    <DialogConfirm contentText={"¿Desea eliminar a esta persona?"} openDialog={openDialogDelete} setOpenDialog={setOpenDialogDelete}/>
+    <DialogConfirm contentText={"¿Desea eliminar a este caso?"} openDialog={openDialogDelete} setOpenDialog={setOpenDialogDelete}/>
     <TableContainer component={Paper}>
       <Table sx={{ minWidth: 700 }} aria-label="customized table">
         <TableHead>
@@ -107,10 +103,3 @@ function TableUsers({url,viewDataEdit,deleteData}) {
     </>
   );
 }
-
-TableUsers.propType = {
-  url:PropTypes.string.isRequired,
-  viewDataEdit:PropTypes.func.isRequired
-}
-
-export default TableUsers

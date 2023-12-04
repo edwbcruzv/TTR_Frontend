@@ -5,8 +5,20 @@ const CrudCaseContext=createContext()
 
 
 function CrudCaseProvider({children}) {
-
-    const [dataToEdit, setDataToEdit] = useState(null)
+    const [dataToEdit, setDataToEdit] = useState({
+      Id:null,
+      Resumen:"<p>resumen</p>",
+      Objetivos:"<p>objetivos</p>",
+      Clasificacion:"<p>clasificacion</p>",
+      Lugar:"<p>lugar</p>",
+      Temporalidad:"<p>temporalidad</p>",
+      Protagonistas:"<p>protagonistas</p>",
+      Organizacion:"<p>organizacion</p>",
+      Preguntas:"<p>preguntas</p>",
+      Riesgos:"<p>riesgos</p>",
+      Resultados:"<p>resultados</p>",
+      Anexos:"<p>anexos</p>"
+    })
     const [error, setError] = useState(null)
     const [loading, setLoading] = useState(true)
 

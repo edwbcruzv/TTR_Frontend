@@ -6,7 +6,10 @@ const CrudGroupContext=createContext()
 
 function CrudGroupProvider({children}) {
 
-    const [dataToEdit, setDataToEdit] = useState(null)
+    const [dataToEdit, setDataToEdit] = useState({
+      id:null,
+      nombre:"grupo"
+    })
     const [error, setError] = useState(null)
     const [loading, setLoading] = useState(true)
 
