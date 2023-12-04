@@ -63,7 +63,7 @@ function FormUser() {
   const [url, setUrl] = useState(null)
   const {error,loading,viewDataEdit,createData,dataToEdit,setDataToEdit,updateData,deleteData,openModalForm,handleOpenModal,handleCloseModal} = useContext(CrudUserContext)
   const [valueRbtn, setValueRbtn] = useState(null);
-  const {register,handleSubmit,formState: { errors }} = useForm()
+  const {register,handleSubmit,watch,formState: { errors }} = useForm({defaultValues:dataToEdit})
   
   useEffect(() => {
     console.log(dataToEdit)
@@ -114,16 +114,16 @@ function FormUser() {
 
     function onSubmit(data){
         console.log(data)
-        console.log(errors)
+        // console.log(errors)
         // id de un formulario es nulo: se crea un nuevo dato
-        // if(dataToEdit.id===null){
-        //   console.log("se creo un dato")
-        //   createData(url,dataToEdit)
-        // }else{
-        //   // si no es nulo se editara un formulario ya existente 
-        //   console.log("Actualizando")
-        //   updateData(url,dataToEdit)
-        // }
+        if(data.id===null){
+          console.log("se creo un dato")
+          createData(data)
+        }else{
+          // si no es nulo se editara un formulario ya existente 
+          console.log("Actualizando")
+          updateData(url,data)
+        }
     }
 
   return (
@@ -147,7 +147,7 @@ function FormUser() {
           onChange={handleChangeRadioBtn }
           
           >
-        <FormControlLabel {...register('rol')} value={ROL_ADMIN} control={<Radio />} label="Administrador" />
+        {!(token===null) && <FormControlLabel {...register('rol')} value={ROL_ADMIN} control={<Radio />} label="Administrador" />}
         <FormControlLabel {...register('rol')} value={ROL_TEACHER} control={<Radio />} label="Profesor" />
         <FormControlLabel {...register('rol')} value={ROL_STUDENT} control={<Radio />} label="Estudiante" />
         {/* <FormControlLabel
@@ -174,27 +174,30 @@ function FormUser() {
       alignContent="center"
       wrap="wrap">
 
-      <Grid item><TextField {...register('username'        )} id='username'         label="Username" type='text' variant='outlined' /></Grid>
-      <Grid item><TextField {...register('email'           )} id='email'            label="Email" type='email' variant='outlined' /></Grid>
-      <Grid item><TextField {...register('nombre'          )} id='nombre'           label="Nombre" type='text' variant='outlined' /></Grid>
-      <Grid item><TextField {...register('apellido_paterno')} id='apellido_paterno' label="Apellido Paterno" type='text' variant='outlined' /></Grid>
-      <Grid item><TextField {...register('apellido_materno')} id='apellido_materno' label="Apellido Materno" type='text' variant='outlined' /></Grid>
+      <Grid item xs={12} sm={6}><TextField {...register('username',{required:{value:true,message:"Es requerido"}}         )} id='username' label="Username" type='text' variant='outlined' error={errors.username} helperText={(errors.username)&&errors.username.message} /></Grid>
+      <Grid item xs={12} sm={6}><TextField {...register('email',{required:{value:true,message:"Es requerido"}}            )} id='email'            label="Email" type='email' variant='outlined'  error={errors.email} helperText={(errors.email)&&errors.email.message} /></Grid>
+      <Grid item xs={12} sm={6}><TextField {...register('nombre',{required:{value:true,message:"Es requerido"}}           )} id='nombre'           label="Nombre" type='text' variant='outlined' error={errors.nombre} helperText={(errors.nombre)&&errors.nombre.message} /></Grid>
+      <Grid item xs={12} sm={6}><TextField {...register('apellido_paterno',{required:{value:true,message:"Es requerido"}} )} id='apellido_paterno' label="Apellido Paterno" type='text' variant='outlined' error={errors.apellido_paterno} helperText={(errors.apellido_paterno)&&errors.apellido_paterno.message}  /></Grid>
+      <Grid item xs={12} sm={6}><TextField {...register('apellido_materno',{required:{value:true,message:"Es requerido"}} )} id='apellido_materno' label="Apellido Materno" type='text' variant='outlined' error={errors.apellido_materno} helperText={(errors.apellido_materno)&&errors.apellido_materno.message}  /></Grid>
 
-      {(token!==null) && <>
-      <Grid item><TextField {...register('password'       )} id='password'         label="Contraseña" type='password' variant='outlined' /></Grid>
-      <Grid item><TextField {...register('confirm_password')} id='confirm_password'  label="Confirmar Contraseña" type='password' variant='outlined' /></Grid>
+      <Grid item xs={12} sm={6}><TextField {...register('password',{required:{value:true,message:"Es requerido"},
+                                            minLength:{value:8,message:"Debe ser mayor de 8 caracteres"}}   )} id='password'         label="Contraseña" type='password' variant='outlined' error={errors.password} helperText={(errors.password)&&errors.password.message} /></Grid>
+      {(token===null) && <>
+      <Grid item xs={12} sm={6}><TextField {...register('confirm_password',{required:{value:true,message:"Es requerido"},
+                                            validate: value => value === watch('password') ||  'las contraseñas no son los mismos'}
+                                            )} id='confirm_password'  label="Confirmar Contraseña" type='password' variant='outlined' error={errors.confirm_password} helperText={(errors.confirm_password)&&errors.confirm_password.message} /></Grid>
       </>}
 
       
       {valueRbtn === ROL_TEACHER && <>
-      <Grid item><TextField {...register('cedula' )} id='cedula'           label="Cedula" type='text' variant='outlined' /></Grid>
-      <Grid item><TextField {...register('escuela')} id='escuela'          label="Escuela" type='text' variant='outlined' /></Grid>
+      <Grid item xs={12} sm={6}><TextField {...register('cedula' )} id='cedula'           label="Cedula" type='text' variant='outlined' /></Grid>
+      <Grid item xs={12} sm={6}><TextField {...register('escuela')} id='escuela'          label="Escuela" type='text' variant='outlined' /></Grid>
       </>}
 
     {valueRbtn === ROL_STUDENT && <>
-      <Grid item><TextField {...register('boleta'      )} id='boleta'           label="Boleta" type='text' variant='outlined' /></Grid>
-      <Grid item><TextField {...register('semestre'    )} id='semestre'         label="Semestre" type='text' variant='outlined' /></Grid>
-      <Grid item><TextField {...register('codigo_grupo')} id='codigo_grupo'     label="Codigo del Grupo" type='text' variant='outlined' /></Grid>
+      <Grid item xs={12} sm={6}><TextField {...register('boleta'      )} id='boleta'           label="Boleta" type='text' variant='outlined' /></Grid>
+      <Grid item xs={12} sm={6}><TextField {...register('semestre'    )} id='semestre'         label="Semestre" type='text' variant='outlined' /></Grid>
+
       {/* <Grid item><TextField {...register()} id='email' label="Email" type='text' variant='outlined' /></Grid> */}
     </>}
     

@@ -11,6 +11,7 @@ export const helperAXIOS = () => {
     });
 
     const customRequest = async (url, method = 'GET', data = null, token = null) => {
+        // console.log("Helper:"+data)
         try {
             const config = {
                 method,
@@ -23,7 +24,7 @@ export const helperAXIOS = () => {
             };
 
             const response = await customAxios(config);
-            // console.log("DESDEHelper:"+response)
+            // console.log(response)
             return {
                 data: response.data,
                 status: response.status,

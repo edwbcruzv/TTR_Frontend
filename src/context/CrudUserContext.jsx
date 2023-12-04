@@ -19,6 +19,7 @@ function CrudUserProvider({children}) {
         "apellido_paterno": ""
       })
     const [error, setError] = useState(null)
+    const [response, setResponse] = useState(null)
     const [loading, setLoading] = useState(true)
     const {get,post,put,patch,del} = helperAXIOS()
 
@@ -53,39 +54,61 @@ function CrudUserProvider({children}) {
     }
   }
 
-  async function createData(url,data) {
-    res = await post(URI_BACKEND(url),data,token)
-    if (res.status === 200) {
-      console.log(res)
+  async function createData(data) {
+    setLoading(true)
+    let res
+    if (data.rol===ROL_ADMIN){
+      res = await post(URI_BACKEND('auth/register-admin'),data,token)
     }else{
-      console.log(res.error)
+      res = await post(URI_BACKEND('auth/register'),data,token)
     }
+    if (res.status === 200) {
+      setLoading(false)
+      console.log(res)
+      setResponse(res)
+    }else{
+      console.log(res)
+      setError(res.error)
+    }
+    setLoading(false)
+    handleCloseModal()
   }
 
   async function updateData(url,data) {
-    res = await patch(URI_BACKEND(url),data,token)
+    setLoading(true)
+    let res = await patch(URI_BACKEND(url),data,token)
     // console.log(res)
     console.log(url,data,token)
     if (res.status === 200) {
-      console.log(res)
+      setLoading(false)
+      // console.log(res)
+      setResponse(res)
     }else{
-      console.log(res.error)
+      // console.log(res.error)
+      setError(res.error)
     }
+    setLoading(false)
+    handleCloseModal()
   }
 
   async function deleteData(url,id) {
+    setLoading(true)
     if (token && (rol===ROL_ADMIN || rol===ROL_TEACHER) && id) {
-      res = await del(URI_BACKEND(`${url}/${id}`),token)
+      let res = await del(URI_BACKEND(`${url}/${id}`),token)
       console.log(id)
       if (res.status === 200) {
-      console.log(res)
+        setLoading(false)
+        // console.log(res)
+        setResponse(res)
       }else{
-        console.log(res.error)
+        // console.log(res.error)
+        setError(res.error)
       }
     }
+    setLoading(false)
   }
 
-    const data={error,loading,viewDataEdit,createData,dataToEdit,setDataToEdit,updateData,deleteData,openModalForm,handleOpenModal,handleCloseModal}
+    const data={response,error,loading,viewDataEdit,createData,dataToEdit,setDataToEdit,updateData,deleteData,openModalForm,handleOpenModal,handleCloseModal}
     return(
         <CrudUserContext.Provider value={data}>
             {children}

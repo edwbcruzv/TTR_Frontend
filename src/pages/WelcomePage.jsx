@@ -11,6 +11,8 @@ import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
 import { URI_BACKEND } from '../utils/urls';
 import FormLogin from '../components/forms/Auth/FormLogin';
+import FormUser from '../components/forms/Users/FormUser';
+import { CrudUserProvider } from '../context/CrudUserContext';
 
 const style = {
   position: 'absolute',
@@ -26,43 +28,42 @@ const style = {
 
 
 const WelcomePage = props => {
+  
+  const [openLogin, setOpenLogin] = React.useState(false);
+  const handleOpenLogin = () => setOpenLogin(true);
+  const handleCloseLogin = () => setOpenLogin(false);
 
-  const [open, setOpen] = React.useState(false);
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
-
+  const [openRegister, setOpenRegister] = React.useState(false);
+  const handleOpenRegister = () => setOpenRegister(true);
+  const handleCloseRegister = () => setOpenRegister(false);
 
   return (
     <>
-      <NavBarHome handleOpen={handleOpen}/>      
+      <NavBarHome handleOpenLogin={handleOpenLogin} handleOpenRegister={handleOpenRegister}/>      
 
     <Container maxWidth="md">
       <Grid container justify="center" alignItems="center" style={{ minHeight: '100vh' }}>
-
-        <Grid item xs={12}>      
-          <Paper style={{ padding: '16px', textAlign: 'center' }}>
-            <Typography variant="h4" gutterBottom>
-              ¡Bienvenido a nuestro sitio web!
-            </Typography>
-            <Typography variant="body1">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla
-              quis lorem ut libero malesuada feugiat.
-            </Typography>
-            <Button  variant="contained" color="primary" style={{ marginTop: '16px' }}>
-              Comenzar
-            </Button>
-        {/* aqui la bienvenida */}
-          </Paper>
-        </Grid>
-
         <Modal
-        open={open}
-        onClose={handleClose}
+        open={openLogin}
+        onClose={handleCloseLogin}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
         <Box sx={style}>
           <FormLogin  uri={URI_BACKEND('auth/login')} title='Login'/>
+        </Box>
+      </Modal>
+
+      <Modal
+        open={openRegister}
+        onClose={handleCloseRegister}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Box sx={style}>
+          <CrudUserProvider>
+          <FormUser/>
+          </CrudUserProvider>
         </Box>
       </Modal>
       </Grid>

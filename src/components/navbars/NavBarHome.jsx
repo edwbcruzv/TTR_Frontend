@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom';
 
 
 
-const NavBarHome = props => {
+const NavBarHome = ({handleOpenLogin, handleOpenRegister}) => {
     const navigate = useNavigate()
   return (
     <Box sx={{ flexGrow: 1 }}>
@@ -24,14 +24,12 @@ const NavBarHome = props => {
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
             Bienvenido
           </Typography>
-          <Button onClick={props.handleOpen} color="inherit">Login</Button>
-          <Button onClick={props.handleOpen} color="inherit">Register</Button>
+          <Button onClick={handleOpenLogin} color="inherit">Login</Button>
+          <Button onClick={handleOpenRegister} color="inherit">Register</Button>
         </Toolbar>
       </AppBar>
     </Box>
   )
 }
-
-NavBarHome.propTypes = {}
 
 export default NavBarHome
