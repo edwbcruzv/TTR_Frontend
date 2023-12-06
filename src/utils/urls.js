@@ -4,18 +4,14 @@
 // const ESQUEMA = 'http'
 // const AUTORIDAD = `localhost:${PUERTO}`
 
-// Aqui en adelante no moverle.
-const API = `api`
-// const PATH = (recurso) => `${API}/${recurso}`
 
+
+// Aqui en adelante no moverle.
+// const API = `api`
+// const PATH = (recurso) => `${API}/${recurso}`
+// export const URI_BACKEND =(recurso)=>{return `${ESQUEMA}://${AUTORIDAD}/${PATH(recurso)}`}
 
 // produccion: https://tt-backend.azurewebsites.net
 const ESQUEMA = 'https'
 const AUTORIDAD = "tt-backend.azurewebsites.net"
-const PATH = (recurso) => `/${recurso}`
-
-export const URI_BACKEND =(recurso)=>{
-
-    return `${ESQUEMA}://${AUTORIDAD}/${PATH(recurso)}`
-
-}
+export const URI_BACKEND =(recurso)=>{return `${ESQUEMA}://${AUTORIDAD}/${recurso}`}
