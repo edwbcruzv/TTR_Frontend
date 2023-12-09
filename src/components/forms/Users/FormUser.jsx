@@ -13,49 +13,6 @@ import CrudUserContext from '../../../context/CrudUserContext';
 import { TextField, Button, Box } from '@mui/material';
 import useAuth from '../../../hooks/useAuth';
 
-
-
-
-const style_inputs = {
-    border: "thin solid #dedede",
-    borderRadius: "0.25rem",
-    padding: "0.75rem",
-    marginBottom: "1rem",
-    outlined: "none",
-    display: "block",
-    width: "100 %",
-    fontSize: "1rem",
-    lineHeight: 1,
-    backgroundColor: "transparent",
-    resize: "none",
-  };
-  
-  const style_form = {
-    marginBottom: "1rem",
-  };
-  
-  const style_button = {
-    border: "thin solid #444",
-    borderRadius: "0.25rem",
-    padding: "0.5rem 1rem",
-    margin: "0 0.5rem 0 0",
-    display: "inline - block",
-    backgroundColor: " #eee",
-    color: "#444",
-    fontWeight: "bold",
-    fontSize: "1rem",
-    lineHeight: 1,
-    textTransform: "none",
-    textDecoration: "none",
-    textAlign: "center",
-    verticalAlign: "middle",
-    cursor: "pointer",
-  };
-  
-  const style_errors = {
-    fontWeight: "bold",
-    color: "#dc3545",
-  };
     
 
 function FormUser() {

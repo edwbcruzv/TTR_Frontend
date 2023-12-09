@@ -3,19 +3,37 @@ import { helperAXIOS } from "../helpers/helperAXIOS";
 
 const CrudGroupContext=createContext()
 
+const initialForm={
+  id:null,
+  clave:"",
+  nombre_grupo:"",
+  nombre_materia:"",
+  profesor:"",
+  equipos:[],
+  inscripciones:[]
+}
 
 function CrudGroupProvider({children}) {
 
-    const [dataToEdit, setDataToEdit] = useState({
-      id:null,
-      nombre:"grupo"
-    })
+    const [dataToEdit, setDataToEdit] = useState(initialForm)
     const [error, setError] = useState(null)
+    const [response, setResponse] = useState(null)
     const [loading, setLoading] = useState(true)
 
     const {get,post,put,patch,del} = helperAXIOS()
 
+    const [openModalForm, setOpenModalForm] = useState(false);
+    const handleOpenModal = () => {
+        setOpenModalForm(true);
+    };
+    const handleCloseModal = () => {
+        console.log("cerrando")
+        setOpenModalForm(false);
+        setDataToEdit(initialForm)
+    };
+
   async function viewDataEdit(id) {
+    setLoading(true)
     if (token && (rol===ROL_ADMIN || rol===ROL_TEACHER) && id) {
       const res = await get(URI_BACKEND(`${url}/${id}`),token)
       // console.log(URI_BACKEND(`${url}/${id}`),token)
@@ -24,43 +42,62 @@ function CrudGroupProvider({children}) {
         handleOpenModal()
       }else{
         console.log(res.error)
+        setError(res.error)
       }
     }
+    setLoading(false)
   }
 
   async function createData(data) {
+    setLoading(true)
     res = await post(URI_BACKEND(url),data,token)
     if (res.status === 200) {
+      setLoading(false)
       console.log(res)
+      setResponse(res)
     }else{
-      console.log(res.error)
+      console.log(res)
+      setError(res.error)
     }
+    setLoading(false)
+    handleCloseModal()
   }
 
-  async function updateData(data) {
-    res = await patch(URI_BACKEND(url),data,token)
+  async function updateData(url,data) {
+    setLoading(true)
+    let res = await patch(URI_BACKEND(url),data,token)
     // console.log(res)
     console.log(url,data,token)
     if (res.status === 200) {
-      console.log(res)
+      setLoading(false)
+      // console.log(res)
+      setResponse(res)
     }else{
-      console.log(res.error)
+      // console.log(res.error)
+      setError(res.error)
     }
+    setLoading(false)
+    handleCloseModal()
   }
 
-  async function deleteData(id) {
+  async function deleteData(url,id) {
+    setLoading(true)
     if (token && (rol===ROL_ADMIN || rol===ROL_TEACHER) && id) {
-      res = await del(URI_BACKEND(`${url}/${id}`),token)
+      let res = await del(URI_BACKEND(`${url}/${id}`),token)
       console.log(id)
       if (res.status === 200) {
-      console.log(res)
+        setLoading(false)
+        // console.log(res)
+        setResponse(res)
       }else{
-        console.log(res.error)
+        // console.log(res.error)
+        setError(res.error)
       }
     }
+    setLoading(false)
   }
 
-    const data={error,loading,viewDataEdit,createData,dataToEdit,setDataToEdit,updateData,deleteData}
+    const data={response,error,loading,viewDataEdit,createData,dataToEdit,setDataToEdit,updateData,deleteData,openModalForm,handleOpenModal,handleCloseModal}
     return(
         <CrudGroupContext.Provider value={data}>
             {children}

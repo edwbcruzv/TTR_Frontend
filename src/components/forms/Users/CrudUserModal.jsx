@@ -23,7 +23,7 @@ const style = {
   pb: 3,
 };
 
-const CrudUser = () => {
+const CrudUserModal = () => {
   
   const {error,loading,viewDataEdit,createData,dataToEdit,setDataToEdit,updateData,deleteData,openModalForm,handleOpenModal,handleCloseModal} = useContext(CrudUserContext)
   
@@ -49,6 +49,5 @@ return (
   )
 };
 
-CrudUser.propTypes = {}
 
-export default CrudUser
+export default CrudUserModal

@@ -1,27 +1,25 @@
 import { createContext, useEffect, useState } from "react";
 import { helperAXIOS } from "../helpers/helperAXIOS";
-import useAuth from "../hooks/useAuth";
-import { ROL_ADMIN, ROL_STUDENT, ROL_TEACHER } from "../utils/jwt_data";
-import { URI_BACKEND } from "../utils/urls";
 
-const CrudUserContext=createContext()
+const CrudTeamContext=createContext()
 
 const initialForm={
-  "id":null,
-  "username": "",
-  "email": "",
-  "password": "",
-  "nombre": "",
-  "apellido_materno": "",
-  "apellido_paterno": ""
+  id:null,
+  clave:"",
+  nombre_grupo:"",
+  nombre_materia:"",
+  profesor:"",
+  equipos:[],
+  inscripciones:[]
 }
 
-function CrudUserProvider({children}) {
-    const {token,rol} = useAuth()
+function CrudTeamProvider({children}) {
+
     const [dataToEdit, setDataToEdit] = useState(initialForm)
     const [error, setError] = useState(null)
     const [response, setResponse] = useState(null)
     const [loading, setLoading] = useState(true)
+
     const {get,post,put,patch,del} = helperAXIOS()
 
     const [openModalForm, setOpenModalForm] = useState(false);
@@ -34,7 +32,7 @@ function CrudUserProvider({children}) {
         setDataToEdit(initialForm)
     };
 
-  async function viewDataEdit(url,id) {
+  async function viewDataEdit(id) {
     setLoading(true)
     if (token && (rol===ROL_ADMIN || rol===ROL_TEACHER) && id) {
       const res = await get(URI_BACKEND(`${url}/${id}`),token)
@@ -52,12 +50,7 @@ function CrudUserProvider({children}) {
 
   async function createData(data) {
     setLoading(true)
-    let res
-    if (data.rol===ROL_ADMIN){
-      res = await post(URI_BACKEND('auth/register-admin'),data,token)
-    }else{
-      res = await post(URI_BACKEND('auth/register'),data,token)
-    }
+    res = await post(URI_BACKEND(url),data,token)
     if (res.status === 200) {
       setLoading(false)
       console.log(res)
@@ -106,12 +99,12 @@ function CrudUserProvider({children}) {
 
     const data={response,error,loading,viewDataEdit,createData,dataToEdit,setDataToEdit,updateData,deleteData,openModalForm,handleOpenModal,handleCloseModal}
     return(
-        <CrudUserContext.Provider value={data}>
+        <CrudTeamContext.Provider value={data}>
             {children}
-        </CrudUserContext.Provider>
+        </CrudTeamContext.Provider>
 
     )
 }
 
-export {CrudUserProvider}
-export default CrudUserContext
+export {CrudTeamProvider}
+export default CrudTeamContext
