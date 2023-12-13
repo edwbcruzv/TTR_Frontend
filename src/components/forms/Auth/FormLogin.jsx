@@ -1,105 +1,46 @@
 import React, { useEffect } from "react";
 import PropTypes from "prop-types";
-import useForm from "../../../hooks/useForm";
-import Grid from "@mui/material/Grid";
-import Loader from "../../Loaders/Loader";
-import Message from "../../Messages/Message";
 import Typography from '@mui/material/Typography'
 import { useNavigate } from "react-router-dom";
 import useAuth from "../../../hooks/useAuth";
 import { ROL_ADMIN, ROL_STUDENT, ROL_TEACHER } from "../../../utils/jwt_data";
+import { Alert, AlertTitle, Box, Button, CircularProgress, Grid, TextField } from "@mui/material";
+import { helperAXIOS } from "../../../helpers/helperAXIOS";
+import { useForm } from "react-hook-form";
+import { URI_BACKEND } from "../../../utils/urls";
+import { useState } from "react";
 
-const style_inputs = {
-  border: "thin solid #dedede",
-  borderRadius: "0.25rem",
-  padding: "0.75rem",
-  marginBottom: "1rem",
-  outline: "none",
-  display: "block",
-  width: "100 %",
-  fontSize: "1rem",
-  lineHeight: 1,
-  backgroundColor: "transparent",
-  resize: "none",
-};
 
-const style_form = {
-  marginBottom: "1rem",
-};
-
-const style_button = {
-  border: "thin solid #444",
-  borderRadius: "0.25rem",
-  padding: "0.5rem 1rem",
-  margin: "0 0.5rem 0 0",
-  display: "inline - block",
-  backgroundColor: " #eee",
-  color: "#444",
-  fontWeight: "bold",
-  fontSize: "1rem",
-  lineHeight: 1,
-  textTransform: "none",
-  textDecoration: "none",
-  textAlign: "center",
-  verticalAlign: "middle",
-  cursor: "pointer",
-};
-
-const style_errors = {
-  fontWeight: "bold",
-  color: "#dc3545",
-};
 
 const initialForm = {
   username: "",
   password: "",
 };
-
-function validationForm(form) {
-  let errors = {};
-
-  let regexName = /^[A-Za_-zÑñÁáÉéÍíÓóÚúÜü\s]+$/;
-  let regexEmail = /^(\w+[/./-]?){1,}@[a-z]+[/.]\w{2,}$/
-
-  if (!form.username.trim()) {
-    errors.username = "El campo Email es requerido.";
-  } else if (!regexName.test(form.username.trim())) {
-    errors.username = "Inserte un Email valido.";
-  }
-
-  if (!form.password.trim()) {
-    errors.password = "Ingrese su contraseña";
-  }
-  return errors;
-}
-
 const FormLogin = ({uri, title}) => {
-
-  const {
-    resBody,
-    form,
-    errors,
-    loading,
-    response,
-    handleChange,
-    handleBlur,
-    handleSubmit,
-  } = useForm(initialForm, validationForm,uri,0);
-
+  const {register,handleSubmit,watch,formState: { errors }} = useForm({defaultValues:initialForm})
   const {setToken} = useAuth()
-
   const navigate = useNavigate()
+  const {post} = helperAXIOS()
+  const [error, setError] = useState(false)
+  const [loading, setLoading] = useState(false)
+  let res =''
+  async function onSubmit(data){
+    setLoading(true)
+    setError(false)
+    console.log(data)
+    
+    // console.log(errors)
+    res= await post(URI_BACKEND('auth/login'),data)
 
-  useEffect(() => {
-    // console.log(resBody)
+    if (res.status === 200) {
+      console.log(res)
 
-    if(response && resBody.jwt){
-      setToken(resBody.jwt)
-      localStorage.setItem('token',resBody.jwt)
+      setToken(res.data.jwt)
+      localStorage.setItem('token',res.data.jwt)
       // Si se recibe el token adecurdo se permite el acceso y se redireccion
-      console.log(response, resBody.jwt)
+      console.log(res.data.jwt)
       
-      const [header, payload, signature] = resBody.jwt.split('.')
+      const [header, payload, signature] = res.data.jwt.split('.')
       const payloadJson = JSON.parse(atob(payload))
       switch (payloadJson.rol) {
         case ROL_ADMIN:
@@ -116,11 +57,16 @@ const FormLogin = ({uri, title}) => {
           break;
       }
       console.log("Cambiando a Dashboard.")
+    }else{
+      setError(true)
+      console.log(res.error)
     }
     
-  }, [response])
+    setLoading(false)
+}
 
   return (
+    <Box component='form' onSubmit={handleSubmit(onSubmit)} >
     <Grid
       container
       spacing={1}
@@ -130,39 +76,19 @@ const FormLogin = ({uri, title}) => {
       alignContent="center"
       wrap="wrap"
     >
-      <Typography variant="h2" color="initial">{title}</Typography>
-      <form onSubmit={handleSubmit} style={style_form}>
-        <input
-          type="text"
-          name="username"
-          placeholder="Usuario"
-          onBlur={handleBlur}
-          onChange={handleChange}
-          value={form.username}
-          required
-          style={style_inputs}
-        />
-        {errors.username && <p style={style_errors}>{errors.username}</p>}
+      
+      <Grid item xs={12} sm={6}><TextField {...register('username',{required:{value:true,message:"Es requerido"}}         )} id='username' label="Username" type='text' variant='outlined' error={errors.username} helperText={(errors.username)&&errors.username.message} /></Grid>
+      <Grid item xs={12} sm={6}><TextField {...register('password',{required:{value:true,message:"Es requerido"}}         )} id='password' label="Contraseña" type='password' variant='outlined' error={errors.password} helperText={(errors.password)&&errors.password.message} /></Grid>
+      <Button variant="outlined" color="primary" type='submit'  >Acceder</Button>
+      {!loading ||<CircularProgress color="inherit" />}
 
-        <input
-          type="password"
-          name="password"
-          placeholder="Contraseña"
-          onBlur={handleBlur}
-          onChange={handleChange}
-          value={form.password}
-          required
-          style={style_inputs}
-        />
-        {errors.password && <p style={style_errors}>{errors.password}</p>}
-
-        <input type="submit" value="Enviar" style={style_button} />
-      </form>
-      {loading && <Loader />}
-      {loading && (
-        <Message msg="Los datos son incorrectos" bgColor="#198754" />
-      )}
+      {error && <Alert severity="error">
+        <AlertTitle>Error</AlertTitle>
+        Mensaje: <strong>{res.error}</strong>
+      </Alert>}
     </Grid>
+    
+    </Box>
   );
 };
 

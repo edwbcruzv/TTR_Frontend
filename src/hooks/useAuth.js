@@ -4,12 +4,13 @@ import { ROL_ADMIN, ROL_STUDENT, ROL_TEACHER } from "../utils/jwt_data";
 // con este hook accedemos al contexto
 
 export default function useAuth (){
-    const {token,setToken,rol,setRol} = useContext(AuthContext)
+    const {token,setToken,rol,setRol,id, setId,nombre, setNombre} = useContext(AuthContext)
     
     useEffect(() => {
         if (token) {
             const [header, payload, signature] = token.split('.')
             const payloadJson = JSON.parse(atob(payload))
+            setId(payloadJson.id)
             switch (payloadJson.rol) {
                 case ROL_ADMIN:
                     setRol(ROL_ADMIN) 
@@ -33,5 +34,5 @@ export default function useAuth (){
 
     }, [])
     
-    return {token,setToken,rol} 
+    return {token,setToken,rol,id} 
 }

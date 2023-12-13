@@ -5,6 +5,8 @@ import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import { useEffect } from 'react';
 import FilesUpload from './FilesUpload';
+import { useContext } from 'react';
+import CrudCaseContext from '../../../context/CrudCaseContext';
 
 const quillStyle = {
   width: '700px',
@@ -37,25 +39,35 @@ const placeholder = 'Escribe algo...';
 
 const theme = 'snow';
 
-function quitarAcentos(cadena) {
-  return cadena.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
-}
 
-const FormCaseStep = ({label,value, setValue}) => {
-  let cadenaSinAcentos = quitarAcentos(label)
-  // console.log(value[cadenaSinAcentos])
+const FormCaseStep = ({name,label}) => {
+
+  const {response,error,loading,
+    viewDataEdit,createData,
+    updateData,deleteData,
+    register,handleSubmit,watch,errors,setValue,
+    openModalForm,handleOpenModal,handleCloseModal} = useContext(CrudCaseContext)
+
   return (
+    
     <>
-  <ReactQuill
-    value={value[cadenaSinAcentos]}
-    onChange={(e)=> setValue({...value,[cadenaSinAcentos]:e})}
-    modules={modules}
-    formats={formats}
-    placeholder={placeholder}
-    theme={theme}
-    style={quillStyle}
-    />
-    <FilesUpload/>
+    {watch(name)&&
+      <>
+      <ReactQuill
+      value={watch(name)}
+      onChange={(e)=>setValue(name,e)}
+      modules={modules}
+      formats={formats}
+      placeholder={placeholder}
+      theme={theme}
+      style={quillStyle}
+      />
+      <FilesUpload/>
+      </>
+    }
+    
+    {name==="inicio"&&"inicio"}
+    {name==="final"&&"final"}
     </>
   )
 }

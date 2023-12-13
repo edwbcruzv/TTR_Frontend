@@ -1,21 +1,26 @@
 import { createContext, useEffect, useState } from "react";
 import { helperAXIOS } from "../helpers/helperAXIOS";
+import { URI_BACKEND } from "../utils/urls";
+import useAuth from "../hooks/useAuth";
+import { useForm } from "react-hook-form";
 
 const CrudGroupContext=createContext()
 
 const initialForm={
   id:null,
-  clave:"",
   nombre_grupo:"",
   nombre_materia:"",
-  profesor:"",
-  equipos:[],
-  inscripciones:[]
+  profesor_id:0,
+  equipos_ids:[],
+  inscripciones_ids:[]
 }
 
 function CrudGroupProvider({children}) {
 
-    const [dataToEdit, setDataToEdit] = useState(initialForm)
+  const {token,rol,id} = useAuth()
+  initialForm.profesor_id=id
+  const {register,handleSubmit,watch,reset,formState: { errors }} = useForm({defaultValues:initialForm})
+    
     const [error, setError] = useState(null)
     const [response, setResponse] = useState(null)
     const [loading, setLoading] = useState(true)
@@ -29,16 +34,16 @@ function CrudGroupProvider({children}) {
     const handleCloseModal = () => {
         console.log("cerrando")
         setOpenModalForm(false);
-        setDataToEdit(initialForm)
+        reset(initialForm)
     };
 
   async function viewDataEdit(id) {
     setLoading(true)
     if (token && (rol===ROL_ADMIN || rol===ROL_TEACHER) && id) {
-      const res = await get(URI_BACKEND(`${url}/${id}`),token)
+      let res = await get(URI_BACKEND(`grupo/${id}`),token)
       // console.log(URI_BACKEND(`${url}/${id}`),token)
       if (res.status === 200) {
-        setDataToEdit(res.data)
+        reset(res.data)
         handleOpenModal()
       }else{
         console.log(res.error)
@@ -50,7 +55,8 @@ function CrudGroupProvider({children}) {
 
   async function createData(data) {
     setLoading(true)
-    res = await post(URI_BACKEND(url),data,token)
+    console.log(data)
+    let res = await post(URI_BACKEND('grupo'),data,token)
     if (res.status === 200) {
       setLoading(false)
       console.log(res)
@@ -65,7 +71,7 @@ function CrudGroupProvider({children}) {
 
   async function updateData(url,data) {
     setLoading(true)
-    let res = await patch(URI_BACKEND(url),data,token)
+    let res = await patch(URI_BACKEND('grupo'),data,token)
     // console.log(res)
     console.log(url,data,token)
     if (res.status === 200) {
@@ -83,7 +89,7 @@ function CrudGroupProvider({children}) {
   async function deleteData(url,id) {
     setLoading(true)
     if (token && (rol===ROL_ADMIN || rol===ROL_TEACHER) && id) {
-      let res = await del(URI_BACKEND(`${url}/${id}`),token)
+      let res = await del(URI_BACKEND(`grupo/${id}`),token)
       console.log(id)
       if (res.status === 200) {
         setLoading(false)
@@ -97,7 +103,11 @@ function CrudGroupProvider({children}) {
     setLoading(false)
   }
 
-    const data={response,error,loading,viewDataEdit,createData,dataToEdit,setDataToEdit,updateData,deleteData,openModalForm,handleOpenModal,handleCloseModal}
+    const data={response,error,loading,
+      viewDataEdit,createData,
+      updateData,deleteData,
+      register,handleSubmit,watch,errors,
+      openModalForm,handleOpenModal,handleCloseModal}
     return(
         <CrudGroupContext.Provider value={data}>
             {children}

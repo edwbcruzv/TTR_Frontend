@@ -14,49 +14,73 @@ import { useContext } from 'react';
 
 const steps = [
   {
-    label: 'Resumen',
+    name: 'inicio',
+    label: 'Datos del caso',
     description: `descripcion`,
+
   },
   {
+    name: 'resumen',
+    label: 'Resumen',
+    description: `descripcion`,
+
+  },
+  {
+    name: 'objetivos',
     label: 'Objetivos',
     description: `descripcion`,
   },
   {
+    name: 'clasificacion',
     label: 'Clasificación',
     description: `descripcion`,
   },
   {
+    name: 'lugar',
     label: 'Lugar',
     description: `descripcion`,
   },
   {
-    label: 'Temporalidad',
+    name: 'temporalidades',
+    label: 'Temporalidades',
     description: `descripcion`,
   },
   {
+    name: 'protagonistas',
     label: 'Protagonistas',
     description: `descripcion`,
   },
   {
-    label: 'Organización',
+    name: 'organizaciones',
+    label: 'Organizaciones',
     description: `descripcion`,
   },
   {
+    name: 'preguntas',
     label: 'Preguntas',
     description: `descripcion`,
   },
   {
+    name: 'riesgos',
     label: 'Riesgos',
     description: `descripcion`,
   },
   {
+    name: 'resultados',
     label: 'Resultados',
     description: `descripcion`,
   },
   {
+    name: 'anexos',
     label: 'Anexos',
     description: `descripcion`,
   },
+  {
+    name: 'final',
+    label: 'Datos finales',
+    description: `descripcion`,
+
+  }
 ];
 
 
@@ -64,7 +88,11 @@ const steps = [
 export default function CaseStepper() {
   const [activeStep, setActiveStep] = React.useState(0);
 
-  const {error,loading,viewDataEdit,createData,dataToEdit,setDataToEdit,updateData,deleteData} = useContext(CrudCaseContext)
+  const {response,error,loading,
+    viewDataEdit,createData,
+    updateData,deleteData,
+    register,handleSubmit,watch,errors,
+    openModalForm,handleOpenModal,handleCloseModal} = useContext(CrudCaseContext)
 
   const handleNext = () => {
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
@@ -74,29 +102,23 @@ export default function CaseStepper() {
   };
   const handleReset = () => {
     setActiveStep(0);
+    handleCloseModal()
   };
 
-  function handlerSubmit() {
-    // e.preventDefault() // para que no se autoprocese el frmulario
-        // if(!form.name||!form.username){
-        //   alert("Datos incompletos")
-        //   return
-        // }
+  function onSubmit(data){
+    console.log(data)
+    // console.log(errors)
+    // id de un formulario es nulo: se crea un nuevo dato
+    if(data.id===null){
+      createData(data)
+      console.log("se creo un dato")
+    }else{
+      // si no es nulo se editara un formulario ya existente 
+      updateData(url,data)
+      console.log("Actualizando")
+    }
+}
 
-        // id de un formulario es nulo: se crea un nuevo dato
-        if(dataToEdit.Id===null){
-          console.log("se creo un dato")
-          createData(form)
-        }else{
-          // si no es nulo se editara un formulario ya existente 
-          console.log("se esta actualizando")
-          updateData(form)
-        }
-
-        // se limpia el formulario
-        handleReset()
-    
-  }
 
   return (
     <Box sx={{ maxWidth: 400 }}>
@@ -114,7 +136,7 @@ export default function CaseStepper() {
             </StepLabel>
             <StepContent>
               <Container maxWidth="sm">
-              <FormCaseStep label={step.label} value={dataToEdit} setValue={setDataToEdit} />
+              <FormCaseStep label={step.label} name ={step.name}/>
                 
               </Container>
 
@@ -127,7 +149,7 @@ export default function CaseStepper() {
                   {index === steps.length - 1 ? 
                   <Button
                   variant="contained"
-                  onClick={handleNext}
+                  onClick={handleSubmit(onSubmit)}
                   sx={{ mt: 1, mr: 1 }}
                 >
                   Finish
@@ -156,9 +178,9 @@ export default function CaseStepper() {
       </Stepper>
       {activeStep === steps.length && (
         <Paper square elevation={0} sx={{ p: 3 }}>
-          <Typography>All steps completed - you&apos;re finished</Typography>
+          <Typography>Se ha creado correctamente el caso</Typography>
           <Button onClick={handleReset} sx={{ mt: 1, mr: 1 }}>
-            Reset
+            Cerrar
           </Button>
         </Paper>
       )}
