@@ -8,13 +8,20 @@ import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Grid';
 import copy from 'clipboard-copy';
 
-export default function CardGroup() {
-  const NameGroup = '4CM5';
-  const groupCode = 'hg5ew8u2f'; // Reemplaza con tu código de grupo dinámico
+export default function CardGroup({team}) {
+  const {
+    id,
+    clave,
+    fecha_vencimiento,
+    nombre_grupo,
+    nombre_materia,
+    profesor_id,
+    equipos,
+    inscripciones } = team
 
   const handleCopyCode = () => {
-    copy(groupCode);
-    alert(`Código "${groupCode}" copiado al portapapeles`);
+    copy(clave);
+    alert(`Código "${clave}" copiado al portapapeles`);
   };
 
   return (
@@ -28,17 +35,17 @@ export default function CardGroup() {
         <Grid container justifyContent="space-between">
           <Grid item>
             <Typography gutterBottom variant="h5" component="div">
-              {NameGroup}
+              {nombre_grupo}
             </Typography>
           </Grid>
           <Grid item>
             <Typography variant="body1" color="text.secondary">
-              {groupCode}
+              {clave}
             </Typography>
           </Grid>
         </Grid>
         <Typography variant="body2" color="text.secondary">
-          Liderazgo
+          {nombre_materia}
         </Typography>
       </CardContent>
       <CardActions>

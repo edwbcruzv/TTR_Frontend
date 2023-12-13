@@ -10,15 +10,15 @@ import { useState } from 'react';
 import { ROL_ADMIN, ROL_STUDENT, ROL_TEACHER } from '../../../utils/jwt_data';
 import { useContext } from 'react';
 import CrudUserContext from '../../../context/CrudUserContext';
-import { TextField, Button, Box } from '@mui/material';
+import { TextField, Button, Box, Alert, AlertTitle } from '@mui/material';
 import useAuth from '../../../hooks/useAuth';
 
     
 
-function FormUser() {
+function FormRegister() {
   const {token} = useAuth()
   const [url, setUrl] = useState(null)
-  const {error,loading,viewDataEdit,createData,dataToEdit,setDataToEdit,updateData,deleteData,openModalForm,handleOpenModal,handleCloseModal} = useContext(CrudUserContext)
+  const {response,error,loading,viewDataEdit,createData,dataToEdit,setDataToEdit,updateData,deleteData,openModalForm,handleOpenModal,handleCloseModal} = useContext(CrudUserContext)
   const [valueRbtn, setValueRbtn] = useState(null);
   const {register,handleSubmit,watch,formState: { errors }} = useForm({defaultValues:dataToEdit})
   
@@ -79,7 +79,6 @@ function FormUser() {
         }else{
           // si no es nulo se editara un formulario ya existente 
           console.log("Actualizando")
-          updateData(url,data)
         }
     }
 
@@ -158,15 +157,24 @@ function FormUser() {
       {/* <Grid item><TextField {...register()} id='email' label="Email" type='text' variant='outlined' /></Grid> */}
     </>}
     
+      <Grid item xs={12} sm={12}> 
+      {(valueRbtn) &&  <Button variant="outlined" color="primary" type='submit'  >Crear</Button>}
+    </Grid>
+    </Grid>
 
-      </Grid>
-      {(valueRbtn) && 
-      <Button variant="outlined" color="primary" type='submit'  >Crear</Button>
-      }
+    {!error && response &&  <Alert severity="success">
+      <AlertTitle>Success</AlertTitle>
+      <strong>Usuario creado correctamente</strong>
+    </Alert>}
+
+    {error && !response &&  <Alert severity="error">
+    <AlertTitle>Error</AlertTitle>
+      Error <strong>error</strong>
+    </Alert>}
       </Box>
       
     </Grid>
   );
 }
 
-export default FormUser
+export default FormRegister

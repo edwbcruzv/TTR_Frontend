@@ -11,7 +11,7 @@ function useAxios(url,req="GET", data = null, token = null) {
   // Guarda los datos que se nos regrese la petision
   const [Data, setData] = useState(null)
   // Guarda el status de la peticion
-  const [IsPending, setIsPending] = useState(null)
+  const [IsPending, setIsPending] = useState(false)
   // Guarda el error si existe uno
   const [Error, setError] = useState(null)
 

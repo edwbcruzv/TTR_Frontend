@@ -13,6 +13,7 @@ import { URI_BACKEND } from '../utils/urls';
 import FormLogin from '../components/forms/Auth/FormLogin';
 import FormUser from '../components/forms/Users/FormUser';
 import { CrudUserProvider } from '../context/CrudUserContext';
+import FormRegister from '../components/forms/Auth/FormRegister';
 
 const style = {
   position: 'absolute',
@@ -62,7 +63,7 @@ const WelcomePage = props => {
       >
         <Box sx={style}>
           <CrudUserProvider>
-          <FormUser/>
+          <FormRegister/>
           </CrudUserProvider>
         </Box>
       </Modal>

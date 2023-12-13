@@ -8,31 +8,32 @@ import Typography from '@mui/material/Typography';
 import CloseIcon from '@mui/icons-material/Close';
 import Slide from '@mui/material/Slide';
 import CaseStepper from './CaseStepper';
+import { useContext } from 'react';
+import CrudCaseContext from '../../../context/CrudCaseContext';
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
 export default function FullScreenCaseCreate() {
-  const [open, setOpen] = React.useState(false);
 
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
-
-  const handleClose = () => {
-    setOpen(false);
-  };
+  const {response,error,loading,
+    viewDataEdit,createData,
+    updateData,deleteData,
+    register,handleSubmit,watch,errors,
+    openModalForm,handleOpenModalForm,handleCloseModalForm,
+    openModalView,handleOpenModalView,handleCloseModalView} = useContext(CrudCaseContext)
+    
 
   return (
     <React.Fragment>
-      <Button variant="outlined" onClick={handleClickOpen}>
+      <Button variant="outlined" onClick={handleOpenModalForm}>
         Crear nuevo caso
       </Button>
       <Dialog
         fullScreen
-        open={open}
-        onClose={handleClose}
+        open={openModalForm}
+        onClose={handleCloseModalForm}
         TransitionComponent={Transition}
       >
         <AppBar sx={{ position: 'relative' }}>
@@ -40,7 +41,7 @@ export default function FullScreenCaseCreate() {
             <IconButton
               edge="start"
               color="inherit"
-              onClick={handleClose}
+              onClick={handleCloseModalForm}
               aria-label="close"
             >
               <CloseIcon />

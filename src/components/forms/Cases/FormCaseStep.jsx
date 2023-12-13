@@ -5,6 +5,9 @@ import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import { useEffect } from 'react';
 import FilesUpload from './FilesUpload';
+import { useContext } from 'react';
+import CrudCaseContext from '../../../context/CrudCaseContext';
+import { Grid, TextField } from '@mui/material';
 
 const quillStyle = {
   width: '700px',
@@ -37,26 +40,56 @@ const placeholder = 'Escribe algo...';
 
 const theme = 'snow';
 
-function quitarAcentos(cadena) {
-  return cadena.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
-}
 
-const FormCaseStep = ({label,value, setValue}) => {
-  let cadenaSinAcentos = quitarAcentos(label)
-  // console.log(value[cadenaSinAcentos])
+const FormCaseStep = ({name,label}) => {
+
+  const {response,error,loading,
+    viewDataEdit,createData,
+    updateData,deleteData,
+    register,handleSubmit,watch,errors,setValue,getValues,
+    openModalForm,handleOpenModal,handleCloseModal} = useContext(CrudCaseContext)
   return (
+    
+    <Grid container
+          spacing={2}
+          direction="row"
+          justifyContent="flex-start"
+          alignItems="flex-start"
+          alignContent="stretch"
+          wrap="wrap">
+            
+    {getValues()[name] !== undefined &&
     <>
-  <ReactQuill
-    value={value[cadenaSinAcentos]}
-    onChange={(e)=> setValue({...value,[cadenaSinAcentos]:e})}
-    modules={modules}
-    formats={formats}
-    placeholder={placeholder}
-    theme={theme}
-    style={quillStyle}
-    />
-    <FilesUpload/>
+    <Grid item xs={8}>
+      <ReactQuill
+      value={watch(name)}
+      onChange={(e)=>setValue(name,e)}
+      modules={modules}
+      formats={formats}
+      placeholder={placeholder}
+      theme={theme}
+      style={quillStyle}
+      />
+      </Grid>
+      <Grid item xs={4}>
+      <FilesUpload/>
+      </Grid>
+      </>
+    }
+    
+    
+    {name==="inicio"&&
+    <>
+      <Grid item xs={12}><TextField fullWidth {...register('titulo',{required:{value:true,message:"Es requerido"}}         )} id='titulo' label="Titulo" type='text' variant='outlined' error={errors.titulo} helperText={(errors.titulo)&&errors.titulo.message} /></Grid>
+      <Grid item xs={12}><TextField fullWidth multiline rows={5} {...register('introduccion',{required:{value:true,message:"Es requerido"}}         )} id='introduccion' label="Introduccion" type='text' variant='outlined' error={errors.introduccion} helperText={(errors.introduccion)&&errors.introduccion.message} /></Grid>
+
     </>
+      }
+    {name==="final"&&<>
+    <Grid item xs={12}><TextField fullWidth multiline rows={5} {...register('conclusion',{required:{value:true,message:"Es requerido"}}         )} id='conclusion' label="Conclusion" type='text' variant='outlined' error={errors.conclusion} helperText={(errors.conclusion)&&errors.conclusion.message} /></Grid>
+    <Grid item xs={12}><TextField fullWidth multiline rows={5} {...register('comentarios',{required:{value:true,message:"Es requerido"}}         )} id='comentarios' label="Comentarios" type='text' variant='outlined' error={errors.comentarios} helperText={(errors.comentarios)&&errors.comentarios.message} /></Grid>
+    </>}
+    </Grid>
   )
 }
 
