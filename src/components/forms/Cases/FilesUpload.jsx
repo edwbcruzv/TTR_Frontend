@@ -5,6 +5,7 @@ import Button from '@mui/material/Button';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
 import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
+import { Stack } from '@mui/material';
 
 const VisuallyHiddenInput = styled('input')({
   clip: 'rect(0 0 0 0)',
@@ -51,7 +52,7 @@ export default function FilesUpload() {
   return (
     <div>
       <Button component="label" variant="contained" startIcon={<CloudUploadIcon />}>
-        Upload file
+        Subir Archivo
         <VisuallyHiddenInput
           type="file"
           multiple
@@ -61,11 +62,11 @@ export default function FilesUpload() {
 
       {files.length > 0 && (
         <div>
-          <h3>Files Uploaded:</h3>
+          <h3>Archivos Cargados</h3>
           <ul>
             {files.map((file, index) => (
-              <li key={index} style={{ width:'800px', marginBottom: '10px', padding: '10px', border: '1px solid #ccc', borderRadius: '5px', display: 'flex', alignItems: 'center' }}>
-                <div style={{ flex: 1 }}>
+              <li key={index} style={{ width:'auto', marginBottom: '10px', padding: '10px', border: '1px solid #ccc', borderRadius: '5px', display: 'flex', alignItems: 'center' }}>
+                <Stack style={{ flex: 1 }}>
                   <strong>{file.name}</strong>
                   {file.type.startsWith('image/') && (
                     <img src={URL.createObjectURL(file)} alt={file.name} style={{ maxWidth: '100px', maxHeight: '100px', margin: '10px 0' }} />
@@ -83,8 +84,8 @@ export default function FilesUpload() {
                   {file.type === 'application/pdf' && (
                     <embed src={URL.createObjectURL(file)} width="100" height="100" type="application/pdf" style={{ margin: '10px 0' }} />
                   )}
-                </div>
-                <div>
+                </Stack>
+                <Stack>
                   <Button variant="outlined" onClick={() => handleRemoveFile(index)} style={{ marginLeft: '10px' }}>
                     Remove
                   </Button>
@@ -94,7 +95,7 @@ export default function FilesUpload() {
                   <Button variant="outlined" onClick={() => handleMoveDown(index)} disabled={index === files.length - 1} style={{ marginLeft: '10px' }}>
                     <ArrowDownwardIcon />
                   </Button>
-                </div>
+                </Stack>
               </li>
             ))}
           </ul>

@@ -21,18 +21,19 @@ export default function FullScreenCaseCreate() {
     viewDataEdit,createData,
     updateData,deleteData,
     register,handleSubmit,watch,errors,
-    openModalForm,handleOpenModal,handleCloseModal} = useContext(CrudCaseContext)
+    openModalForm,handleOpenModalForm,handleCloseModalForm,
+    openModalView,handleOpenModalView,handleCloseModalView} = useContext(CrudCaseContext)
     
 
   return (
     <React.Fragment>
-      <Button variant="outlined" onClick={handleOpenModal}>
+      <Button variant="outlined" onClick={handleOpenModalForm}>
         Crear nuevo caso
       </Button>
       <Dialog
         fullScreen
         open={openModalForm}
-        onClose={handleCloseModal}
+        onClose={handleCloseModalForm}
         TransitionComponent={Transition}
       >
         <AppBar sx={{ position: 'relative' }}>
@@ -40,7 +41,7 @@ export default function FullScreenCaseCreate() {
             <IconButton
               edge="start"
               color="inherit"
-              onClick={handleCloseModal}
+              onClick={handleCloseModalForm}
               aria-label="close"
             >
               <CloseIcon />

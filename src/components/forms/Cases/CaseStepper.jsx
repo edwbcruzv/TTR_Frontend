@@ -11,6 +11,8 @@ import Container from '@mui/material/Container'
 import FormCaseStep from './FormCaseStep';
 import CrudCaseContext from '../../../context/CrudCaseContext';
 import { useContext } from 'react';
+import { Stack, Switch } from '@mui/material';
+import FormCaseStepView from './FormCaseStepView';
 
 const steps = [
   {
@@ -87,12 +89,18 @@ const steps = [
 
 export default function CaseStepper() {
   const [activeStep, setActiveStep] = React.useState(0);
+  const [checked, setChecked] = React.useState(true);
+  const handleChange = (event) => {
+    console.log(event.target.checked)
+    setChecked(event.target.checked);
+  };
 
   const {response,error,loading,
     viewDataEdit,createData,
     updateData,deleteData,
     register,handleSubmit,watch,errors,
-    openModalForm,handleOpenModal,handleCloseModal} = useContext(CrudCaseContext)
+    openModalForm,handleOpenModalForm,handleCloseModalForm,
+      openModalView,handleOpenModalView,handleCloseModalView} = useContext(CrudCaseContext)
 
   const handleNext = () => {
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
@@ -102,7 +110,7 @@ export default function CaseStepper() {
   };
   const handleReset = () => {
     setActiveStep(0);
-    handleCloseModal()
+    handleCloseModalForm()
   };
 
   function onSubmit(data){
@@ -114,14 +122,28 @@ export default function CaseStepper() {
       console.log("se creo un dato")
     }else{
       // si no es nulo se editara un formulario ya existente 
-      updateData(url,data)
+      updateData(data)
       console.log("Actualizando")
     }
 }
 
 
   return (
-    <Box sx={{ maxWidth: 400 }}>
+
+
+    <Box sx={{ maxWidth: "auto", padding:"30px" }}>
+      <Stack direction="row" spacing={1} alignItems="center">
+      <Typography variant="body1" color="initial">Vista Previa</Typography>
+      <Switch
+      checked={checked}
+      onChange={handleChange}
+      inputProps={{ 'aria-label': 'controlled' }}
+      />
+      <Typography variant="body1" color="initial">Editar</Typography>
+      </Stack>
+
+
+
       <Stepper activeStep={activeStep} orientation="vertical">
         {steps.map((step, index) => (
           <Step key={step.label}>
@@ -135,10 +157,12 @@ export default function CaseStepper() {
               {step.label}
             </StepLabel>
             <StepContent>
-              <Container maxWidth="sm">
+              {checked?
               <FormCaseStep label={step.label} name ={step.name}/>
+            :
+            <FormCaseStepView label={step.label} name ={step.name}/>}
                 
-              </Container>
+              
 
               {/* <Typography>{step.description}</Typography> */}
               <Box 
@@ -147,12 +171,13 @@ export default function CaseStepper() {
                 
                 <div>
                   {index === steps.length - 1 ? 
-                  <Button
+
+                  checked&&<Button
                   variant="contained"
                   onClick={handleSubmit(onSubmit)}
                   sx={{ mt: 1, mr: 1 }}
                 >
-                  Finish
+                  Guardar
                 </Button>
                   : 
                   <Button
@@ -168,7 +193,7 @@ export default function CaseStepper() {
                     onClick={handleBack}
                     sx={{ mt: 1, mr: 1 }}
                   >
-                    Back
+                    Atras
                   </Button>
                 </div>
               </Box>
