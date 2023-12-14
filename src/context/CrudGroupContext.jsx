@@ -61,12 +61,12 @@ function CrudGroupProvider({children}) {
       setLoading(false)
       console.log(res)
       setResponse(res)
+      handleCloseModal()
     }else{
       console.log(res)
       setError(res.error)
     }
     setLoading(false)
-    handleCloseModal()
   }
 
   async function updateData(url,data) {
@@ -78,12 +78,12 @@ function CrudGroupProvider({children}) {
       setLoading(false)
       // console.log(res)
       setResponse(res)
+      handleCloseModal()
     }else{
       // console.log(res.error)
       setError(res.error)
     }
     setLoading(false)
-    handleCloseModal()
   }
 
   async function deleteData(url,id) {

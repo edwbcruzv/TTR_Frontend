@@ -109,7 +109,7 @@ function CrudCaseProvider({children}){
       // console.log(URI_BACKEND(`${url}/${id}`),token)
       if (res.status === 200) {
         reset(res.data)
-        console.log(res.data)
+        // console.log(res.data)
         handleOpenModalForm()
       }else{
         console.log(res.error)
@@ -121,11 +121,11 @@ function CrudCaseProvider({children}){
 
   async function createData(data) {
     setLoading(true)
-    console.log(data)
+    // console.log(data)
     let res = await post(URI_BACKEND('caso-estudio'),data,token)
     if (res.status === 200) {
       setLoading(false)
-      console.log(res)
+      // console.log(res)
       setResponse(res)
       handleCloseModalForm()
     }else{
@@ -139,7 +139,7 @@ function CrudCaseProvider({children}){
     setLoading(true)
     let res = await patch(URI_BACKEND('caso-estudio'),data,token)
     // console.log(res)
-    console.log(data,token)
+    // console.log(data,token)
     if (res.status === 200) {
       setLoading(false)
       // console.log(res)
@@ -156,7 +156,7 @@ function CrudCaseProvider({children}){
     setLoading(true)
     if (token && (rol===ROL_ADMIN || rol===ROL_TEACHER) && id) {
       let res = await del(URI_BACKEND(`caso-estudio/${id}`),token)
-      console.log(id)
+      // console.log(id)
       if (res.status === 200) {
         setLoading(false)
         // console.log(res)

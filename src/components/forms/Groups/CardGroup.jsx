@@ -7,6 +7,7 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Grid';
 import copy from 'clipboard-copy';
+import { useNavigate } from 'react-router-dom';
 
 export default function CardGroup({team}) {
   const {
@@ -18,6 +19,12 @@ export default function CardGroup({team}) {
     profesor_id,
     equipos,
     inscripciones } = team
+
+    const navigate = useNavigate();
+    const handleGroup = () => {
+      navigate(`/teacher/group/${id}`,{replace:true}
+      );
+    };
 
   const handleCopyCode = () => {
     copy(clave);
@@ -49,7 +56,7 @@ export default function CardGroup({team}) {
         </Typography>
       </CardContent>
       <CardActions>
-        <Button size="small">Equipos</Button>
+        <Button size="small" onClick={handleGroup} >Equipos</Button>
         <Button size="small">Alumnos</Button>
         <Button size="small" onClick={handleCopyCode}>
           Copiar Código

@@ -18,6 +18,7 @@ import GroupsTeacherPage from "./pages/Teacher/GroupsTeacherPage";
 import RevisionTeacherPage from "./pages/Teacher/RevisionTeacherPage";
 import CasesStudentPage from "./pages/Student/CasesStudentPage";
 import TeamsStudentPage from "./pages/Student/TeamsStudentPage";
+import GroupViewTeacherPage from "./pages/Teacher/GroupViewTeacherPage";
 
 
 const App = (props) => {
@@ -49,7 +50,9 @@ const App = (props) => {
             <Route path="/teacher" element={<TeacherProtected />}>
               <Route index element={<DashboardTeacherPage />}></Route>
               <Route path="cases" element={<CasesTeacherPage/>}  />
+              
               <Route path="groups" element={<GroupsTeacherPage/>}  />
+              <Route path="group/:id" element={<GroupViewTeacherPage/>}  />
               <Route path="revision" element={<RevisionTeacherPage/>}  />
             </Route>
 
