@@ -1,5 +1,9 @@
 import { createContext, useEffect, useState } from "react";
 import { helperAXIOS } from "../helpers/helperAXIOS";
+import useAuth from "../hooks/useAuth";
+import { useForm } from "react-hook-form";
+import { URI_BACKEND } from "../utils/urls";
+import { ROL_ADMIN, ROL_TEACHER } from "../utils/jwt_data";
 
 const CrudTeamContext=createContext()
 
@@ -15,7 +19,10 @@ const initialForm={
 
 function CrudTeamProvider({children}) {
 
-    const [dataToEdit, setDataToEdit] = useState(initialForm)
+  const {token,rol,id} = useAuth()
+  initialForm.profesor_id=id
+  const {register,handleSubmit,watch,reset,setValue,getValues,formState: { errors }} = useForm({defaultValues:initialForm})
+    
     const [error, setError] = useState(null)
     const [response, setResponse] = useState(null)
     const [loading, setLoading] = useState(true)
@@ -23,81 +30,99 @@ function CrudTeamProvider({children}) {
     const {get,post,put,patch,del} = helperAXIOS()
 
     const [openModalForm, setOpenModalForm] = useState(false);
-    const handleOpenModal = () => {
+    const handleOpenModalForm = () => {
         setOpenModalForm(true);
     };
-    const handleCloseModal = () => {
+    const handleCloseModalForm = () => {
         console.log("cerrando")
         setOpenModalForm(false);
-        setDataToEdit(initialForm)
+        reset(initialForm)
     };
 
-  async function viewDataEdit(id) {
-    setLoading(true)
-    if (token && (rol===ROL_ADMIN || rol===ROL_TEACHER) && id) {
-      const res = await get(URI_BACKEND(`${url}/${id}`),token)
-      // console.log(URI_BACKEND(`${url}/${id}`),token)
-      if (res.status === 200) {
-        setDataToEdit(res.data)
-        handleOpenModal()
-      }else{
-        console.log(res.error)
-        setError(res.error)
+    const [openModalView, setOpenModalView] = useState(false);
+    const handleOpenModalView = () => {
+        setOpenModalView(true);
+    };
+    const handleCloseModalView = () => {
+        console.log("cerrando")
+        setOpenModalView(false);
+        reset(initialForm)
+    };
+
+    async function viewDataEdit(id) {
+      setLoading(true)
+      if (token && (rol===ROL_ADMIN || rol===ROL_TEACHER) && id) {
+        let res = await get(URI_BACKEND(`equipo/${id}`),token)
+        // console.log(URI_BACKEND(`${url}/${id}`),token)
+        if (res.status === 200) {
+          reset(res.data)
+          // console.log(res.data)
+          handleOpenModalForm()
+        }else{
+          console.log(res.error)
+          setError(res.error)
+        }
       }
-    }
-    setLoading(false)
-  }
-
-  async function createData(data) {
-    setLoading(true)
-    res = await post(URI_BACKEND(url),data,token)
-    if (res.status === 200) {
       setLoading(false)
-      console.log(res)
-      setResponse(res)
-    }else{
-      console.log(res)
-      setError(res.error)
     }
-    setLoading(false)
-    handleCloseModal()
-  }
 
-  async function updateData(url,data) {
-    setLoading(true)
-    let res = await patch(URI_BACKEND(url),data,token)
-    // console.log(res)
-    console.log(url,data,token)
-    if (res.status === 200) {
-      setLoading(false)
-      // console.log(res)
-      setResponse(res)
-    }else{
-      // console.log(res.error)
-      setError(res.error)
-    }
-    setLoading(false)
-    handleCloseModal()
-  }
-
-  async function deleteData(url,id) {
-    setLoading(true)
-    if (token && (rol===ROL_ADMIN || rol===ROL_TEACHER) && id) {
-      let res = await del(URI_BACKEND(`${url}/${id}`),token)
-      console.log(id)
+    async function createData(data) {
+      setLoading(true)
+      // console.log(data)
+      let res = await post(URI_BACKEND('equipo'),data,token)
       if (res.status === 200) {
         setLoading(false)
         // console.log(res)
         setResponse(res)
+        handleCloseModalForm()
       }else{
-        // console.log(res.error)
+        console.log(res)
         setError(res.error)
       }
+      setLoading(false)
     }
-    setLoading(false)
-  }
 
-    const data={response,error,loading,viewDataEdit,createData,dataToEdit,setDataToEdit,updateData,deleteData,openModalForm,handleOpenModal,handleCloseModal}
+    async function updateData(data) {
+      setLoading(true)
+      let res = await patch(URI_BACKEND('equipo'),data,token)
+      // console.log(res)
+      console.log(data,token)
+      if (res.status === 200) {
+        setLoading(false)
+        // console.log(res)
+        setResponse(res)
+        handleCloseModalForm()
+      }else{
+        console.log(res.error)
+        setError(res.error)
+      }
+      setLoading(false)
+    }
+
+    async function deleteData(id) {
+      setLoading(true)
+      if (token && (rol===ROL_ADMIN || rol===ROL_TEACHER) && id) {
+        let res = await del(URI_BACKEND(`equipo/${id}`),token)
+        // console.log(id)
+        if (res.status === 200) {
+          setLoading(false)
+          // console.log(res)
+          setResponse(res)
+        }else{
+          // console.log(res.error)
+          setError(res.error)
+        }
+      }
+      setLoading(false)
+    }
+
+    const data={response,error,loading,
+      viewDataEdit,createData,
+      updateData,deleteData,
+      register,handleSubmit,watch,errors,setValue,getValues,
+      openModalForm,handleOpenModalForm,handleCloseModalForm,
+      openModalView,handleOpenModalView,handleCloseModalView}
+
     return(
         <CrudTeamContext.Provider value={data}>
             {children}

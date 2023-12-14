@@ -8,7 +8,7 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import RowCase from './RowCase';
 import useAuth from '../../../hooks/useAuth';
-import { Button } from '@mui/material';
+import { Box, Button, LinearProgress } from '@mui/material';
 import { useContext } from 'react';
 import CrudCaseContext from '../../../context/CrudCaseContext';
 import useAxios from '../../../hooks/useAxios';
@@ -70,12 +70,12 @@ export default function TableCases() {
       }))
       setData(data_temp)
     }
-  
-    console.log(openModalForm)
-  }, [Data,openModalForm])
+    console.log(data)
+  }, [Data,openModalForm,openModalForm])
 
 
   return (
+    
     <TableContainer component={Paper}>
       <Table aria-label="collapsible table">
         <TableHead>
@@ -89,13 +89,12 @@ export default function TableCases() {
           </TableRow>
         </TableHead>
         <TableBody>
-          {data && data.map((row,index) =>{
-            return <RowCase key={index} row={row} />
-          }
-          )}
+          
+          {data && data.map((row,index) =>{ return <RowCase key={index} row={row} />})}
           
         </TableBody>   
       </Table>
+      {IsPending&&<Box sx={{ width: '100%' }}><LinearProgress /></Box>}
     </TableContainer>
   );
 }

@@ -10,7 +10,7 @@ import { useState } from 'react';
 import { ROL_ADMIN, ROL_STUDENT, ROL_TEACHER } from '../../../utils/jwt_data';
 import { useContext } from 'react';
 import CrudUserContext from '../../../context/CrudUserContext';
-import { TextField, Button, Box } from '@mui/material';
+import { TextField, Button, Box, Alert, AlertTitle } from '@mui/material';
 import useAuth from '../../../hooks/useAuth';
 
     
@@ -163,6 +163,16 @@ function FormUser() {
       {(valueRbtn) && 
       <Button variant="outlined" color="primary" type='submit'  >Crear</Button>
       }
+
+       {!error && response &&  <Alert severity="success">
+        <AlertTitle>Success</AlertTitle>
+        <strong>Usuario creado correctamente</strong>
+      </Alert>}
+      
+      {error && !response &&  <Alert severity="error">
+      <AlertTitle>Error</AlertTitle>
+        Error <strong>error</strong>
+      </Alert>}
       </Box>
       
     </Grid>

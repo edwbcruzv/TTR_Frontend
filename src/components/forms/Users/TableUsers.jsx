@@ -15,6 +15,7 @@ import Button from '@mui/material/Button';
 import DialogConfirm from '../../Dialogs/DialogConfirm';
 import CrudUserContext from '../../../context/CrudUserContext';
 import { useContext } from 'react';
+import { Box, LinearProgress } from '@mui/material';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -87,6 +88,7 @@ function TableUsers({url}) {
           }
           </TableBody>
       </Table>
+      {IsPending&&<Box sx={{ width: '100%' }}><LinearProgress /></Box>}
     </TableContainer>
     </>
   );
