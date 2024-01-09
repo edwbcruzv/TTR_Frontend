@@ -1,30 +1,19 @@
 import React from 'react'
 import { useContext } from 'react'
-import { styled } from '@mui/material/styles';
-import CrudGroupContext from '../../../context/CrudGroupContext'
-import { Box, Button, Grid, List, ListItem, ListItemIcon, ListItemText, TextField, Typography } from '@mui/material'
-import { useState } from 'react';
+import CrudTeamContext from '../../../context/CrudTeamContext'
+import { Box, Button, Grid, TextField } from '@mui/material'
+import TransferListStudents from '../Students/TransferListStudents'
 
-function generate(element) {
-  return [0, 1, 2].map((value) =>
-    React.cloneElement(element, {
-      key: value,
-    }),
-  );
-}
 
-const Demo = styled('div')(({ theme }) => ({
-  backgroundColor: theme.palette.background.paper,
-}));
-
-export default function FormGroup() {
+const FormTeam = () => {
   const {response,error,loading,
     viewDataEdit,createData,
     updateData,deleteData,
-    register,handleSubmit,watch,errors,
-    openModalForm,handleOpenModal,handleCloseModal} = useContext(CrudGroupContext)
-  // const [dense, setDense] = useState(true);
-  // const [secondary, setSecondary] = useState(false);
+    register,handleSubmit,watch,errors,setValue,getValues,
+    openModalForm,handleOpenModalForm,handleCloseModalForm,
+    openModalView,handleOpenModalView,handleCloseModalView} =useContext(CrudTeamContext)
+
+
 
   function onSubmit(data){
     console.log(data)
@@ -49,6 +38,7 @@ export default function FormGroup() {
     alignItems="center"
     alignContent="center"
     wrap="wrap"
+    sx={{margin : "10px"}}
     >
 
     <Grid item >
@@ -66,10 +56,9 @@ export default function FormGroup() {
   
       >
 
-      <Grid item xs={12} sm={6}><TextField {...register('nombre_grupo',{required:{value:true,message:"Es requerido"}}         )} id='nombre_grupo' label="Nombre del grupo" type='text' variant='outlined' error={errors.nombre_grupo} helperText={(errors.nombre_grupo)&&errors.nombre_grupo.message} /></Grid>
-      <Grid item xs={12} sm={6}><TextField {...register('nombre_materia',{required:{value:true,message:"Es requerido"}}         )} id='nombre_materia' label="Nombre de la materia" type='text' variant='outlined' error={errors.nombre_materia} helperText={(errors.nombre_materia)&&errors.nombre_materia.message} /></Grid>
+      <Grid item xs={12} sm={6}><TextField {...register('nombre',{required:{value:true,message:"Es requerido"}}         )} id='nombre' label="Nombre del equipo" type='text' variant='outlined' error={errors.nombre} helperText={(errors.nombre)&&errors.nombre.message} /></Grid>
       {/* <Grid item xs={12} sm={6}><TextField {...register('profesor',{required:{value:true,message:"Es requerido"}}         )} id='profesor' label="Profesor" type='text' variant='outlined' error={errors.profesor} helperText={(errors.profesor)&&errors.profesor.message} /></Grid> */}
-      
+      <Grid item xs={12} sm={12}><TransferListStudents/></Grid>
       <Grid item xs={12} sm={12}>
       <Button variant="outlined" color="primary" type='submit'  >Crear</Button>
       </Grid>
@@ -79,3 +68,5 @@ export default function FormGroup() {
     </Grid>
   )
 }
+
+export default FormTeam

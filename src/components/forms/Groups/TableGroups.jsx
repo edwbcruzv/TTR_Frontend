@@ -15,7 +15,6 @@ const TableGroups = () => {
     console.log(Data)
   }
   return (
-    <div>
         <Grid
           container
           spacing={2}
@@ -34,7 +33,6 @@ const TableGroups = () => {
             </Grid>)}
         
         </Grid>
-    </div>
   )
 }
 

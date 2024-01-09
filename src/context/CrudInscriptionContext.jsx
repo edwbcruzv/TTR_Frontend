@@ -5,17 +5,14 @@ import { useForm } from "react-hook-form";
 import { URI_BACKEND } from "../utils/urls";
 import { ROL_ADMIN, ROL_TEACHER } from "../utils/jwt_data";
 
-const CrudTeamContext=createContext()
+const CrudInscriptionContext=createContext()
 
-const initialForm={
-  id:null,
-  nombre:"",
-  grupo_id:"",
-  estudiantes_ids:[],
-  casos_estudio_ids:[]
-}
+const initialForm = {
+    estudiante_id: 0,
+    clave_grupo: "",
+  };
 
-function CrudTeamProvider({children}) {
+function CrudInscriptionProvider({children}) {
 
   const {token,rol,id} = useAuth()
   initialForm.profesor_id=id
@@ -23,7 +20,7 @@ function CrudTeamProvider({children}) {
     
     const [error, setError] = useState(null)
     const [response, setResponse] = useState(null)
-    const [loading, setLoading] = useState(true)
+    const [loading, setLoading] = useState(false)
 
     const {get,post,put,patch,del} = helperAXIOS()
 
@@ -66,8 +63,8 @@ function CrudTeamProvider({children}) {
 
     async function createData(data) {
       setLoading(true)
-      // console.log(data)
-      let res = await post(URI_BACKEND('equipo'),data,token)
+      console.log(data)
+      let res = await post(URI_BACKEND('inscripcion'),data,token)
       if (res.status === 200) {
         setLoading(false)
         // console.log(res)
@@ -80,27 +77,28 @@ function CrudTeamProvider({children}) {
       setLoading(false)
     }
 
+    // no hay actualizacion en inscripcion
     async function updateData(data) {
-      setLoading(true)
-      let res = await patch(URI_BACKEND('equipo'),data,token)
-      // console.log(res)
-      console.log(data,token)
-      if (res.status === 200) {
-        setLoading(false)
-        // console.log(res)
-        setResponse(res)
-        handleCloseModalForm()
-      }else{
-        console.log(res.error)
-        setError(res.error)
-      }
-      setLoading(false)
+    //   setLoading(true)
+    //   let res = await patch(URI_BACKEND('inscripcion'),data,token)
+    //   // console.log(res)
+    //   console.log(data,token)
+    //   if (res.status === 200) {
+    //     setLoading(false)
+    //     // console.log(res)
+    //     setResponse(res)
+    //     handleCloseModalForm()
+    //   }else{
+    //     console.log(res.error)
+    //     setError(res.error)
+    //   }
+    //   setLoading(false)
     }
 
     async function deleteData(id) {
       setLoading(true)
       if (token && (rol===ROL_ADMIN || rol===ROL_TEACHER) && id) {
-        let res = await del(URI_BACKEND(`equipo/${id}`),token)
+        let res = await del(URI_BACKEND(`inscripcion/${id}`),token)
         // console.log(id)
         if (res.status === 200) {
           setLoading(false)
@@ -122,12 +120,12 @@ function CrudTeamProvider({children}) {
       openModalView,handleOpenModalView,handleCloseModalView}
 
     return(
-        <CrudTeamContext.Provider value={data}>
+        <CrudInscriptionContext.Provider value={data}>
             {children}
-        </CrudTeamContext.Provider>
+        </CrudInscriptionContext.Provider>
 
     )
 }
 
-export {CrudTeamProvider}
-export default CrudTeamContext
+export {CrudInscriptionProvider}
+export default CrudInscriptionContext

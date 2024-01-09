@@ -104,7 +104,9 @@ function CrudUserProvider({children}) {
     setLoading(false)
   }
 
-    const data={response,error,loading,viewDataEdit,createData,dataToEdit,setDataToEdit,updateData,deleteData,openModalForm,handleOpenModal,handleCloseModal}
+    const data={response,error,loading,
+      viewDataEdit,createData,dataToEdit,setDataToEdit,updateData,deleteData,
+      openModalForm,handleOpenModal,handleCloseModal}
     return(
         <CrudUserContext.Provider value={data}>
             {children}
