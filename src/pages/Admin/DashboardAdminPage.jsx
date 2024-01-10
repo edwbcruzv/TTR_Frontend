@@ -1,20 +1,13 @@
 import React from 'react'
-import PropTypes from 'prop-types'
-import { Divider, MenuItem, MenuList, Paper } from '@mui/material'
-import NavBarUser from '../../components/navbars/NavBarUser'
-import DrawerMain from '../../components/drawers/DrawerMain'
+import MiniDrawerFrame from '../../components/Drawers/MiniDrawerFrame'
 
+const DashboardAdminPage = () => {
 
-const DashboardAdminPage = props => {
-  
   return (
-    <>
-    <NavBarUser/>
-    <DrawerMain/>
-    </>
+    <MiniDrawerFrame >
+      Dashoboard
+    </MiniDrawerFrame>
   )
 }
-
-DashboardAdminPage.propTypes = {}
 
 export default DashboardAdminPage
