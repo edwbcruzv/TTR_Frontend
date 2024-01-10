@@ -166,6 +166,7 @@ export default function MiniDrawerFrame({children}) {
     case ROL_ADMIN:
       itemsBody.push(
         {textItem: "Usuarios", path:"admin/users", iconItem:<PeopleOutlinedIcon />},
+        {textItem: "Grupos", path:"admin/groups", iconItem:<GroupsOutlinedIcon />},
         {textItem: "Casos", path:"admin/cases", iconItem:<CasesOutlinedIcon />}
       )
         break;

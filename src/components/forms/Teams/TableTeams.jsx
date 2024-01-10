@@ -25,8 +25,8 @@ function TableTeams({group_id}) {
           wrap="wrap"
           
         >
-        {Data && Data.map((equipo)=><Grid item xs={12} sm={6} md={4} lg={3}>{equipo}</Grid>)}
-        {IsPending&&[,1,2,3,4,5,6,7,8].map(()=><Grid item xs={12} sm={6} md={4} lg={3} sx={{ pt: 0.5 ,maxWidth: 345 }}>
+        {Data && Data.map((equipo,index)=><Grid key={index} item xs={12} sm={6} md={4} lg={3}>{equipo}</Grid>)}
+        {IsPending&&[,1,2,3,4,5,6,7,8].map((index)=><Grid key={index} item xs={12} sm={6} md={4} lg={3} sx={{ pt: 0.5 ,maxWidth: 345 }}>
               <Skeleton variant="rectangular" width={305} height={140} />
               <Skeleton />
               <Skeleton width="60%" />

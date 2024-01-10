@@ -1,13 +1,15 @@
 import React from 'react'
 import MiniDrawerFrame from '../../components/Drawers/MiniDrawerFrame'
-import TableGroups from '../../components/forms/Groups/TableGroups'
 import { CrudGroupProvider } from '../../context/CrudGroupContext'
+import CrudGroupModal from '../../components/forms/Groups/CrudGroupModal'
 import { Divider } from '@mui/material'
+import TableGroups from '../../components/forms/Groups/TableGroups'
 
-const GroupsTeacherPage = () => {
+const GroupsAdminPage = () => {
   return (
     <MiniDrawerFrame>
       <CrudGroupProvider>
+        <CrudGroupModal/>
         <Divider/>
       <TableGroups/>
       </CrudGroupProvider>
@@ -15,4 +17,4 @@ const GroupsTeacherPage = () => {
   )
 }
 
-export default GroupsTeacherPage
+export default GroupsAdminPage

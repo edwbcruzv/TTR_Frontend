@@ -54,7 +54,7 @@ function TableUsers({url}) {
   const {token} = useAuth()
   const [openDialogDelete, setOpenDialogDelete] = React.useState(false)
 
-  const {Data,IsPending,Error}=useAxios(URI_BACKEND(url),"GET",token)
+  const {Data,IsPending,Error}=useAxios(URI_BACKEND(url+"/getAll"),"GET",token)
   // console.log(Data,IsPending,Error)
   let list_headers = null
   let data = null

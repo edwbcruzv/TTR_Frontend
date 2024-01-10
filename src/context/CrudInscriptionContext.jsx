@@ -15,7 +15,7 @@ const initialForm = {
 function CrudInscriptionProvider({children}) {
 
   const {token,rol,id} = useAuth()
-  initialForm.profesor_id=id
+  initialForm.estudiante_id=id
   const {register,handleSubmit,watch,reset,setValue,getValues,formState: { errors }} = useForm({defaultValues:initialForm})
     
     const [error, setError] = useState(null)

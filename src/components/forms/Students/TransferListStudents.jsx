@@ -22,10 +22,10 @@ function union(a, b) {
   return [...a, ...not(b, a)];
 }
 
-export default function TransferListStudents() {
+export default function TransferListStudents({left, setLeft,right, setRight}) {
   const [checked, setChecked] = React.useState([]);
-  const [left, setLeft] = React.useState([0, 1, 2, 3]);
-  const [right, setRight] = React.useState([4, 5, 6, 7]);
+  // const [left, setLeft] = React.useState([0, 1, 2, 3]);
+  // const [right, setRight] = React.useState([4, 5, 6, 7]);
 
   const leftChecked = intersection(checked, left);
   const rightChecked = intersection(checked, right);
@@ -83,13 +83,13 @@ export default function TransferListStudents() {
           />
         }
         title={title}
-        subheader={`${numberOfChecked(items)}/${items.length} selected`}
+        subheader={`${numberOfChecked(items)}/${items.length} seleccionados`}
       />
       <Divider />
       <List
         sx={{
-          width: 200,
-          height: 230,
+          width: 400,
+          height: 400,
           bgcolor: 'background.paper',
           overflow: 'auto',
         }}
@@ -98,7 +98,7 @@ export default function TransferListStudents() {
         role="list"
       >
         {items.map((value) => {
-          const labelId = `transfer-list-all-item-${value}-label`;
+          const labelId = `transfer-list-all-item-${value.id}-label`;
 
           return (
             <ListItem
@@ -117,7 +117,7 @@ export default function TransferListStudents() {
                   }}
                 />
               </ListItemIcon>
-              <ListItemText id={labelId} primary={`List item ${value + 1}`} />
+              <ListItemText id={labelId} primary={`${value.nombre}`} />
             </ListItem>
           );
         })}
@@ -127,7 +127,7 @@ export default function TransferListStudents() {
 
   return (
     <Grid container spacing={2} justifyContent="center" alignItems="center">
-      <Grid item>{customList('Choices', left)}</Grid>
+      <Grid item>{customList('Alumnos seleccionados', left)}</Grid>
       <Grid item>
         <Grid container direction="column" alignItems="center">
           <Button
@@ -152,7 +152,7 @@ export default function TransferListStudents() {
           </Button>
         </Grid>
       </Grid>
-      <Grid item>{customList('Chosen', right)}</Grid>
+      <Grid item>{customList('Alumnos sin equipo', right)}</Grid>
     </Grid>
   );
 }

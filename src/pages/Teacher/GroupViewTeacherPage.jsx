@@ -10,8 +10,10 @@ import FullScreenTeamCreate from '../../components/forms/Teams/FullScreenTeamCre
 function GroupViewTeacherPage() {
 
   const { id } = useParams();
+
+  
   return (
-    <MiniDrawerFrame>GroupViewTeacherPage  {id}
+    <MiniDrawerFrame>{id}
         <CrudTeamProvider>
           <FullScreenTeamCreate group_id={id} />
           <Divider/>

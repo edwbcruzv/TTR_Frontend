@@ -3,33 +3,18 @@ import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
-import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Grid';
-import copy from 'clipboard-copy';
-import { useNavigate } from 'react-router-dom';
 
-export default function CardGroup({group}) {
-  const {
-    id,
-    clave,
-    nombre_grupo,
-    nombre_materia,
-    profesor_nombre,
-    equipos,
-    inscripciones } = group
-
-    const navigate = useNavigate();
-    const handleGroup = () => {
-      navigate(`/teacher/group/${id}`,{replace:true}
-      );
-    };
-
-  const handleCopyCode = () => {
-    copy(clave);
-    alert(`Código "${clave}" copiado al portapapeles`);
-  };
-
+export default function CardInscription({inscription}) {
+    
+    const {
+        grupo_nombre,
+        profesor_nombre,
+        calificacion,
+        clave
+    } = inscription
+    
   return (
     <Card sx={{ maxWidth: 345 }}>
       <CardMedia
@@ -41,7 +26,7 @@ export default function CardGroup({group}) {
         <Grid container justifyContent="space-between">
           <Grid item>
             <Typography gutterBottom variant="h5" component="div">
-              {nombre_grupo}
+              {grupo_nombre}
             </Typography>
           </Grid>
           <Grid item>
@@ -51,15 +36,13 @@ export default function CardGroup({group}) {
           </Grid>
         </Grid>
         <Typography variant="body2" color="text.secondary">
-          {nombre_materia}:{profesor_nombre}
+          Profesor: {profesor_nombre}
         </Typography>
       </CardContent>
       <CardActions>
-        <Button size="small" onClick={handleGroup} >Equipos</Button>
-        <Button size="small">Alumnos</Button>
-        <Button size="small" onClick={handleCopyCode}>
-          Copiar Código
-        </Button>
+      <Typography variant="body2" color="text.secondary">
+            Calificacion:{calificacion}
+      </Typography>
       </CardActions>
     </Card>
   );

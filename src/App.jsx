@@ -19,6 +19,7 @@ import RevisionTeacherPage from "./pages/Teacher/RevisionTeacherPage";
 import CasesStudentPage from "./pages/Student/CasesStudentPage";
 import TeamsStudentPage from "./pages/Student/TeamsStudentPage";
 import GroupViewTeacherPage from "./pages/Teacher/GroupViewTeacherPage";
+import GroupsAdminPage from "./pages/Admin/GroupsAdminPage";
 
 
 const App = (props) => {
@@ -37,6 +38,7 @@ const App = (props) => {
               <Route index element={<DashboardAdminPage />}></Route>
               <Route path="users" element={<UsersPage />}></Route>
               <Route path="cases" element={<CasesPage />}></Route>
+              <Route path="groups" element={<GroupsAdminPage/>}  />
               <Route path="config" element={<ConfigPage />}></Route>
             </Route>
 

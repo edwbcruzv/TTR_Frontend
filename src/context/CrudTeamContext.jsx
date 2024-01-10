@@ -10,7 +10,7 @@ const CrudTeamContext=createContext()
 const initialForm={
   id:null,
   nombre:"",
-  grupo_id:"",
+  grupo_id:0,
   estudiantes_ids:[],
   casos_estudio_ids:[]
 }
