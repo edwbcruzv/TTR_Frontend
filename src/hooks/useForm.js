@@ -10,6 +10,11 @@ export default function useForm(initialForm,validateForm,endpointForm,timeResetF
     const [response, setResponse] = useState(null)
     const [resBody, setResBody] = useState(null)
 
+    // limpia el formulario
+    const handleReset =(e)=>{
+        setForm(initialForm)
+    }
+
     // esta funcion leera todos los cambios generales del formulario y lo actualizara
     function handleChange(e) {
         setForm({
@@ -66,6 +71,7 @@ export default function useForm(initialForm,validateForm,endpointForm,timeResetF
         response,
         handleChange,
         handleBlur,
-        handleSubmit
+        handleSubmit,
+        handleReset
     }
 }

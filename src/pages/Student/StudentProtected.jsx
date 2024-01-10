@@ -1,19 +1,20 @@
 import React from 'react'
 import useAuth from '../../hooks/useAuth'
-import { Navigate } from 'react-router-dom'
+import { Navigate, Outlet } from 'react-router-dom'
+import { ROL_STUDENT } from '../../utils/jwt_data'
 
 const StudentProtected = () => {
-    const {isAuth,isStudent} = useAuth()
-    if (!isAuth && !isStudent) {
-      return <Navigate to="/" replace />
+  const {rol} = useAuth()
+    if (rol === ROL_STUDENT) {
+      console.log("Paso AdminProtected: "+ rol)
     }else{
-      console.log("Paso StudentProtected")
+      return <Navigate to="/" replace />
     }
-    return (
-      <div>
-          <Outlet/>
-      </div>
-    )
+  return (
+    <div>
+        <Outlet/>
+    </div>
+  )
 }
 
 export default StudentProtected

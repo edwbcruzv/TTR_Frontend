@@ -1,16 +1,16 @@
 import React from 'react'
 import { Navigate, Outlet } from 'react-router-dom'
 import useAuth from '../../hooks/useAuth'
+import { ROL_ADMIN } from '../../utils/jwt_data'
+
 
 const AdminProtected = props => {
-  const {jwt,isAuth,isAdmin} = useAuth()
-  if (!isAuth && !isAdmin) {
-    console.log(jwt,isAuth,isAdmin)
-    return <Navigate to="/" replace />
-  }else{
-    console.log(jwt,isAuth,isAdmin)
-    console.log("Paso AdminProtected")
-  }
+  const {rol} = useAuth()
+    if (rol === ROL_ADMIN) {
+      console.log("Paso AdminProtected: "+ rol)
+    }else{
+      return <Navigate to="/" replace />
+    }
   return (
     <div>
         <Outlet/>
