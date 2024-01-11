@@ -38,4 +38,6 @@ const NavBarHome = ({ handleOpenLogin, handleOpenRegister }) => {
   );
 };
 
+NavBarHome.propTypes = {}
+
 export default NavBarHome;
