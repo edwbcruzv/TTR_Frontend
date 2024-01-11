@@ -1,0 +1,25 @@
+.nav{
+    background-color: #9d5ceb;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: fixed;
+    z-index: 999999;
+    width: 100%;
+    padding: 10px;
+    color: #fff;
+}
+.btn{
+    width: 400px;
+    display: flex;
+    justify-content: space-evenly;
+    
+}
+.btn-home{
+    width: 100px;
+    transition: 0.6s all;
+}
+.btn-home:hover{
+    background-color: #1c2630;
+    
+}

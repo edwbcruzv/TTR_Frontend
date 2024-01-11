@@ -14,6 +14,9 @@ import FormLogin from '../components/forms/Auth/FormLogin';
 import FormUser from '../components/forms/Users/FormUser';
 import { CrudUserProvider } from '../context/CrudUserContext';
 import FormRegister from '../components/forms/Auth/FormRegister';
+import Fondoinicio from '../components/componentsLuis/Fondoinicio';
+import MetodoCasos from '../components/componentsLuis/MetodoCasos';
+import Caso from '../components/componentsLuis/Caso';
 
 const style = {
   position: "absolute",
@@ -41,7 +44,7 @@ const WelcomePage = props => {
     <>
       <NavBarHome handleOpenLogin={handleOpenLogin} handleOpenRegister={handleOpenRegister}/>      
 
-    <Container maxWidth="md">
+    <Container>
       <Grid container justify="center" alignItems="center" style={{ minHeight: '100vh' }}>
         <Modal
         open={openLogin}
@@ -66,6 +69,9 @@ const WelcomePage = props => {
           </CrudUserProvider>
         </Box>
       </Modal>
+      <Fondoinicio/>
+      <MetodoCasos/>
+      <Caso/>
       </Grid>
     </Container>
     </>

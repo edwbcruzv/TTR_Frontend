@@ -1,0 +1,78 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
+.case{
+    width: 100%;
+    min-height: 80vh;
+    padding: 0 100px;
+    display: flex;
+    align-items: center;
+    background: #21283a;
+    overflow-x: hidden;
+    position: relative;
+}
+.case::before{
+    content: '';
+    position: absolute;
+    transform: translateY(-50%);
+    right: 100px;
+    top: 50%;
+    width: 500px;
+    height: 500px;
+    background-color: #9d5ceb;
+    border-radius: 50%;
+    box-shadow: 0 0 20px  #9d5ceb,
+    0 0 50px  #9d5ceb,
+    0 0 150px  #9d5ceb;
+    transition: 0.5s all;
+}
+.hands{
+    position: absolute;
+    bottom: 150px;
+    right: 80px;
+    width: 550px;
+    transition: 0.5s all;
+    border-radius: 50%;
+}
+.content{
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: 0.5s;
+}.content h1{
+    color: #9d5ceb;
+    text-transform: uppercase;
+    font-size: 3em;
+    font-weight: 700;
+}
+.content p{
+    color: #fff;
+    font-family: 'Poppins';
+}
+.case .content .contentBx{
+    position: relative;
+    max-width: 600px;
+    left: 100px;
+    z-index: 100;
+    font-family: 'Poppins';
+}
+@media (max-width:991px)
+{
+    section{
+        padding: 40px;
+    }
+    header{
+        padding: 20px 40px;
+    }
+    section::before{
+        opacity: 0;
+    }
+    .case .content .contentBx{
+        /* left: 0; */
+    }
+    .hands{
+        opacity: 0.3;
+    }
+    
+}

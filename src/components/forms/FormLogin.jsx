@@ -7,6 +7,7 @@ import Message from "../Messages/Message";
 import Typography from '@mui/material/Typography'
 import useAuth from "../../hooks/useAuth";
 import { useNavigate } from "react-router-dom";
+import "../../../public/styles/formlogin.css"
 
 const style_inputs = {
   border: "thin solid #dedede",
@@ -131,7 +132,7 @@ const FormLogin = ({uri, title}) => {
           onChange={handleChange}
           value={form.username}
           required
-          style={style_inputs}
+          
         />
         {errors.username && <p style={style_errors}>{errors.username}</p>}
 
