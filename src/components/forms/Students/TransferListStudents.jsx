@@ -9,6 +9,10 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import Checkbox from '@mui/material/Checkbox';
 import Button from '@mui/material/Button';
 import Divider from '@mui/material/Divider';
+import useAxios from '../../../hooks/useAxios';
+import { URI_BACKEND } from '../../../utils/urls';
+import useAuth from '../../../hooks/useAuth';
+import { useEffect } from 'react';
 
 function not(a, b) {
   return a.filter((value) => b.indexOf(value) === -1);
@@ -23,10 +27,13 @@ function union(a, b) {
 }
 
 export default function TransferListStudents({left, setLeft,right, setRight}) {
+  const {token} = useAuth()
   const [checked, setChecked] = React.useState([]);
   // const [left, setLeft] = React.useState([0, 1, 2, 3]);
   // const [right, setRight] = React.useState([4, 5, 6, 7]);
 
+  const {Data,IsPending,Error}=useAxios(URI_BACKEND(`estudiante/getEstudiantesByIds`),"GET",{ids:left},token)
+  
   const leftChecked = intersection(checked, left);
   const rightChecked = intersection(checked, right);
 
@@ -97,12 +104,12 @@ export default function TransferListStudents({left, setLeft,right, setRight}) {
         component="div"
         role="list"
       >
-        {items.map((value) => {
+        {items.map((value,index) => {
           const labelId = `transfer-list-all-item-${value.id}-label`;
 
           return (
             <ListItem
-              key={value}
+              key={index}
               role="listitem"
               button
               onClick={handleToggle(value)}

@@ -32,6 +32,7 @@ function CrudUserProvider({children}) {
         console.log("cerrando")
         setOpenModalForm(false);
         setDataToEdit(initialForm)
+        window.location.reload();
     };
 
   async function viewDataEdit(url,id) {

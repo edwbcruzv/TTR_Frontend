@@ -90,6 +90,7 @@ function CrudCaseProvider({children}){
         console.log("cerrando")
         setOpenModalForm(false);
         reset(initialForm)
+        window.location.reload();
     };
 
     const [openModalView, setOpenModalView] = useState(false);
@@ -167,6 +168,7 @@ function CrudCaseProvider({children}){
       }
     }
     setLoading(false)
+    window.location.reload();
   }
 
     const data={response,error,loading,

@@ -34,6 +34,7 @@ function CrudGroupProvider({children}) {
         console.log("cerrando")
         setOpenModalForm(false);
         reset(initialForm)
+        window.location.reload();
     };
 
   async function viewDataEdit(id) {
@@ -100,6 +101,7 @@ function CrudGroupProvider({children}) {
       }
     }
     setLoading(false)
+    window.location.reload();
   }
 
     const data={response,error,loading,
