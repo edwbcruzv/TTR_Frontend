@@ -16,15 +16,6 @@ const NavBarHome = ({ handleOpenLogin, handleOpenRegister }) => {
   const navigate = useNavigate();
   return (
     <Toolbar className="nav">
-      <IconButton
-        size="large"
-        edge="start"
-        color="inherit"
-        aria-label="menu"
-        sx={{ mr: 2 }}
-      >
-        {/* <MenuIcon /> */}
-      </IconButton>
       <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
         Bienvenido
       </Typography>

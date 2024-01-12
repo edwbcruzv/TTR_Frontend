@@ -17,6 +17,7 @@ import FormRegister from '../components/forms/Auth/FormRegister';
 import Fondoinicio from '../components/componentsLuis/Fondoinicio';
 import MetodoCasos from '../components/componentsLuis/MetodoCasos';
 import Caso from '../components/componentsLuis/Caso';
+import VistaPreviaCaso from '../components/componentsLuis/VistaPreviaCaso';
 
 const style = {
   position: "absolute",
@@ -74,6 +75,7 @@ const WelcomePage = props => {
       <Caso/>
       </Grid>
     </Container>
+    <VistaPreviaCaso/>
     </>
   )
 }

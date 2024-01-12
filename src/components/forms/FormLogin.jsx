@@ -116,14 +116,7 @@ const FormLogin = ({ uri}) => {
 
   return (
     <Grid
-      container
-      spacing={1}
-      direction="column"
-      justifyContent="center"
-      alignItems="center"
-      alignContent="center"
-      wrap="wrap"
-      className="grid-container"
+      
     >
       <Typography variant="h2" color="initial">{title}</Typography>
       <form onSubmit={handleSubmit} style={style_form}>
@@ -163,7 +156,7 @@ const FormLogin = ({ uri}) => {
 
 FormLogin.propTypes = {
   uri: PropTypes.string.isRequired,
-  title: PropTypes.string.isRequired,
+  
 };
 
 export default FormLogin;

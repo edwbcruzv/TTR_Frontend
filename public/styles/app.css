@@ -4,5 +4,6 @@
     box-sizing: border-box;
 }
 body{
-    background-color: #29313c;
+    background-color: #ffffff;
+    position: relative;
 }
