@@ -15,10 +15,10 @@ const Footer = () =>{
                          facilis!
                     </p>
                     <ul className="sci">
-                        <li><a href=""><i class="fa-brands fa-facebook"></i></a></li>
-                        <li><a href=""><i class="fa-brands fa-x-twitter"></i></a></li>
-                        <li><a href=""><i class="fa-brands fa-instagram"></i></a></li>
-                        <li><a href=""><i class="fa-brands fa-youtube"></i></a></li>
+                        <li><a href=""><i className="fa-brands fa-facebook"></i></a></li>
+                        <li><a href=""><i className="fa-brands fa-x-twitter"></i></a></li>
+                        <li><a href=""><i className="fa-brands fa-instagram"></i></a></li>
+                        <li><a href=""><i className="fa-brands fa-youtube"></i></a></li>
                     </ul>
                 </div>
                 <div className="sec quicklinks">
@@ -43,10 +43,10 @@ const Footer = () =>{
                     <h2>Contact Us</h2>
                     <ul className="info">
                         <li>
-                            <span><i class="fa-solid fa-phone"></i></span><p><a href="">+1 234 567 890</a></p>
+                            <span><i className="fa-solid fa-phone"></i></span><p><a href="">+1 234 567 890</a></p>
                         </li>
                         <li>
-                            <span><i class="fa-solid fa-envelope"></i></span><p><a href="">contact@email.com</a></p>
+                            <span><i className="fa-solid fa-envelope"></i></span><p><a href="">contact@email.com</a></p>
                         </li>
                     </ul>
                 </div>
@@ -54,4 +54,4 @@ const Footer = () =>{
         </footer>
     )
 }
-export default Footer
+export default Footer;

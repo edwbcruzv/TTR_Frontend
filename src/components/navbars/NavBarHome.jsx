@@ -15,20 +15,20 @@ import "../../../public/styles/header.css";
 const NavBarHome = ({ handleOpenLogin, handleOpenRegister }) => {
   const navigate = useNavigate();
   return (
-    <Toolbar className="nav">
-      <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+    <header className="nav">
+      <Typography variant="h6" sx={{ flexGrow: 1 }}>
         Bienvenido
       </Typography>
-      <Button onClick={handleOpenLogin} color="inherit">
+      <button onClick={handleOpenLogin} color="inherit" className="btn-home">
         Login
-      </Button>
-      <Button onClick={handleOpenRegister} color="inherit">
+      </button>
+      <button onClick={handleOpenRegister} color="inherit" className="btn-home">
         Register
-      </Button>
-    </Toolbar>
+      </button>
+    </header>
   );
 };
 
-NavBarHome.propTypes = {}
+NavBarHome.propTypes = {};
 
 export default NavBarHome;

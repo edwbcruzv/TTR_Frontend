@@ -7,7 +7,7 @@ import Message from "../Messages/Message";
 import Typography from "@mui/material/Typography";
 import useAuth from "../../hooks/useAuth";
 import { useNavigate } from "react-router-dom";
-import "../../../public/styles/formlogin.css"
+import "../../../public/styles/forms.css"
 
 const style_inputs = {
   border: "thin solid #dedede",
@@ -115,11 +115,8 @@ const FormLogin = ({ uri}) => {
   }, [response, login]);
 
   return (
-    <Grid
-      
-    >
-      <Typography variant="h2" color="initial">{title}</Typography>
-      <form onSubmit={handleSubmit} style={style_form}>
+    <form onSubmit={handleSubmit} className="form-login">
+      <h2 variant="h2" color="initial">Inicia sesión</h2>
         <input
           type="text"
           name="username"
@@ -146,11 +143,6 @@ const FormLogin = ({ uri}) => {
 
         <input type="submit" value="Enviar" style={style_button} />
       </form>
-      {loading && <Loader />}
-      {loading && !isAuth && (
-        <Message msg="Los datos son incorrectos" bgColor="#198754" />
-      )}
-    </Grid>
   );
 };
 
