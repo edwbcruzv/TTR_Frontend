@@ -17,7 +17,7 @@ function GroupViewTeacherPage() {
         <CrudTeamProvider>
           <FullScreenTeamCreate group_id={id} />
           <Divider/>
-        <TableTeams group_id={id}/>
+          <TableTeams group_id={id}/>
         </CrudTeamProvider>
     </MiniDrawerFrame>
   )

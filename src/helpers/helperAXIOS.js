@@ -56,7 +56,7 @@ export const helperAXIOS = () => {
         }
     };
 
-    const get = (url, token = null) => customRequest(url, 'GET', null, token);
+    const get = (url, data = null, token = null) => customRequest(url, 'GET', data, token);
 
     const post = (url, data = null, token = null) => customRequest(url, 'POST', data, token);
 

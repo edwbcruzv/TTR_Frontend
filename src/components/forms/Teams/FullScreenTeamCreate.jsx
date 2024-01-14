@@ -15,7 +15,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
-const FullScreenTeamCreate = () => {
+const FullScreenTeamCreate = ({group_id}) => {
     const {response,error,loading,
         viewDataEdit,createData,
         updateData,deleteData,
@@ -52,7 +52,7 @@ const FullScreenTeamCreate = () => {
             </Button> */}
           </Toolbar>
         </AppBar>
-        <FormTeam />
+        <FormTeam group_id={group_id}/>
       </Dialog>
     </React.Fragment>
   )

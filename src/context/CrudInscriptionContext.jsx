@@ -32,6 +32,7 @@ function CrudInscriptionProvider({children}) {
         console.log("cerrando")
         setOpenModalForm(false);
         reset(initialForm)
+        window.location.reload();
     };
 
     const [openModalView, setOpenModalView] = useState(false);
@@ -110,6 +111,7 @@ function CrudInscriptionProvider({children}) {
         }
       }
       setLoading(false)
+      window.location.reload();
     }
 
     const data={response,error,loading,

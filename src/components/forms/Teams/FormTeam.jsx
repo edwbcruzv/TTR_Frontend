@@ -26,39 +26,48 @@ const lista2=[
 
 
 
-const FormTeam = () => {
+const FormTeam = ({group_id}) => {
   const {token} = useAuth()
   const {response,error,loading,
+    renderizar, setRenderizar,
     viewDataEdit,createData,
     updateData,deleteData,
     register,handleSubmit,watch,errors,setValue,getValues,
     openModalForm,handleOpenModalForm,handleCloseModalForm,
-    openModalView,handleOpenModalView,handleCloseModalView} =useContext(CrudTeamContext)
-    const [left, setLeft] = React.useState([]);
-  const [right, setRight] = React.useState([]);
-  const {Data,IsPending,Error}=useAxios(URI_BACKEND("estudiante/getAll"),"GET",token)
+    openModalView,handleOpenModalView,handleCloseModalView,
+    left, setLeft,
+    right, setRight} =useContext(CrudTeamContext)
+    
+  
+  const {Data,IsPending,Error}=useAxios(URI_BACKEND(`estudiante/getAllByGroupId/${group_id}/NotTeam`),"GET",token)
+  // const {Data,IsPending,Error}=useAxios(URI_BACKEND(`estudiante/getAllByGroupId/${group_id}`),"GET",token)
     
   
 
   useEffect(() => {
     if (IsPending===false && Data){
+      setValue("grupo_id",group_id)
       let list_aux = Data.map((elem)=>({nombre:`${elem.nombre} ${elem.apellido_paterno} ${elem.apellido_materno}`,id:elem.id}))
       console.log(list_aux)
       setRight(list_aux)
+
     }
   }, [IsPending])
   
 
-  function onSubmit(data){
+  async function onSubmit(data){
+    let estudiantes_ids=left.map((elem)=>elem.id)
+    setValue("estudiantes_ids",estudiantes_ids)
+    data.estudiantes_ids=estudiantes_ids
     console.log(data)
     // console.log(errors)
     // id de un formulario es nulo: se crea un nuevo dato
     if(data.id===null){
-      createData(data)
+      await createData(data)
       console.log("se creo un dato")
     }else{
       // si no es nulo se editara un formulario ya existente 
-      updateData(url,data)
+      await updateData(data)
       console.log("Actualizando")
     }
 }

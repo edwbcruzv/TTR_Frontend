@@ -35,7 +35,7 @@ function useAxios(url,req="GET", data = null, token = null) {
 
             switch (req) {
                 case "GET":
-                    res = await get(url,token)
+                    res = await get(url,data,token)
                     break;
                 case "POST":
                     res = await post(url, data, token)
