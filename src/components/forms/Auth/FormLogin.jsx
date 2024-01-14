@@ -50,7 +50,7 @@ const FormLogin = ({ uri, title }) => {
       setToken(res.data.jwt);
       localStorage.setItem("token", res.data.jwt);
       // Si se recibe el token adecurdo se permite el acceso y se redireccion
-      console.log(res.data.jwt);
+      // console.log(res.data.jwt);
 
       const [header, payload, signature] = res.data.jwt.split(".");
       const payloadJson = JSON.parse(atob(payload));
@@ -120,7 +120,7 @@ const FormLogin = ({ uri, title }) => {
       >
         Acceder
       </button>
-      {!loading || <CircularProgress color="#9d5ceb;" />}
+      {!loading || <CircularProgress color="inherit" />}
         <button className="btn-recover">¿Haz olvidado tu contraseña?. Da clic aquí</button>
       {error && (
         <Alert severity="error">
