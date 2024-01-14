@@ -11,7 +11,8 @@ export const helperAXIOS = () => {
     });
 
     const customRequest = async (url, method = 'GET', data = null, token = null) => {
-        // console.log("Helper:"+data)
+        // console.log("Helper_Data:"+data)
+        // console.log("Helper_Token:"+token)
         try {
             const config = {
                 method,
@@ -56,7 +57,7 @@ export const helperAXIOS = () => {
         }
     };
 
-    const get = (url, data = null, token = null) => customRequest(url, 'GET', data, token);
+    const get = (url, token = null) => customRequest(url, 'GET', token);
 
     const post = (url, data = null, token = null) => customRequest(url, 'POST', data, token);
 

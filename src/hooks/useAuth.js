@@ -12,7 +12,8 @@ export default function useAuth (){
             const [header, payload, signature] = token.split('.')
             const payloadJson = JSON.parse(atob(payload))
             setId(payloadJson.id)
-            // console.log(token)
+            setNombre(payloadJson.nombre)
+            
             switch (payloadJson.rol) {
                 case ROL_ADMIN:
                     setRol(ROL_ADMIN) 
@@ -36,5 +37,5 @@ export default function useAuth (){
 
     }, [])
     
-    return {token,setToken,rol,id} 
+    return {token,setToken,rol,id,nombre} 
 }

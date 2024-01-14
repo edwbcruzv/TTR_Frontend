@@ -37,7 +37,7 @@ function CrudTeamProvider({children}) {
         console.log("cerrando")
         setOpenModalForm(false);
         reset(initialForm)
-        window.location.reload();
+        // window.location.reload();
     };
 
     const [openModalView, setOpenModalView] = useState(false);
@@ -56,14 +56,12 @@ function CrudTeamProvider({children}) {
       if (token && (rol===ROL_ADMIN || rol===ROL_TEACHER) && id) {
         let res = await get(URI_BACKEND(`equipo/${id}`),token)
         if (res.status === 200) {
-          const params = new URLSearchParams();
-          
-          params.append("ids",res.data.estudiantes_ids)
-          console.log(URI_BACKEND(`estudiante/getEstudiantesByIds?`) + params.toString())
-          let res2 = await get(URI_BACKEND(`estudiante/getEstudiantesByIds?`) + params.toString(),"GET",token)
+          const data = { estudiantes_ids:res.data.estudiantes_ids }
+          console.log(data)
+          let res2 = await post(URI_BACKEND(`estudiante/getEstudiantesByIds`),data,token)
           console.log(res2)
-          // let list_aux = Data.map((elem)=>({nombre:`${elem.nombre} ${elem.apellido_paterno} ${elem.apellido_materno}`,id:elem.id}))
-          // console.log(res.data)
+          let list_aux = res2.data.map((elem)=>({nombre:`${elem.nombre} ${elem.apellido_paterno} ${elem.apellido_materno}`,id:elem.id}))
+          setLeft(list_aux)
           reset(res.data)
           handleOpenModalForm()
         }else{
@@ -89,6 +87,7 @@ function CrudTeamProvider({children}) {
       }
       setLoading(false)
       setRenderizar(!renderizar)
+      window.location.reload();
     }
 
     async function updateData(data) {
@@ -107,6 +106,7 @@ function CrudTeamProvider({children}) {
       }
       setLoading(false)
       setRenderizar(!renderizar)
+      window.location.reload();
     }
 
     async function deleteData(id) {
@@ -125,6 +125,7 @@ function CrudTeamProvider({children}) {
       }
       setLoading(false)
       setRenderizar(!renderizar)
+      window.location.reload();
     }
 
     const data={response,error,loading,

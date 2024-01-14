@@ -10,6 +10,8 @@ import Slide from '@mui/material/Slide';
 import { useContext } from 'react';
 import CrudTeamContext from '../../../context/CrudTeamContext';
 import FormTeam from './FormTeam';
+import HelpTooltip from '../../Tooltips/HelpTooltip';
+import Grid from '@mui/material/Grid'
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -25,9 +27,19 @@ const FullScreenTeamCreate = ({group_id}) => {
   
         return (
     <React.Fragment>
+      <Grid
+        container
+        spacing={0}
+        direction="row"
+        justifyContent="space-between"
+        alignItems="center"
+        alignContent="center" 
+      >
       <Button variant="outlined" onClick={handleOpenModalForm}>
         Crear Equipo
       </Button>
+      <HelpTooltip text={"Aqui se muestran los grupos del semestre en curso."}/>
+      </Grid>
       <Dialog
         fullScreen
         open={openModalForm}
