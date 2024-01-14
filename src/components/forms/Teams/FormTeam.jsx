@@ -40,9 +40,6 @@ const FormTeam = ({group_id}) => {
     
   
   const {Data,IsPending,Error}=useAxios(URI_BACKEND(`estudiante/getAllByGroupId/${group_id}/NotTeam`),"GET",token)
-  // const {Data,IsPending,Error}=useAxios(URI_BACKEND(`estudiante/getAllByGroupId/${group_id}`),"GET",token)
-    
-  
 
   useEffect(() => {
     if (IsPending===false && Data){
@@ -50,7 +47,6 @@ const FormTeam = ({group_id}) => {
       let list_aux = Data.map((elem)=>({nombre:`${elem.nombre} ${elem.apellido_paterno} ${elem.apellido_materno}`,id:elem.id}))
       console.log(list_aux)
       setRight(list_aux)
-
     }
   }, [IsPending])
   
