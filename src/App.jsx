@@ -20,7 +20,7 @@ import CasesStudentPage from "./pages/Student/CasesStudentPage";
 import TeamsStudentPage from "./pages/Student/TeamsStudentPage";
 import GroupViewTeacherPage from "./pages/Teacher/GroupViewTeacherPage";
 import GroupsAdminPage from "./pages/Admin/GroupsAdminPage";
-
+import "../public/styles/app.css"
 
 const App = (props) => {
   return (
