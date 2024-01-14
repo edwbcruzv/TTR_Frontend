@@ -11,6 +11,7 @@ const CasesTeacherPage = () => {
         <CrudCaseProvider>
         <FullScreenCaseCreate/>
         <Divider/>
+        <br />
         <TableCases/>
       </CrudCaseProvider>
     </MiniDrawerFrame>

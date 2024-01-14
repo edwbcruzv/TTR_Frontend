@@ -99,7 +99,11 @@ const FormTeam = ({group_id}) => {
       {/* <Grid item xs={12} sm={6}><TextField {...register('profesor',{required:{value:true,message:"Es requerido"}}         )} id='profesor' label="Profesor" type='text' variant='outlined' error={errors.profesor} helperText={(errors.profesor)&&errors.profesor.message} /></Grid> */}
       <Grid item xs={12} sm={12}><TransferListStudents  left={left} setLeft={setLeft} right={right} setRight={setRight} /></Grid>
       <Grid item xs={12} sm={12}>
-      <Button variant="outlined" color="primary" type='submit'  >Crear</Button>
+        {left.length > 6?
+          "El equipo no puede ser mayor a 6 estudiantes"
+        :
+          <Button variant="outlined" color="primary" type='submit'  >Crear</Button>
+        }
       </Grid>
       </Grid>
     </Box>

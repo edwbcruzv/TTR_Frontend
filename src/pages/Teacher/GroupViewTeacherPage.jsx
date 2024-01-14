@@ -7,16 +7,19 @@ import { Divider } from '@mui/material'
 import FullScreenTeamCreate from '../../components/forms/Teams/FullScreenTeamCreate'
 
 
+
 function GroupViewTeacherPage() {
 
   const { id } = useParams();
 
   
   return (
-    <MiniDrawerFrame>{id}
+    <MiniDrawerFrame>
         <CrudTeamProvider>
           <FullScreenTeamCreate group_id={id} />
+          <br />
           <Divider/>
+          <br />
           <TableTeams group_id={id}/>
         </CrudTeamProvider>
     </MiniDrawerFrame>
