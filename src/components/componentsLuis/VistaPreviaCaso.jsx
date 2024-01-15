@@ -1,6 +1,7 @@
 import React from "react";
 import "../../../public/styles/vistapreviacaso.css";
 import img from "../../../public/assets/alumnos.png";
+
 const VistaPreviaCaso = () => {
   return (
     <div className="vista-previa">

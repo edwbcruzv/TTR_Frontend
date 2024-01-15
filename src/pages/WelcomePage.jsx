@@ -75,8 +75,6 @@ const WelcomePage = (props) => {
         <MetodoCasos />
         <Caso />
       </Grid>
-
-      <VistaPreviaCaso />
       <Footer />
     </>
   );
