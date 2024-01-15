@@ -1,11 +1,13 @@
 import * as React from 'react';
-import { useState } from 'react';
 import { styled } from '@mui/material/styles';
 import Button from '@mui/material/Button';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
-import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
-import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
+import LinearProgress from '@mui/material/LinearProgress';
 import { Stack } from '@mui/material';
+import axios from 'axios';
+import { helperAXIOS } from '../../../helpers/helperAXIOS';
+import useAuth from '../../../hooks/useAuth';
+import { URI_BACKEND } from '../../../utils/urls';
 
 const VisuallyHiddenInput = styled('input')({
   clip: 'rect(0 0 0 0)',
@@ -20,11 +22,23 @@ const VisuallyHiddenInput = styled('input')({
 });
 
 export default function FilesUpload() {
-  const [files, setFiles] = useState([]);
-
+  const {token,id} = useAuth()
+  const [files, setFiles] = React.useState([]);
+  const [uploadProgress, setUploadProgress] = React.useState(0);
+  const {
+    get,
+    post,
+    put,
+    patch,
+    del
+} = helperAXIOS()
   const handleFileChange = (event) => {
     const newFiles = Array.from(event.target.files);
-    setFiles([...files, ...newFiles]);
+    if (files.length + newFiles.length > 4) {
+      alert('Solo se permiten 4 archivos.');
+    } else {
+      setFiles([...files, ...newFiles]);
+    }
   };
 
   const handleRemoveFile = (index) => {
@@ -33,67 +47,62 @@ export default function FilesUpload() {
     setFiles(newFiles);
   };
 
-  const handleMoveUp = (index) => {
-    if (index > 0) {
-      const newFiles = [...files];
-      [newFiles[index], newFiles[index - 1]] = [newFiles[index - 1], newFiles[index]];
-      setFiles(newFiles);
-    }
-  };
-
-  const handleMoveDown = (index) => {
-    if (index < files.length - 1) {
-      const newFiles = [...files];
-      [newFiles[index], newFiles[index + 1]] = [newFiles[index + 1], newFiles[index]];
-      setFiles(newFiles);
-    }
+  const handleUploadIndividual = async (file) => {
+    console.log(file)
+    const formData = new FormData();
+    formData.append('usuario_id', id); // Reemplaza con el valor correcto
+    formData.append('caso_estudio_id', null); // Reemplaza con el valor correcto
+    formData.append('descripcion', 'desc by cruz.'); // Reemplaza con el valor correcto
+    formData.append('numero_orden', 0); // Reemplaza con el valor correcto
+    formData.append('archivoMultimedia', file);
+    console.log(formData)
+    let res = await post(URI_BACKEND('multimedia'),formData,token)
+      if (res.status === 200) {
+        // setLoading(false)
+        console.log(res)
+        // setResponse(res)
+        // handleCloseModalForm()
+      }else{
+        console.log(res)
+        // setError(res.error)
+      }
+      // setLoading(false)
   };
 
   return (
     <div>
       <Button component="label" variant="contained" startIcon={<CloudUploadIcon />}>
         Subir Archivo
-        <VisuallyHiddenInput
-          type="file"
-          multiple
-          onChange={handleFileChange}
-        />
+        <VisuallyHiddenInput type="file" multiple onChange={handleFileChange} />
       </Button>
 
-      {files.length > 0 && (
+      {files !== null && files.length > 0 && (
         <div>
           <h3>Archivos Cargados</h3>
           <ul>
             {files.map((file, index) => (
-              <li key={index} style={{ width:'auto', marginBottom: '10px', padding: '10px', border: '1px solid #ccc', borderRadius: '5px', display: 'flex', alignItems: 'center' }}>
+              <li
+                key={index}
+                style={{
+                  width: 'auto',
+                  marginBottom: '10px',
+                  padding: '10px',
+                  border: '1px solid #ccc',
+                  borderRadius: '5px',
+                  display: 'flex',
+                  alignItems: 'center',
+                }}
+              >
                 <Stack style={{ flex: 1 }}>
                   <strong>{file.name}</strong>
-                  {file.type.startsWith('image/') && (
-                    <img src={URL.createObjectURL(file)} alt={file.name} style={{ maxWidth: '100px', maxHeight: '100px', margin: '10px 0' }} />
-                  )}
-                  {file.type.startsWith('video/') && (
-                    <video controls width="100" height="100" style={{ margin: '10px 0' }}>
-                      <source src={URL.createObjectURL(file)} type={file.type} />
-                    </video>
-                  )}
-                  {file.type.startsWith('audio/') && (
-                    <audio controls style={{ margin: '10px 0' }}>
-                      <source src={URL.createObjectURL(file)} type={file.type} />
-                    </audio>
-                  )}
-                  {file.type === 'application/pdf' && (
-                    <embed src={URL.createObjectURL(file)} width="100" height="100" type="application/pdf" style={{ margin: '10px 0' }} />
-                  )}
+                  {/* ... Resto del código para mostrar el tipo de archivo */}
                 </Stack>
                 <Stack>
                   <Button variant="outlined" onClick={() => handleRemoveFile(index)} style={{ marginLeft: '10px' }}>
                     Remove
                   </Button>
-                  <Button variant="outlined" onClick={() => handleMoveUp(index)} disabled={index === 0} style={{ marginLeft: '10px' }}>
-                    <ArrowUpwardIcon />
-                  </Button>
-                  <Button variant="outlined" onClick={() => handleMoveDown(index)} disabled={index === files.length - 1} style={{ marginLeft: '10px' }}>
-                    <ArrowDownwardIcon />
+                  <Button variant="outlined" onClick={() => handleUploadIndividual(file)} style={{ marginLeft: '10px' }}>
+                    Cargar
                   </Button>
                 </Stack>
               </li>
@@ -101,6 +110,7 @@ export default function FilesUpload() {
           </ul>
         </div>
       )}
+      {uploadProgress > 0 && <LinearProgress variant="determinate" value={uploadProgress} />}
     </div>
   );
 }

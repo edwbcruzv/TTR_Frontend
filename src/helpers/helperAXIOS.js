@@ -12,7 +12,7 @@ export const helperAXIOS = () => {
 
     const customRequest = async (url, method = 'GET', data = null, token = null) => {
         // console.log("Helper_Data:"+data)
-        // console.log("Helper_Token:"+token)
+        // console.log(data instanceof FormData )
         try {
             const config = {
                 method,
