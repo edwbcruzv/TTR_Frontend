@@ -108,6 +108,7 @@ function FormRegister() {
       alignContent="center"
       wrap="wrap"
     >
+      <h2>Registrate</h2>
       <Grid item>
         {!dataToEdit.id ? (
           <FormControl>
@@ -291,6 +292,7 @@ function FormRegister() {
           {valueRbtn === ROL_TEACHER && (
             <>
               <Grid item xs={12} sm={6} className ="input-box">
+                <h2>Registrate</h2>
                 <input
                   {...register("cedula")}
                   id="cedula"
