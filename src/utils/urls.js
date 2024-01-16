@@ -3,7 +3,7 @@
 const PUERTO = 8080
 const ESQUEMA = 'http'
 const AUTORIDAD = `localhost:${PUERTO}`
-
+export const SERVER_URL = `${ESQUEMA}://${AUTORIDAD}`
 // Aqui en adelante no moverle.
 const API = `api`
 const PATH = (recurso) => `${API}/${recurso}`
@@ -11,6 +11,6 @@ const PATH = (recurso) => `${API}/${recurso}`
 
 export const URI_BACKEND =(recurso)=>{
 
-    return `${ESQUEMA}://${AUTORIDAD}/${PATH(recurso)}`
+    return `${SERVER_URL}/${PATH(recurso)}`
 
 }

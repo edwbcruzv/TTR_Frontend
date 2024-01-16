@@ -7,7 +7,9 @@ import { Stack } from '@mui/material';
 import axios from 'axios';
 import { helperAXIOS } from '../../../helpers/helperAXIOS';
 import useAuth from '../../../hooks/useAuth';
-import { URI_BACKEND } from '../../../utils/urls';
+import { SERVER_URL, URI_BACKEND } from '../../../utils/urls';
+import { useEffect } from 'react';
+import useAxios from '../../../hooks/useAxios';
 
 const VisuallyHiddenInput = styled('input')({
   clip: 'rect(0 0 0 0)',
@@ -21,17 +23,22 @@ const VisuallyHiddenInput = styled('input')({
   width: 1,
 });
 
-export default function FilesUpload() {
-  const {token,id} = useAuth()
+export default function FilesUpload({ name, setValue, multimedia, setMultimedia }) {
+  const { token, id } = useAuth();
   const [files, setFiles] = React.useState([]);
-  const [uploadProgress, setUploadProgress] = React.useState(0);
+  const [uploadedFiles, setUploadedFiles] = React.useState([]);
+  const [loading, setLoading] = React.useState([]);
+  const [error, setError] = React.useState([]);
   const {
     get,
     post,
     put,
     patch,
     del
-} = helperAXIOS()
+  } = helperAXIOS();
+
+  const { Data, IsPending, Error } = useAxios(URI_BACKEND(`multimedia/getMultimediasByIds`), "POST", { multimedias_ids: multimedia }, token);
+
   const handleFileChange = (event) => {
     const newFiles = Array.from(event.target.files);
     if (files.length + newFiles.length > 4) {
@@ -41,6 +48,16 @@ export default function FilesUpload() {
     }
   };
 
+  useEffect(() => {
+    if (IsPending === false && Data) {
+      let newData = Data.map((elem,index)=>({...elem,id:multimedia[index]}))
+      setUploadedFiles(newData);
+    }
+    return () => {
+      setValue(name, multimedia);
+    };
+  }, [IsPending, Data,multimedia]);
+
   const handleRemoveFile = (index) => {
     const newFiles = [...files];
     newFiles.splice(index, 1);
@@ -48,25 +65,50 @@ export default function FilesUpload() {
   };
 
   const handleUploadIndividual = async (file) => {
-    console.log(file)
     const formData = new FormData();
-    formData.append('usuario_id', id); // Reemplaza con el valor correcto
-    formData.append('caso_estudio_id', null); // Reemplaza con el valor correcto
-    formData.append('descripcion', 'desc by cruz.'); // Reemplaza con el valor correcto
-    formData.append('numero_orden', 0); // Reemplaza con el valor correcto
-    formData.append('archivoMultimedia', file);
-    console.log(formData)
-    let res = await post(URI_BACKEND('multimedia'),formData,token)
+    formData.append('usuario_id', id);
+    formData.append('nombre', file.name.split('.')[0]);
+    formData.append('archivo_multimedia', file);
+
+    try {
+      let res = await post(URI_BACKEND('multimedia'), formData, token);
       if (res.status === 200) {
-        // setLoading(false)
-        console.log(res)
-        // setResponse(res)
-        // handleCloseModalForm()
-      }else{
-        console.log(res)
-        // setError(res.error)
+        setLoading(false);
+        console.log(res);
+        file.id=res.data.id
+        setUploadedFiles([...uploadedFiles, file]); // Agrega el archivo a la lista de archivos cargados
+        setMultimedia([...multimedia, res.data.id])
+        console.log(file.id)
+      } else {
+        console.error(res);
+        setError(res.error);
       }
-      // setLoading(false)
+    } catch (uploadError) {
+      console.error('Error al subir el archivo:', uploadError);
+    } finally {
+      // Elimina el archivo de la lista de archivos pendientes de carga
+      const newFiles = files.filter((f) => f !== file);
+      setFiles(newFiles);
+      setLoading(false);
+    }
+  };
+
+  const handleDeleteIndividual = async (id) => {
+    try {
+      let res = await del(URI_BACKEND(`multimedia/${id}`), token);
+      if (res.status === 200) {
+        setLoading(false);
+        console.log(res);
+        // setUploadedFiles([...uploadedFiles, file]); // Agrega el archivo a la lista de archivos cargados
+        
+        setMultimedia(lista.filter(elemento => elemento !== id))
+      } else {
+        console.error(res);
+        setError(res.error);
+      }
+    } catch (uploadError) {
+      console.error('Error al eliminar el archivo:', uploadError);
+    } 
   };
 
   return (
@@ -78,7 +120,7 @@ export default function FilesUpload() {
 
       {files !== null && files.length > 0 && (
         <div>
-          <h3>Archivos Cargados</h3>
+          <h3>Archivos Pendientes</h3>
           <ul>
             {files.map((file, index) => (
               <li
@@ -94,8 +136,7 @@ export default function FilesUpload() {
                 }}
               >
                 <Stack style={{ flex: 1 }}>
-                  <strong>{file.name}</strong>
-                  {/* ... Resto del código para mostrar el tipo de archivo */}
+                  <strong>{file.name || file.filename}</strong>
                 </Stack>
                 <Stack>
                   <Button variant="outlined" onClick={() => handleRemoveFile(index)} style={{ marginLeft: '10px' }}>
@@ -110,7 +151,38 @@ export default function FilesUpload() {
           </ul>
         </div>
       )}
-      {uploadProgress > 0 && <LinearProgress variant="determinate" value={uploadProgress} />}
+
+      {uploadedFiles !== null && uploadedFiles.length > 0 && (
+        <div>
+          <h3>Archivos Cargados</h3>
+          <ul>
+            {uploadedFiles.map((uploadedFile, index) => (
+              <li
+                key={index}
+                style={{
+                  width: 'auto',
+                  marginBottom: '10px',
+                  padding: '10px',
+                  border: '1px solid #ccc',
+                  borderRadius: '5px',
+                  display: 'flex',
+                  alignItems: 'center',
+                }}
+              >
+                <Stack style={{ flex: 1 }}>
+                  <strong>{uploadedFile.name || uploadedFile.filename}</strong>
+                </Stack>
+                <Stack>
+                <Button variant="outlined" onClick={() => handleDeleteIndividual(uploadedFile.id)} style={{ marginLeft: '10px' }}>
+                    Eliminar
+                  </Button>
+                </Stack>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
+
     </div>
   );
 }
