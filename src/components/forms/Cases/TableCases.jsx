@@ -64,7 +64,7 @@ export default function TableCases() {
     if (IsPending===false && Data) {
       const data_temp = Data.map((elem) => ({
         titulo:elem.titulo,
-        resumen:elem.resumen,
+        introduccion:elem.introduccion,
         editar: <Button onClick={() => viewDataEdit(elem["id"])} color="info">Editar</Button>,
         eliminar: <Button onClick={() => deleteData(elem["id"])} color="error">Eliminar</Button>,
       }))
@@ -83,7 +83,7 @@ export default function TableCases() {
             <TableCell />
             {/* <TableCell>Dessert (100g serving)</TableCell> */}
             <TableCell align="right">Titulo</TableCell>
-            <TableCell align="right">Resumen</TableCell>
+            <TableCell align="right">Introduccion</TableCell>
             <TableCell align="right">Editar</TableCell>
             <TableCell align="right">Eliminar</TableCell>
           </TableRow>

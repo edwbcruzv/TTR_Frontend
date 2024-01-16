@@ -30,7 +30,7 @@ function RowCase(props) {
           <TableCell component="th" scope="row">
             {row.titulo}
           </TableCell>
-          <TableCell align="right">{row.resumen}</TableCell>
+          <TableCell align="right">{row.introduccion}</TableCell>
           <TableCell align="right">{row.editar}</TableCell>
           <TableCell align="right">{row.eliminar}</TableCell>
         </TableRow>
@@ -76,7 +76,7 @@ function RowCase(props) {
   RowCase.propTypes = {
     row: PropTypes.shape({
       titulo:PropTypes.string.isRequired,
-      resumen:PropTypes.string.isRequired,
+      introduccion:PropTypes.string.isRequired,
       editar:PropTypes.element.isRequired,
       eliminar:PropTypes.element.isRequired
     }).isRequired,

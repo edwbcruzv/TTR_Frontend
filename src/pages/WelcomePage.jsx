@@ -9,7 +9,7 @@ import FormLogin from "../components/forms/Auth/FormLogin";
 import FormUser from "../components/forms/Users/FormUser";
 import { CrudUserProvider } from "../context/CrudUserContext";
 import FormRegister from "../components/forms/Auth/FormRegister";
-import Fondoinicio from "../components/componentsLuis/Fondoinicio";
+import Fondoinicio from "../components/componentsLuis/FondoInicio";
 import MetodoCasos from "../components/componentsLuis/MetodoCasos";
 import Caso from "../components/componentsLuis/Caso";
 import VistaPreviaCaso from "../components/componentsLuis/VistaPreviaCaso";

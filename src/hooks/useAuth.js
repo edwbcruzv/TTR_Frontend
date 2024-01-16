@@ -32,6 +32,9 @@ export default function useAuth (){
             }
         }else{
             console.log("Token no es valido, token:"+token)
+            setRol(null) 
+            setToken(null)
+            localStorage.removeItem("token")
         }
             
 

@@ -32,7 +32,6 @@ function CrudUserProvider({children}) {
         console.log("cerrando")
         setOpenModalForm(false);
         setDataToEdit(initialForm)
-        window.location.reload();
     };
 
   async function viewDataEdit(url,id) {
@@ -69,6 +68,7 @@ function CrudUserProvider({children}) {
     }
     setLoading(false)
     handleCloseModal()
+    window.location.reload();
   }
 
   async function updateData(url,data) {
@@ -86,6 +86,7 @@ function CrudUserProvider({children}) {
     }
     setLoading(false)
     handleCloseModal()
+    window.location.reload();
   }
 
   async function deleteData(url,id) {
@@ -103,6 +104,7 @@ function CrudUserProvider({children}) {
       }
     }
     setLoading(false)
+    window.location.reload();
   }
 
     const data={response,error,loading,

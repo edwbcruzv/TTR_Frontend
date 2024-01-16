@@ -1,75 +1,31 @@
-import React from "react";
-import PropTypes from "prop-types";
-import { useState } from "react";
-import ReactQuill from "react-quill";
-import "react-quill/dist/quill.snow.css";
-import { useEffect } from "react";
-import FilesUpload from "./FilesUpload";
-import { useContext } from "react";
-import CrudCaseContext from "../../../context/CrudCaseContext";
-import { Grid, Paper, Typography } from "@mui/material";
+import React from 'react';
+import { Grid, Paper, Typography } from '@mui/material';
+import FilesUpload from './FilesUpload';
+import { useContext } from 'react';
+import CrudCaseContext from '../../../context/CrudCaseContext';
 
-const quillStyle = {
-  width: "700px",
-  height: "400px",
-  marginBottom: "80px",
+const paperStyle = {
+  padding: '20px',
+  marginBottom: '20px',
+  minHeight: '200px',
+  overflow: 'auto',
 };
 
-const modules = {
-  toolbar: [
-    [{ header: [1, 2, 3, 4, 5, 6, false] }],
-    ["bold", "italic", "underline", "strike"],
-    [{ list: "ordered" }, { list: "bullet" }],
-    ["link", "image"],
-    ["blockquote", "code-block"],
-    [{ align: [] }],
-    [{ color: [] }, { background: [] }],
-    ["clean"],
-  ],
+// Estilos por defecto para las etiquetas HTML básicas
+const defaultHtmlStyles = {
+  fontSize: '16px',
+  lineHeight: '1.6',
+  fontFamily: 'Arial, sans-serif', // Cambia la fuente según tus preferencias
+  margin: '0', // Elimina el margen por defecto
+  padding: '0', // Elimina el padding por defecto
+  textAlign: 'justify', // Justifica el texto
+  color: '#000000', // Color del texto
 };
 
-const formats = [
-  "header",
-  "font",
-  "size",
-  "bold",
-  "italic",
-  "underline",
-  "strike",
-  "blockquote",
-  "list",
-  "bullet",
-  "indent",
-  "link",
-  "image",
-  "video",
-  "color",
-  "background",
-];
+const FormCaseStepView = ({ name }) => {
+  const { watch, getValues } = useContext(CrudCaseContext);
 
-const placeholder = "Escribe algo...";
-
-const theme = "snow";
-
-const FormCaseStepView = ({ name, label }) => {
-  const {
-    response,
-    error,
-    loading,
-    viewDataEdit,
-    createData,
-    updateData,
-    deleteData,
-    register,
-    handleSubmit,
-    watch,
-    errors,
-    setValue,
-    getValues,
-    openModalForm,
-    handleOpenModal,
-    handleCloseModal,
-  } = useContext(CrudCaseContext);
+  const sanitizedHtml = watch(name); // Asegúrate de que el HTML es seguro antes de usar dangerouslySetInnerHTML
 
   return (
     <Grid
@@ -84,49 +40,39 @@ const FormCaseStepView = ({ name, label }) => {
       {getValues()[name] !== undefined && (
         <>
           <Grid item xs={8}>
-            <Paper elevation={3}>
-              <Typography variant="h5" gutterBottom>
-                {label}
-              </Typography>
-              <div dangerouslySetInnerHTML={{ __html: watch(name) }} />
+            <Paper elevation={3} style={paperStyle}>
+              <div
+                dangerouslySetInnerHTML={{ __html: sanitizedHtml }}
+                style={defaultHtmlStyles}
+              />
             </Paper>
           </Grid>
           <Grid item xs={4}>
-            <FilesUpload />
+            {/* <FilesUpload /> */}
           </Grid>
         </>
       )}
       <Grid item xs={8}>
-        <Paper elevation={3}>
-          {name === "inicio" && (
-            <>
-              <Grid item xs={12}>
-                <Typography variant="h4" color="initial">
-                  {watch("titulo")}
-                </Typography>
-              </Grid>
-              <Grid item xs={12}>
-                <Typography variant="h6" color="initial">
-                  {watch("introduccion")}
-                </Typography>
-              </Grid>
-            </>
-          )}
-          {name === "final" && (
-            <>
-              <Grid item xs={12}>
-                <Typography variant="h6" color="initial">
-                  {watch("conclusion")}
-                </Typography>
-              </Grid>
-              <Grid item xs={12}>
-                <Typography variant="h6" color="initial">
-                  {watch("comentarios")}
-                </Typography>
-              </Grid>
-            </>
-          )}
-        </Paper>
+        {name === 'inicio' && (
+          <Paper elevation={3} style={paperStyle}>
+            <Typography variant="h4" color="initial">
+              {watch('titulo')}
+            </Typography>
+            <Typography variant="h6" color="initial">
+              {watch('introduccion')}
+            </Typography>
+          </Paper>
+        )}
+        {name === 'final' && (
+          <Paper elevation={3} style={paperStyle}>
+            <Typography variant="h6" color="initial">
+              {watch('conclusion')}
+            </Typography>
+            <Typography variant="h6" color="initial">
+              {watch('comentarios')}
+            </Typography>
+          </Paper>
+        )}
       </Grid>
     </Grid>
   );
