@@ -4,6 +4,7 @@ import { CrudCaseProvider } from '../../context/CrudCaseContext'
 import FullScreenCaseCreate from '../../components/forms/Cases/FullScreenCaseCreate'
 import { Divider } from '@mui/material'
 import TableCases from '../../components/forms/Cases/TableCases'
+import "../../../public/styles/dashboard_teacher.css"
 
 const CasesTeacherPage = () => {
   return (

@@ -38,6 +38,7 @@ import GroupsOutlinedIcon from '@mui/icons-material/GroupsOutlined';
 import Diversity3OutlinedIcon from '@mui/icons-material/Diversity3Outlined';
 import PendingActionsOutlinedIcon from '@mui/icons-material/PendingActionsOutlined';
 import AssignmentLateOutlinedIcon from '@mui/icons-material/AssignmentLateOutlined';
+import "../../../public/styles/header.css"
 
 const itemsHeader = [
   {textItem: "Inicio", path:"", iconItem:<HomeIcon />}
@@ -316,7 +317,7 @@ export default function MiniDrawerFrame({children}) {
     <Box sx={{ display: 'flex' }}>
       <CssBaseline />
       <AppBar position="fixed" open={open}>
-        <Toolbar>
+        <Toolbar className ="nav"> 
           <IconButton
             color="inherit"
             aria-label="open drawer"
