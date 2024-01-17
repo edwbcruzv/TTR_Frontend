@@ -42,14 +42,7 @@ function RowCase(props) {
                   History
                 </Typography>
                 <Table size="small" aria-label="purchases">
-                  <TableHead>
-                    <TableRow>
-                      <TableCell>Date</TableCell>
-                      <TableCell>Customer</TableCell>
-                      <TableCell align="right">Amount</TableCell>
-                      <TableCell align="right">Total price ($)</TableCell>
-                    </TableRow>
-                  </TableHead>
+                
                   <TableBody>
                     {/* {row.history.map((historyRow) => (
                       <TableRow key={historyRow.date}>

@@ -14,12 +14,12 @@ const Fondoinicio = () => {
           <div className="contentBx">
             <h1>Casebuilder</h1>
             <h2>Creador de casos</h2>
-            <h3>Herramienta de apoyo para la creación de casos</h3>
+            <h3>Herramienta didáctica de apoyo para la creación de casos</h3>
             <p>
-              Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cumque
-              nisi maxime voluptatibus officia reiciendis amet animi debitis
-              impedit maiores expedita recusandae provident vero eaque facilis
-              minus ipsum, nesciunt quidem dolore.
+              Esta herramienta web le permitirá a los profesores de la ESCOM, a crear
+              ejericicios basado en el método de casos el cual reciben el nombre de casos.
+              Los profesores podrán añadir contenido digital multimedia para generar los 
+              casos.
             </p>
           </div>
         </div>

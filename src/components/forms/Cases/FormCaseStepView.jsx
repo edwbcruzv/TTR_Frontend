@@ -3,6 +3,7 @@ import { Grid, Paper, Typography } from '@mui/material';
 import FilesUpload from './FilesUpload';
 import { useContext } from 'react';
 import CrudCaseContext from '../../../context/CrudCaseContext';
+import "../../../../public/styles/vistapreviacaso.css";
 
 const paperStyle = {
   padding: '20px',
@@ -55,12 +56,13 @@ const FormCaseStepView = ({ name }) => {
       <Grid item xs={8}>
         {name === 'inicio' && (
           <Paper elevation={3} style={paperStyle}>
-            <Typography variant="h4" color="initial">
-              {watch('titulo')}
-            </Typography>
-            <Typography variant="h6" color="initial">
+
+           <div className="apartado">
+           <Typography variant="h6" color="initial">
               {watch('introduccion')}
             </Typography>
+           </div>
+            
           </Paper>
         )}
         {name === 'final' && (

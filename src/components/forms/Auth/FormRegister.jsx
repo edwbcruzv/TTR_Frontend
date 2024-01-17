@@ -292,7 +292,6 @@ function FormRegister() {
           {valueRbtn === ROL_TEACHER && (
             <>
               <Grid item xs={12} sm={6} className ="input-box">
-                <h2>Registrate</h2>
                 <input
                   {...register("cedula")}
                   id="cedula"

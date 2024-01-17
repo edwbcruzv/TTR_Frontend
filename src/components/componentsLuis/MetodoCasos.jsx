@@ -8,13 +8,14 @@ const MetodoCasos = () => {
       <img src={fondoimg} alt="idea" className="fondoimg" />
       <div className="content">
         <div className="contentBx">
-        <h1>¿Qué es el método de casos?</h1>
-        <p>
-          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusantium,
-          error consectetur delectus sequi numquam sint, nulla maiores veritatis
-          culpa vero modi! Deserunt velit harum architecto possimus magnam
-          libero atque veritatis!
-        </p>
+          <h1>¿Qué es el método de casos?</h1>
+          <p>
+            De acuerdo con Dirección de Investigación e Innovación Educativa en
+            su libro "Método de Casos Técnicas didácticas" redacta que el método
+            de casos es un modo de enseñanza en el que los alumnos construyen su
+            aprendizaje a partir del análisis y discusión de experiencias y
+            situaciones de la vida real.
+          </p>
         </div>
       </div>
     </section>
