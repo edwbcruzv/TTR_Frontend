@@ -8,6 +8,7 @@ import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Grid';
 import copy from 'clipboard-copy';
 import { useNavigate } from 'react-router-dom';
+import ModalViewStudents from '../Students/ModalViewStudents';
 
 export default function CardGroup({group}) {
   const {
@@ -24,7 +25,8 @@ export default function CardGroup({group}) {
       navigate(`/teacher/group/${id}`,{replace:true}
       );
     };
-
+    const [open, setOpen] = React.useState(false);
+    const handleOpen = () => setOpen(true);
   const handleCopyCode = () => {
     copy(clave);
     alert(`Código "${clave}" copiado al portapapeles`);
@@ -37,6 +39,7 @@ export default function CardGroup({group}) {
         image="/images/fondo_card.jpg"
         title="green iguana"
       />
+      <ModalViewStudents group_id={id} open={open} setOpen={setOpen} />
       <CardContent>
         <Grid container justifyContent="space-between">
           <Grid item>
@@ -56,7 +59,7 @@ export default function CardGroup({group}) {
       </CardContent>
       <CardActions>
         <Button size="small" onClick={handleGroup} >Equipos</Button>
-        <Button size="small">Alumnos</Button>
+        <Button size="small" onClick={handleOpen}>Alumnos</Button>
         <Button size="small" onClick={handleCopyCode}>
           Copiar Código
         </Button>

@@ -7,27 +7,15 @@ import useAuth from '../../../hooks/useAuth'
 import { URI_BACKEND } from '../../../utils/urls'
 import useAxios from '../../../hooks/useAxios'
 import { useEffect } from 'react'
+import SelectionMultiCases from '../Cases/SelectionMultiCases'
+import { helperAXIOS } from '../../../helpers/helperAXIOS'
+import { useState } from 'react'
 
-const lista1=[
-  {nombre:"nombre1",id:1},
-  {nombre:"nombre2",id:2},
-  {nombre:"nombre3",id:3},
-  {nombre:"nombre4",id:4},
-  {nombre:"nombre5",id:5},
-]
-
-const lista2=[
-  {nombre:"nombre10",id:10},
-  {nombre:"nombre20",id:20},
-  {nombre:"nombre30",id:30},
-  {nombre:"nombre40",id:40},
-  {nombre:"nombre50",id:50},
-]
 
 
 
 const FormTeam = ({group_id}) => {
-  const {token} = useAuth()
+  const {token,id} = useAuth()
   const {response,error,loading,
     renderizar, setRenderizar,
     viewDataEdit,createData,
@@ -37,16 +25,25 @@ const FormTeam = ({group_id}) => {
     openModalView,handleOpenModalView,handleCloseModalView,
     left, setLeft,
     right, setRight} =useContext(CrudTeamContext)
-    
-  
+    const {get,post,put,patch,del} = helperAXIOS()
+  const [cases, setCases] = useState([])
   const {Data,IsPending,Error}=useAxios(URI_BACKEND(`estudiante/getAllByGroupId/${group_id}/NotTeam`),"GET",token)
 
   useEffect(() => {
+    async function f1() {
+      let res3 = await get(URI_BACKEND(`caso-estudio/getAllByProfesorId/${id}`),token)
+      let list_aux3 = res3.data.map((elem)=>({name:elem.titulo ,id:elem.id}))
+      console.log(list_aux3)
+      setCases(list_aux3|| [])
+    }
     if (IsPending===false && Data){
       setValue("grupo_id",group_id)
       let list_aux = Data.map((elem)=>({nombre:`${elem.nombre} ${elem.apellido_paterno} ${elem.apellido_materno}`,id:elem.id}))
-      console.log(list_aux)
+      // console.log(list_aux)
+      f1()
       setRight(list_aux)
+
+
     }
   }, [IsPending])
   
@@ -94,9 +91,17 @@ const FormTeam = ({group_id}) => {
   
   
       >
-
-      <Grid item xs={12} sm={6}><TextField {...register('nombre',{required:{value:true,message:"Es requerido"}}         )} id='nombre' label="Nombre del equipo" type='text' variant='outlined' error={errors.nombre} helperText={(errors.nombre)&&errors.nombre.message} /></Grid>
-      {/* <Grid item xs={12} sm={6}><TextField {...register('profesor',{required:{value:true,message:"Es requerido"}}         )} id='profesor' label="Profesor" type='text' variant='outlined' error={errors.profesor} helperText={(errors.profesor)&&errors.profesor.message} /></Grid> */}
+      {/* <Grid spacing={2}
+      direction="row"
+      justifyContent="center"
+      alignItems="flex-center"
+      alignContent="center"
+      wrap="wrap"
+      > */}
+        
+      <Grid item xs={8}><TextField {...register('nombre',{required:{value:true,message:"Es requerido"}}         )} id='nombre' label="Nombre del equipo" type='text' variant='outlined' error={errors.nombre} helperText={(errors.nombre)&&errors.nombre.message} /></Grid>
+      <Grid item xs={4}><SelectionMultiCases cases_list={cases}  /> </Grid>
+      {/* </Grid> */}
       <Grid item xs={12} sm={12}><TransferListStudents  left={left} setLeft={setLeft} right={right} setRight={setRight} /></Grid>
       <Grid item xs={12} sm={12}>
         {left.length > 6?

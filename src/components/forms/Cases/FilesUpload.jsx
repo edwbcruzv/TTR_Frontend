@@ -10,6 +10,7 @@ import useAuth from '../../../hooks/useAuth';
 import { SERVER_URL, URI_BACKEND } from '../../../utils/urls';
 import { useEffect } from 'react';
 import useAxios from '../../../hooks/useAxios';
+import MultimediaComponent from '../Multi/MultimediaComponent';
 
 const VisuallyHiddenInput = styled('input')({
   clip: 'rect(0 0 0 0)',
@@ -23,40 +24,31 @@ const VisuallyHiddenInput = styled('input')({
   width: 1,
 });
 
-export default function FilesUpload({ name, setValue, multimedia, setMultimedia }) {
+export default function FilesUpload({ name, setValue, uploadedFilesIds, setUploadedFilesIds }) {
+
   const { token, id } = useAuth();
   const [files, setFiles] = React.useState([]);
-  const [uploadedFiles, setUploadedFiles] = React.useState([]);
   const [loading, setLoading] = React.useState([]);
   const [error, setError] = React.useState([]);
-  const {
-    get,
-    post,
-    put,
-    patch,
-    del
-  } = helperAXIOS();
+  const {get,post,put,patch,del } = helperAXIOS();
+  
+  useEffect(() => {
+    console.log(uploadedFilesIds)
 
-  const { Data, IsPending, Error } = useAxios(URI_BACKEND(`multimedia/getMultimediasByIds`), "POST", { multimedias_ids: multimedia }, token);
+    return () => {
+      setValue(name, uploadedFilesIds);
+      console.log("bye")
+    };
+  }, [uploadedFilesIds]);
 
   const handleFileChange = (event) => {
     const newFiles = Array.from(event.target.files);
-    if (files.length + newFiles.length > 4) {
+    if (files.length + uploadedFilesIds.length + newFiles.length > 4) {
       alert('Solo se permiten 4 archivos.');
     } else {
       setFiles([...files, ...newFiles]);
     }
   };
-
-  useEffect(() => {
-    if (IsPending === false && Data) {
-      let newData = Data.map((elem,index)=>({...elem,id:multimedia[index]}))
-      setUploadedFiles(newData);
-    }
-    return () => {
-      setValue(name, multimedia);
-    };
-  }, [IsPending, Data,multimedia]);
 
   const handleRemoveFile = (index) => {
     const newFiles = [...files];
@@ -75,9 +67,7 @@ export default function FilesUpload({ name, setValue, multimedia, setMultimedia 
       if (res.status === 200) {
         setLoading(false);
         console.log(res);
-        file.id=res.data.id
-        setUploadedFiles([...uploadedFiles, file]); // Agrega el archivo a la lista de archivos cargados
-        setMultimedia([...multimedia, res.data.id])
+        setUploadedFilesIds([...uploadedFilesIds, res.data.id]); // Agrega el archivo a la lista de archivos cargados
         console.log(file.id)
       } else {
         console.error(res);
@@ -99,9 +89,7 @@ export default function FilesUpload({ name, setValue, multimedia, setMultimedia 
       if (res.status === 200) {
         setLoading(false);
         console.log(res);
-        // setUploadedFiles([...uploadedFiles, file]); // Agrega el archivo a la lista de archivos cargados
-        
-        setMultimedia(lista.filter(elemento => elemento !== id))
+        setUploadedFilesIds(uploadedFilesIds.filter(elemento => elemento !== id))
       } else {
         console.error(res);
         setError(res.error);
@@ -146,17 +134,18 @@ export default function FilesUpload({ name, setValue, multimedia, setMultimedia 
                     Cargar
                   </Button>
                 </Stack>
+                {console.log(file)}
               </li>
             ))}
           </ul>
         </div>
       )}
 
-      {uploadedFiles !== null && uploadedFiles.length > 0 && (
+      {uploadedFilesIds !== null && uploadedFilesIds.length > 0 && (
         <div>
           <h3>Archivos Cargados</h3>
           <ul>
-            {uploadedFiles.map((uploadedFile, index) => (
+            {uploadedFilesIds.map((uploadedFileId, index) => (
               <li
                 key={index}
                 style={{
@@ -170,10 +159,10 @@ export default function FilesUpload({ name, setValue, multimedia, setMultimedia 
                 }}
               >
                 <Stack style={{ flex: 1 }}>
-                  <strong>{uploadedFile.name || uploadedFile.filename}</strong>
+                  <MultimediaComponent file_id={uploadedFileId} width={100} height={100}  />
                 </Stack>
                 <Stack>
-                <Button variant="outlined" onClick={() => handleDeleteIndividual(uploadedFile.id)} style={{ marginLeft: '10px' }}>
+                <Button variant="outlined" onClick={() => handleDeleteIndividual(uploadedFileId)} style={{ marginLeft: '10px' }}>
                     Eliminar
                   </Button>
                 </Stack>

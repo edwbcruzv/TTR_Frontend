@@ -60,8 +60,13 @@ function CrudTeamProvider({children}) {
           console.log(data)
           let res2 = await post(URI_BACKEND(`estudiante/getEstudiantesByIds`),data,token)
           console.log(res2)
-          let list_aux = res2.data.map((elem)=>({nombre:`${elem.nombre} ${elem.apellido_paterno} ${elem.apellido_materno}`,id:elem.id}))
-          setLeft(list_aux)
+          let list_aux2 = res2.data.map((elem)=>({nombre:`${elem.nombre} ${elem.apellido_paterno} ${elem.apellido_materno}`,id:elem.id}))
+          setLeft(list_aux2)
+
+          // let res3 = await get(URI_BACKEND(`casos-estudio/getAllByProfesorId`),token)
+          // let list_aux3 = res3.data.map((elem)=>({name:elem.titulo ,id:elem.id}))
+          // setLeft(list_aux3|| [])
+
           reset(res.data)
           handleOpenModalForm()
         }else{

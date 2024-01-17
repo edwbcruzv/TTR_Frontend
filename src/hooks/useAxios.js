@@ -35,7 +35,7 @@ function useAxios(url,req="GET", data = null, token = null) {
 
             switch (req) {
                 case "GET":
-                    res = await get(url,data,token)
+                    res = await get(url,token)
                     break;
                 case "POST":
                     res = await post(url, data, token)
@@ -52,7 +52,7 @@ function useAxios(url,req="GET", data = null, token = null) {
                 default:
                     break;
             }
-            // console.log(res)
+            console.log(url,res)
             if (!res.status === 200) { // en el caso de haber un error, res.ok==false
                 throw {
                     error: true,
