@@ -10,6 +10,7 @@ import useAuth from '../../../hooks/useAuth';
 import { SERVER_URL, URI_BACKEND } from '../../../utils/urls';
 import { useEffect } from 'react';
 import useAxios from '../../../hooks/useAxios';
+import MultimediaComponent from '../Multi/MultimediaComponent';
 
 const VisuallyHiddenInput = styled('input')({
   clip: 'rect(0 0 0 0)',
@@ -22,6 +23,32 @@ const VisuallyHiddenInput = styled('input')({
   whiteSpace: 'nowrap',
   width: 1,
 });
+
+function base64toBlob(base64Data, contentType) {
+  const byteCharacters = atob(base64Data);
+  const byteArrays = [];
+
+  for (let offset = 0; offset < byteCharacters.length; offset += 512) {
+    const slice = byteCharacters.slice(offset, offset + 512);
+    const byteNumbers = new Array(slice.length);
+
+    for (let i = 0; i < slice.length; i++) {
+      byteNumbers[i] = slice.charCodeAt(i);
+    }
+
+    const byteArray = new Uint8Array(byteNumbers);
+    byteArrays.push(byteArray);
+  }
+
+  const blob = new Blob(byteArrays, { type: contentType });
+  return blob;
+}
+
+function createFileFromBackendData(backendData) {
+  const blob = base64toBlob(backendData.contentAsByteArray, backendData.contentType);
+  const file = new File([blob], backendData.filename, { type: backendData.contentType });
+  return file;
+}
 
 export default function FilesUpload({ name, setValue, multimedia, setMultimedia }) {
   const { token, id } = useAuth();
@@ -47,11 +74,11 @@ export default function FilesUpload({ name, setValue, multimedia, setMultimedia 
       setFiles([...files, ...newFiles]);
     }
   };
-
+  // const file = createFileFromBackendData(dataFromBackend);
   useEffect(() => {
     if (IsPending === false && Data) {
-      let newData = Data.map((elem,index)=>({...elem,id:multimedia[index]}))
-      setUploadedFiles(newData);
+      // let newData = Data.map((elem,index)=>({...elem,id:multimedia[index]}))
+      setUploadedFiles(Data);
     }
     return () => {
       setValue(name, multimedia);
@@ -146,6 +173,8 @@ export default function FilesUpload({ name, setValue, multimedia, setMultimedia 
                     Cargar
                   </Button>
                 </Stack>
+                {console.log(file)}
+                <MultimediaComponent file={file}/>
               </li>
             ))}
           </ul>
@@ -177,6 +206,8 @@ export default function FilesUpload({ name, setValue, multimedia, setMultimedia 
                     Eliminar
                   </Button>
                 </Stack>
+                {console.log(uploadedFile)}
+                <MultimediaComponent file={uploadedFile}/>
               </li>
             ))}
           </ul>
