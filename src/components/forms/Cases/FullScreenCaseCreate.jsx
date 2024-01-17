@@ -10,6 +10,8 @@ import Slide from '@mui/material/Slide';
 import CaseStepper from './CaseStepper';
 import { useContext } from 'react';
 import CrudCaseContext from '../../../context/CrudCaseContext';
+import { Grid } from '@mui/material';
+import HelpTooltip from '../../Tooltips/HelpTooltip';
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -27,9 +29,19 @@ export default function FullScreenCaseCreate() {
 
   return (
     <React.Fragment>
+      <Grid
+        container
+        spacing={0}
+        direction="row"
+        justifyContent="space-between"
+        alignItems="center"
+        alignContent="center" 
+      >
       <Button variant="outlined" onClick={handleOpenModalForm}>
         Crear nuevo caso
       </Button>
+      <HelpTooltip text={""}/>
+      </Grid>
       <Dialog
         fullScreen
         open={openModalForm}

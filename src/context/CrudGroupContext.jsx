@@ -18,8 +18,7 @@ const initialForm={
 function CrudGroupProvider({children}) {
 
   const {token,rol,id} = useAuth()
-  initialForm.profesor_id=id
-  const {register,handleSubmit,watch,reset,formState: { errors }} = useForm({defaultValues:initialForm})
+  const {register,handleSubmit,watch,reset,setValue,getValues,formState: { errors }} = useForm({defaultValues:initialForm})
     
     const [error, setError] = useState(null)
     const [response, setResponse] = useState(null)
@@ -35,6 +34,7 @@ function CrudGroupProvider({children}) {
         console.log("cerrando")
         setOpenModalForm(false);
         reset(initialForm)
+        window.location.reload();
     };
 
   async function viewDataEdit(id) {
@@ -101,12 +101,13 @@ function CrudGroupProvider({children}) {
       }
     }
     setLoading(false)
+    window.location.reload();
   }
 
     const data={response,error,loading,
       viewDataEdit,createData,
       updateData,deleteData,
-      register,handleSubmit,watch,errors,
+      register,handleSubmit,watch,errors,reset,setValue,getValues,
       openModalForm,handleOpenModal,handleCloseModal}
     return(
         <CrudGroupContext.Provider value={data}>

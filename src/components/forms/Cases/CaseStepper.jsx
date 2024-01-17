@@ -11,77 +11,107 @@ import Container from '@mui/material/Container'
 import FormCaseStep from './FormCaseStep';
 import CrudCaseContext from '../../../context/CrudCaseContext';
 import { useContext } from 'react';
-import { Stack, Switch } from '@mui/material';
+import { Grid, Stack, Switch } from '@mui/material';
 import FormCaseStepView from './FormCaseStepView';
+import { useEffect } from 'react';
+import HelpTooltip from '../../Tooltips/HelpTooltip';
 
 const steps = [
   {
     name: 'inicio',
     label: 'Datos del caso',
     description: `descripcion`,
-
+    minCaracteres:200,
+    maxCaracteres:1000,
+    helpText:"A cada caso es necesario definir un titulo y una breve descripcion.",
   },
   {
     name: 'resumen',
     label: 'Resumen',
     description: `descripcion`,
-
+    minCaracteres:2000,
+    maxCaracteres:10000,
+    helpText:"El primer apartado para poder llenar es el resumen. Para construir el resumen, deberá iniciarse el proceso de construcción del caso, recordando los hechos en orden cronológico, desarrollando un listado de hechos.",
   },
   {
     name: 'objetivos',
     label: 'Objetivos',
     description: `descripcion`,
+    minCaracteres:2000,
+    maxCaracteres:10000,
+    helpText:"El objetivo del caso es la finalidad que se persigue como trabajo de investigación, el cual debe establecerse con claridad y precisión además que es esencial elegir cuidadosamente el verbo que describe.",
   },
   {
     name: 'clasificacion',
     label: 'Clasificación',
     description: `descripcion`,
+    minCaracteres:2000,
+    maxCaracteres:10000,
+    helpText:"Existen varios criterios en el cual podemos clasificar un caso: Por su extensión, Por su carácter, Casos integrales, Casos reflexivos, Casos creativos y Temporalidad",
   },
   {
     name: 'lugar',
     label: 'Lugar',
     description: `descripcion`,
+    minCaracteres:200,
+    maxCaracteres:1000,
+    helpText:"Es importante enfocar el caso a un país o una región donde se genera el caso, ya que esto permite ubicarlo en un contexto cultural.",
   },
   {
     name: 'temporalidades',
     label: 'Temporalidades',
     description: `descripcion`,
+    minCaracteres:2000,
+    maxCaracteres:10000,
+    helpText:"En la temporalidad no habla que todo caso desprende de una situación real, que evidentemente implico un tiempo para su gestación y desarrollo.",
   },
   {
     name: 'protagonistas',
     label: 'Protagonistas',
     description: `descripcion`,
+    minCaracteres:200,
+    maxCaracteres:1000,
+    helpText:"Los protagonistas del caso se deben identificar claramente los nombre y posiciones jerárquicas de quienes intervienen en el caso. El conocer el puesto que desarrolla cada quien en la organización en que se da la experiencia, contribuye a una mayor comprensión de la situación.",
   },
   {
     name: 'organizaciones',
     label: 'Organizaciones',
     description: `descripcion`,
+    minCaracteres:2000,
+    maxCaracteres:10000,
+    helpText:"El apartado de la organización implica identificar los aspectos positivos y negativos de la propia organización, en relación con la situación que presenta el caso.",
   },
   {
     name: 'preguntas',
     label: 'Preguntas',
     description: `descripcion`,
+    minCaracteres:2000,
+    maxCaracteres:10000,
+    helpText:"En la sección de preguntas consiste en poner por escrito las preguntas que se formulan para ser contestadas en el análisis del caso. ",
   },
   {
     name: 'riesgos',
     label: 'Riesgos',
     description: `descripcion`,
+    minCaracteres:200,
+    maxCaracteres:2000,
+    helpText:"Los riesgos del caso implican identificar los aspectos positivos y negativos del entorno, en relación con la situación que presenta el caso.",
   },
   {
     name: 'resultados',
     label: 'Resultados',
     description: `descripcion`,
-  },
-  {
-    name: 'anexos',
-    label: 'Anexos',
-    description: `descripcion`,
+    minCaracteres:200,
+    maxCaracteres:4000,
+    helpText:"Se deberá indicar sobre que resultados espera el profesor al aplicar el caso ya sea resultados individuales o en equipo.",
   },
   {
     name: 'final',
     label: 'Datos finales',
     description: `descripcion`,
-
+    minCaracteres:20,
+    maxCaracteres:100,
+    helpText:"Se Pueden agregar algun anexo y comentarios finales antes de crear el caso",
   }
 ];
 
@@ -90,6 +120,7 @@ const steps = [
 export default function CaseStepper() {
   const [activeStep, setActiveStep] = React.useState(0);
   const [checked, setChecked] = React.useState(true);
+  const [stepComplete, setStepComplete] = React.useState(true);
   const handleChange = (event) => {
     console.log(event.target.checked)
     setChecked(event.target.checked);
@@ -101,6 +132,8 @@ export default function CaseStepper() {
     register,handleSubmit,watch,errors,
     openModalForm,handleOpenModalForm,handleCloseModalForm,
       openModalView,handleOpenModalView,handleCloseModalView} = useContext(CrudCaseContext)
+
+  
 
   const handleNext = () => {
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
@@ -147,18 +180,24 @@ export default function CaseStepper() {
       <Stepper activeStep={activeStep} orientation="vertical">
         {steps.map((step, index) => (
           <Step key={step.label}>
-            <StepLabel
-              optional={
-                index === 2 ? (
-                  <Typography variant="caption">Last step</Typography>
-                ) : null
-              }
-            >
+            <StepLabel>
+            <Grid
+        container
+        spacing={0}
+        direction="row"
+        justifyContent="space-between"
+        alignItems="center"
+        alignContent="center" 
+      >
+      
               {step.label}
+              <HelpTooltip text={step.helpText} />
+              </Grid>
+
             </StepLabel>
             <StepContent>
               {checked?
-              <FormCaseStep label={step.label} name ={step.name}/>
+              <FormCaseStep label={step.label} stepComplete={stepComplete} minCaracteres={step.minCaracteres} maxCaracteres={step.maxCaracteres} name ={step.name} setStepComplete={setStepComplete} />
             :
             <FormCaseStepView label={step.label} name ={step.name}/>}
                 
@@ -172,20 +211,21 @@ export default function CaseStepper() {
                 <div>
                   {index === steps.length - 1 ? 
 
-                  checked&&<Button
+                  stepComplete&&checked&&<Button
                   variant="contained"
                   onClick={handleSubmit(onSubmit)}
                   sx={{ mt: 1, mr: 1 }}
                 >
                   Guardar
                 </Button>
-                  : 
+                  :
+                  stepComplete&& 
                   <Button
                     variant="contained"
                     onClick={handleNext}
                     sx={{ mt: 1, mr: 1 }}
                   >
-                    Continue
+                    Continuar
                   </Button>
                   }
                   <Button
@@ -195,6 +235,7 @@ export default function CaseStepper() {
                   >
                     Atras
                   </Button>
+                  
                 </div>
               </Box>
             </StepContent>

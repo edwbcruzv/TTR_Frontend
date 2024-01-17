@@ -68,6 +68,7 @@ function CrudUserProvider({children}) {
     }
     setLoading(false)
     handleCloseModal()
+    window.location.reload();
   }
 
   async function updateData(url,data) {
@@ -85,6 +86,7 @@ function CrudUserProvider({children}) {
     }
     setLoading(false)
     handleCloseModal()
+    window.location.reload();
   }
 
   async function deleteData(url,id) {
@@ -102,9 +104,12 @@ function CrudUserProvider({children}) {
       }
     }
     setLoading(false)
+    window.location.reload();
   }
 
-    const data={response,error,loading,viewDataEdit,createData,dataToEdit,setDataToEdit,updateData,deleteData,openModalForm,handleOpenModal,handleCloseModal}
+    const data={response,error,loading,
+      viewDataEdit,createData,dataToEdit,setDataToEdit,updateData,deleteData,
+      openModalForm,handleOpenModal,handleCloseModal}
     return(
         <CrudUserContext.Provider value={data}>
             {children}

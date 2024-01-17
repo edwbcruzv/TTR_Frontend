@@ -18,7 +18,9 @@ import useAuth from '../../../hooks/useAuth';
 function FormUser() {
   const {token} = useAuth()
   const [url, setUrl] = useState(null)
-  const {error,loading,viewDataEdit,createData,dataToEdit,setDataToEdit,updateData,deleteData,openModalForm,handleOpenModal,handleCloseModal} = useContext(CrudUserContext)
+  const {response,error,loading,
+    viewDataEdit,createData,dataToEdit,setDataToEdit,updateData,deleteData,
+    openModalForm,handleOpenModal,handleCloseModal} = useContext(CrudUserContext)
   const [valueRbtn, setValueRbtn] = useState(null);
   const {register,handleSubmit,watch,formState: { errors }} = useForm({defaultValues:dataToEdit})
   
@@ -137,9 +139,9 @@ function FormUser() {
       <Grid item xs={12} sm={6}><TextField {...register('apellido_paterno',{required:{value:true,message:"Es requerido"}} )} id='apellido_paterno' label="Apellido Paterno" type='text' variant='outlined' error={errors.apellido_paterno} helperText={(errors.apellido_paterno)&&errors.apellido_paterno.message}  /></Grid>
       <Grid item xs={12} sm={6}><TextField {...register('apellido_materno',{required:{value:true,message:"Es requerido"}} )} id='apellido_materno' label="Apellido Materno" type='text' variant='outlined' error={errors.apellido_materno} helperText={(errors.apellido_materno)&&errors.apellido_materno.message}  /></Grid>
 
+      {(token===null) && <>
       <Grid item xs={12} sm={6}><TextField {...register('password',{required:{value:true,message:"Es requerido"},
                                             minLength:{value:8,message:"Debe ser mayor de 8 caracteres"}}   )} id='password'         label="Contraseña" type='password' variant='outlined' error={errors.password} helperText={(errors.password)&&errors.password.message} /></Grid>
-      {(token===null) && <>
       <Grid item xs={12} sm={6}><TextField {...register('confirm_password',{required:{value:true,message:"Es requerido"},
                                             validate: value => value === watch('password') ||  'las contraseñas no son los mismos'}
                                             )} id='confirm_password'  label="Confirmar Contraseña" type='password' variant='outlined' error={errors.confirm_password} helperText={(errors.confirm_password)&&errors.confirm_password.message} /></Grid>
@@ -161,7 +163,7 @@ function FormUser() {
 
       </Grid>
       {(valueRbtn) && 
-      <Button variant="outlined" color="primary" type='submit'  >Crear</Button>
+      <Button variant="outlined" color="primary" type='submit'  >Hecho</Button>
       }
 
        {!error && response &&  <Alert severity="success">

@@ -52,7 +52,7 @@ function useAxios(url,req="GET", data = null, token = null) {
                 default:
                     break;
             }
-            // console.log(res)
+            console.log(url,res)
             if (!res.status === 200) { // en el caso de haber un error, res.ok==false
                 throw {
                     error: true,

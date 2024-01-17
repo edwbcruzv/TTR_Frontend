@@ -1,35 +1,34 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import { AppBar, Box, Button, IconButton, Toolbar, Typography } from '@mui/material'
-import MenuIcon from '@mui/icons-material/Menu';
-import { useNavigate } from 'react-router-dom';
+import React from "react";
+import PropTypes from "prop-types";
+import {
+  AppBar,
+  Box,
+  Button,
+  IconButton,
+  Toolbar,
+  Typography,
+} from "@mui/material";
+import MenuIcon from "@mui/icons-material/Menu";
+import { useNavigate } from "react-router-dom";
+import "../../../public/styles/header.css";
 
-
-
-const NavBarHome = ({handleOpenLogin, handleOpenRegister}) => {
-    const navigate = useNavigate()
+const NavBarHome = ({ handleOpenLogin, handleOpenRegister }) => {
+  const navigate = useNavigate();
   return (
-    <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="static"  >
-        <Toolbar>
-          <IconButton
-            size="large"
-            edge="start"
-            color="inherit"
-            aria-label="menu"
-            sx={{ mr: 2 }}
-          >
-            {/* <MenuIcon /> */}
-          </IconButton>
-          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            Bienvenido
-          </Typography>
-          <Button onClick={handleOpenLogin} color="inherit">Login</Button>
-          <Button onClick={handleOpenRegister} color="inherit">Register</Button>
-        </Toolbar>
-      </AppBar>
-    </Box>
-  )
-}
+    <header className="nav">
+      <Typography variant="h6" sx={{ flexGrow: 1 }}>
+        Bienvenido
+      </Typography>
+      <button onClick={handleOpenLogin} color="inherit" className="btn-home">
+        Login
+      </button>
+      <button onClick={handleOpenRegister} color="inherit" className="btn-home">
+        Register
+      </button>
+    </header>
+  );
+};
 
-export default NavBarHome
+NavBarHome.propTypes = {};
+
+export default NavBarHome;

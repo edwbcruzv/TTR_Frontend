@@ -8,9 +8,12 @@ export default function useAuth (){
     
     useEffect(() => {
         if (token) {
+            
             const [header, payload, signature] = token.split('.')
             const payloadJson = JSON.parse(atob(payload))
             setId(payloadJson.id)
+            setNombre(payloadJson.nombre)
+            
             switch (payloadJson.rol) {
                 case ROL_ADMIN:
                     setRol(ROL_ADMIN) 
@@ -29,10 +32,13 @@ export default function useAuth (){
             }
         }else{
             console.log("Token no es valido, token:"+token)
+            setRol(null) 
+            setToken(null)
+            localStorage.removeItem("token")
         }
             
 
     }, [])
     
-    return {token,setToken,rol,id} 
+    return {token,setToken,rol,id,nombre} 
 }

@@ -3,14 +3,16 @@ import MiniDrawerFrame from '../../components/Drawers/MiniDrawerFrame'
 import TableGroups from '../../components/forms/Groups/TableGroups'
 import { CrudGroupProvider } from '../../context/CrudGroupContext'
 import { Divider } from '@mui/material'
-import CrudGroupModal from '../../components/forms/Groups/CrudGroupModal'
+import HelpIcon from '@mui/icons-material/Help';
+import HelpTooltip from '../../components/Tooltips/HelpTooltip'
 
 const GroupsTeacherPage = () => {
   return (
     <MiniDrawerFrame>
       <CrudGroupProvider>
-        <CrudGroupModal/>
+        <HelpTooltip text={"Aqui se muestran los grupos del semestre en curso."}/>
         <Divider/>
+        <br/>
       <TableGroups/>
       </CrudGroupProvider>
     </MiniDrawerFrame>
