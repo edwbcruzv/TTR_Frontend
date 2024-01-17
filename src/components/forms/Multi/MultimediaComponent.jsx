@@ -1,38 +1,57 @@
 import React, { useEffect, useState } from 'react';
+import axios from 'axios';  // Asegúrate de importar Axios
+import { URI_BACKEND } from '../../../utils/urls';
 
-const MultimediaComponent = ({ file }) => {
+const MultimediaComponent = ({ file_id, width, height }) => {
+  const [fileData, setFileData] = useState(null);
   const [fileType, setFileType] = useState('unknown');
 
   useEffect(() => {
-    const mimeType = getMimeType(file.type);
-    setFileType(mimeType);
-  }, [file]);
+    const fetchFile = async () => {
+      try {
+        const response = await axios.get(URI_BACKEND(`multimedia/${file_id}`), {
+          responseType: 'arraybuffer',  // Especifica el tipo de respuesta como arraybuffer para datos binarios
+        });
+
+        const mimeType = response.headers['content-type'];
+        const file = new Blob([response.data], { type: mimeType });
+        setFileData(file);
+        setFileType(getMimeType(mimeType));
+      } catch (error) {
+        console.error('Error al obtener el archivo', error);
+      }
+    };
+
+    fetchFile();
+  }, [file_id]);
 
   const getMediaType = () => {
+    if (!fileData) return null;
+
     switch (fileType) {
       case 'image':
-        return <img src={URL.createObjectURL(file)} alt="Imagen" />;
+        return <img src={URL.createObjectURL(fileData)} alt="Imagen" width={width} height={height} />;
       case 'audio':
         return (
-          <audio controls>
-            <source src={URL.createObjectURL(file)} type={file.type} />
+          <audio controls width={width}>
+            <source src={URL.createObjectURL(fileData)} type={fileData.type} />
             Tu navegador no soporta el elemento de audio.
           </audio>
         );
       case 'video':
         return (
-          <video controls width="500">
-            <source src={URL.createObjectURL(file)} type={file.type} />
+          <video controls width={width} height={height}>
+            <source src={URL.createObjectURL(fileData)} type={fileData.type} />
             Tu navegador no soporta el elemento de video.
           </video>
         );
       case 'application':
         return (
           <iframe
-            src={URL.createObjectURL(file)}
+            src={URL.createObjectURL(fileData)}
             title="Documento"
-            width="600"
-            height="400"
+            width={width}
+            height={height}
             frameBorder="0"
           >
             Tu navegador no soporta la visualización de documentos.
@@ -42,6 +61,7 @@ const MultimediaComponent = ({ file }) => {
         return <div>Tipo de contenido no soportado.</div>;
     }
   };
+
 
   const getMimeType = (type) => {
     switch (type) {

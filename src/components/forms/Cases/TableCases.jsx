@@ -60,7 +60,7 @@ export default function TableCases() {
   const [data, setData] = useState(null)
 
   useEffect(() => {
-    console.log(Data,IsPending,Error)
+    // console.log(Data,IsPending,Error)
     if (IsPending===false && Data) {
       const data_temp = Data.map((elem) => ({
         titulo:elem.titulo,

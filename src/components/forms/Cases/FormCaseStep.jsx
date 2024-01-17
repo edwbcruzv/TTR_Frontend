@@ -49,7 +49,7 @@ const FormCaseStep = ({name,label,stepComplete,setStepComplete,minCaracteres,max
     register,handleSubmit,watch,errors,setValue,getValues,
     openModalForm,handleOpenModal,handleCloseModal} = useContext(CrudCaseContext)
 
-    const [multimediaList, setMultimediaList] = useState(watch(`${name}_multimedia_list`)?watch(`${name}_multimedia_list`):[]);
+    const [uploadedFilesIds, setUploadedFilesIds ]  = useState(watch(`${name}_multimedia_list`)?watch(`${name}_multimedia_list`):[]);
 
     useEffect(() => {
       console.log(getValues())
@@ -100,7 +100,7 @@ const FormCaseStep = ({name,label,stepComplete,setStepComplete,minCaracteres,max
       }
       </Grid>
       <Grid item xs={4}>
-      <FilesUpload name={`${name}_multimedia_list`} setValue={setValue} multimedia={multimediaList} setMultimedia={setMultimediaList} />
+      <FilesUpload name={`${name}_multimedia_list`} setValue={setValue} uploadedFilesIds={uploadedFilesIds} setUploadedFilesIds={setUploadedFilesIds}  />
       </Grid>
       </>
     }

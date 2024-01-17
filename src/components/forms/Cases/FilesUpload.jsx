@@ -24,66 +24,31 @@ const VisuallyHiddenInput = styled('input')({
   width: 1,
 });
 
-function base64toBlob(base64Data, contentType) {
-  const byteCharacters = atob(base64Data);
-  const byteArrays = [];
+export default function FilesUpload({ name, setValue, uploadedFilesIds, setUploadedFilesIds }) {
 
-  for (let offset = 0; offset < byteCharacters.length; offset += 512) {
-    const slice = byteCharacters.slice(offset, offset + 512);
-    const byteNumbers = new Array(slice.length);
-
-    for (let i = 0; i < slice.length; i++) {
-      byteNumbers[i] = slice.charCodeAt(i);
-    }
-
-    const byteArray = new Uint8Array(byteNumbers);
-    byteArrays.push(byteArray);
-  }
-
-  const blob = new Blob(byteArrays, { type: contentType });
-  return blob;
-}
-
-function createFileFromBackendData(backendData) {
-  const blob = base64toBlob(backendData.contentAsByteArray, backendData.contentType);
-  const file = new File([blob], backendData.filename, { type: backendData.contentType });
-  return file;
-}
-
-export default function FilesUpload({ name, setValue, multimedia, setMultimedia }) {
   const { token, id } = useAuth();
   const [files, setFiles] = React.useState([]);
-  const [uploadedFiles, setUploadedFiles] = React.useState([]);
   const [loading, setLoading] = React.useState([]);
   const [error, setError] = React.useState([]);
-  const {
-    get,
-    post,
-    put,
-    patch,
-    del
-  } = helperAXIOS();
+  const {get,post,put,patch,del } = helperAXIOS();
+  
+  useEffect(() => {
+    console.log(uploadedFilesIds)
 
-  const { Data, IsPending, Error } = useAxios(URI_BACKEND(`multimedia/getMultimediasByIds`), "POST", { multimedias_ids: multimedia }, token);
+    return () => {
+      setValue(name, uploadedFilesIds);
+      console.log("bye")
+    };
+  }, [uploadedFilesIds]);
 
   const handleFileChange = (event) => {
     const newFiles = Array.from(event.target.files);
-    if (files.length + newFiles.length > 4) {
+    if (files.length + uploadedFilesIds.length + newFiles.length > 4) {
       alert('Solo se permiten 4 archivos.');
     } else {
       setFiles([...files, ...newFiles]);
     }
   };
-  // const file = createFileFromBackendData(dataFromBackend);
-  useEffect(() => {
-    if (IsPending === false && Data) {
-      // let newData = Data.map((elem,index)=>({...elem,id:multimedia[index]}))
-      setUploadedFiles(Data);
-    }
-    return () => {
-      setValue(name, multimedia);
-    };
-  }, [IsPending, Data,multimedia]);
 
   const handleRemoveFile = (index) => {
     const newFiles = [...files];
@@ -102,9 +67,7 @@ export default function FilesUpload({ name, setValue, multimedia, setMultimedia 
       if (res.status === 200) {
         setLoading(false);
         console.log(res);
-        file.id=res.data.id
-        setUploadedFiles([...uploadedFiles, file]); // Agrega el archivo a la lista de archivos cargados
-        setMultimedia([...multimedia, res.data.id])
+        setUploadedFilesIds([...uploadedFilesIds, res.data.id]); // Agrega el archivo a la lista de archivos cargados
         console.log(file.id)
       } else {
         console.error(res);
@@ -126,9 +89,7 @@ export default function FilesUpload({ name, setValue, multimedia, setMultimedia 
       if (res.status === 200) {
         setLoading(false);
         console.log(res);
-        // setUploadedFiles([...uploadedFiles, file]); // Agrega el archivo a la lista de archivos cargados
-        
-        setMultimedia(lista.filter(elemento => elemento !== id))
+        setUploadedFilesIds(uploadedFilesIds.filter(elemento => elemento !== id))
       } else {
         console.error(res);
         setError(res.error);
@@ -174,18 +135,17 @@ export default function FilesUpload({ name, setValue, multimedia, setMultimedia 
                   </Button>
                 </Stack>
                 {console.log(file)}
-                <MultimediaComponent file={file}/>
               </li>
             ))}
           </ul>
         </div>
       )}
 
-      {uploadedFiles !== null && uploadedFiles.length > 0 && (
+      {uploadedFilesIds !== null && uploadedFilesIds.length > 0 && (
         <div>
           <h3>Archivos Cargados</h3>
           <ul>
-            {uploadedFiles.map((uploadedFile, index) => (
+            {uploadedFilesIds.map((uploadedFileId, index) => (
               <li
                 key={index}
                 style={{
@@ -199,15 +159,13 @@ export default function FilesUpload({ name, setValue, multimedia, setMultimedia 
                 }}
               >
                 <Stack style={{ flex: 1 }}>
-                  <strong>{uploadedFile.name || uploadedFile.filename}</strong>
+                  <MultimediaComponent file_id={uploadedFileId} width={100} height={100}  />
                 </Stack>
                 <Stack>
-                <Button variant="outlined" onClick={() => handleDeleteIndividual(uploadedFile.id)} style={{ marginLeft: '10px' }}>
+                <Button variant="outlined" onClick={() => handleDeleteIndividual(uploadedFileId)} style={{ marginLeft: '10px' }}>
                     Eliminar
                   </Button>
                 </Stack>
-                {console.log(uploadedFile)}
-                <MultimediaComponent file={uploadedFile}/>
               </li>
             ))}
           </ul>
