@@ -1,9 +1,7 @@
 import React from 'react'
 
-const RecoveryPage = () => {
+export default function RecoveryPage () {
   return (
     <div>RecoveryPage</div>
   )
 }
-
-export default RecoveryPage

@@ -1,77 +1,76 @@
-import axios from 'axios';
+import axios from 'axios'
 
 export const helperAXIOS = () => {
+  const customAxios = axios.create({
+    timeout: 3000, // 3 segundos de timeout
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json'
+    }
+  })
 
-    const customAxios = axios.create({
-        timeout: 3000, // 3 segundos de timeout
+  const customRequest = async (url, method = 'GET', data = null, token = null) => {
+    // console.log("Helper_Data:"+data)
+    // console.log(data instanceof FormData )
+    try {
+      const config = {
+        method,
+        url,
         headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json',
+          Authorization: token ? `Bearer ${token}` : '',
+          'Content-Type': data instanceof FormData ? 'multipart/form-data' : 'application/json'
         },
-    });
+        data: data instanceof FormData ? data : JSON.stringify(data)
+      }
 
-    const customRequest = async (url, method = 'GET', data = null, token = null) => {
-        // console.log("Helper_Data:"+data)
-        // console.log(data instanceof FormData )
-        try {
-            const config = {
-                method,
-                url,
-                headers: {
-                    'Authorization': token ? `Bearer ${token}` : '',
-                    'Content-Type': data instanceof FormData ? 'multipart/form-data' : 'application/json',
-                },
-                data: data instanceof FormData ? data : JSON.stringify(data),
-            };
-
-            const response = await customAxios(config);
-            // console.log(response)
-            return {
-                data: response.data,
-                status: response.status,
-                statusText: response.statusText,
-            };
-        } catch (error) {
-            if (error.response) {
-                // La solicitud fue hecha, pero el servidor respondió con un código de estado que no está en el rango de 2xx
-                return {
-                    err: true,
-                    status: error.response.status || '00',
-                    statusText: error.response.statusText || 'Ocurrió un error',
-                };
-            } else if (error.request) {
-                // La solicitud fue hecha, pero no se recibió ninguna respuesta
-                return {
-                    err: true,
-                    status: '00',
-                    statusText: 'No se recibió respuesta del servidor',
-                };
-            } else {
-                // Algo sucedió en la configuración de la solicitud que desencadenó un error
-                return {
-                    err: true,
-                    status: '00',
-                    statusText: 'Error en la configuración de la solicitud',
-                };
-            }
+      const response = await customAxios(config)
+      // console.log(response)
+      return {
+        data: response.data,
+        status: response.status,
+        statusText: response.statusText
+      }
+    } catch (error) {
+      if (error.response) {
+        // La solicitud fue hecha, pero el servidor respondió con un código de estado que no está en el rango de 2xx
+        return {
+          err: true,
+          status: error.response.status || '00',
+          statusText: error.response.statusText || 'Ocurrió un error'
         }
-    };
+      } else if (error.request) {
+        // La solicitud fue hecha, pero no se recibió ninguna respuesta
+        return {
+          err: true,
+          status: '00',
+          statusText: 'No se recibió respuesta del servidor'
+        }
+      } else {
+        // Algo sucedió en la configuración de la solicitud que desencadenó un error
+        return {
+          err: true,
+          status: '00',
+          statusText: 'Error en la configuración de la solicitud'
+        }
+      }
+    }
+  }
 
-    const get = (url, token = null) => customRequest(url, 'GET', token);
+  const get = (url, token = null) => customRequest(url, 'GET', token)
 
-    const post = (url, data = null, token = null) => customRequest(url, 'POST', data, token);
+  const post = (url, data = null, token = null) => customRequest(url, 'POST', data, token)
 
-    const put = (url, data = null, token = null) => customRequest(url, 'PUT', data, token);
+  const put = (url, data = null, token = null) => customRequest(url, 'PUT', data, token)
 
-    const patch = (url, data = null, token = null) => customRequest(url, 'PATCH', data, token);
+  const patch = (url, data = null, token = null) => customRequest(url, 'PATCH', data, token)
 
-    const del = (url, token = null) => customRequest(url, 'DELETE', null, token);
+  const del = (url, token = null) => customRequest(url, 'DELETE', null, token)
 
-    return {
-        get,
-        post,
-        put,
-        patch,
-        del
-    };
-};
+  return {
+    get,
+    post,
+    put,
+    patch,
+    del
+  }
+}
