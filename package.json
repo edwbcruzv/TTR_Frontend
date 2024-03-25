@@ -28,7 +28,8 @@
     "react-quill": "^2.0.0",
     "react-router-dom": "^6.16.0",
     "sort-by": "^1.2.0",
-    "styled-components": "^5.3.11"
+    "styled-components": "^5.3.11",
+    "sweetalert2": "^11.10.6"
   },
   "devDependencies": {
     "@types/react": "^18.2.15",
@@ -42,6 +43,6 @@
     "vite": "^4.4.5"
   },
   "eslintConfig": {
-    "extends":"./node_modules/standard/eslintrc.json"
+    "extends": "./node_modules/standard/eslintrc.json"
   }
 }

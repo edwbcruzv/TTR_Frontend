@@ -7,9 +7,7 @@ import { URI_BACKEND } from '../utils/urls'
 const CrudUserContext = createContext()
 
 const initialForm = {
-  id: null,
   username: '',
-
   email: '',
   password: '',
   nombre: '',
@@ -19,23 +17,31 @@ const initialForm = {
 
 function CrudUserProvider ({ children }) {
   const { token, rol } = useAuth()
-  const [dataToEdit, setDataToEdit] = useState(initialForm)
+
+  /**
+   * formulario
+   */
   const [error, setError] = useState(null)
   const [response, setResponse] = useState(null)
   const [loading, setLoading] = useState(true)
+  const { register, handleSubmit, watch, reset, setValue, getValues, formState: { errors } } = useForm({ defaultValues: initialForm })
+
   const { get, post, put, patch, del } = helperAXIOS()
 
+  /**
+    * Modal1
+    */
   const [openModalForm, setOpenModalForm] = useState(false)
-  const handleOpenModal = () => {
+  const handleOpenModalForm = () => {
     setOpenModalForm(true)
   }
-  const handleCloseModal = () => {
+  const handleCloseModalForm = () => {
     console.log('cerrando')
     setOpenModalForm(false)
-    setDataToEdit(initialForm)
+    reset(initialForm)
   }
 
-  async function viewDataEdit (url, id) {
+  async function get(url, id) {
     setLoading(true)
     if (token && (rol === ROL_ADMIN || rol === ROL_TEACHER) && id) {
       const res = await get(URI_BACKEND(`${url}/${id}`), token)
@@ -51,7 +57,7 @@ function CrudUserProvider ({ children }) {
     setLoading(false)
   }
 
-  async function createData (data) {
+  async function create(data) {
     setLoading(true)
     let res
     if (data.rol === ROL_ADMIN) {
@@ -72,7 +78,7 @@ function CrudUserProvider ({ children }) {
     window.location.reload()
   }
 
-  async function updateData (url, data) {
+  async function update (url, data) {
     setLoading(true)
     const res = await patch(URI_BACKEND(url), data, token)
     // console.log(res)
@@ -90,7 +96,7 @@ function CrudUserProvider ({ children }) {
     window.location.reload()
   }
 
-  async function deleteData (url, id) {
+  async function delete (url, id) {
     setLoading(true)
     if (token && (rol === ROL_ADMIN || rol === ROL_TEACHER) && id) {
       const res = await del(URI_BACKEND(`${url}/${id}`), token)
