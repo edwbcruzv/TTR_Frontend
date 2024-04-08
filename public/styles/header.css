@@ -25,8 +25,12 @@
     font-size: 1rem;
     color: white;
     border: none;
+    border-radius: 15px;
 }
 .btn-home:hover{
     background-color: #1c2630;
     
+}
+body{
+    background-color: #29313c;
 }

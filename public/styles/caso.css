@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
 .case{
     width: 100%;
-    min-height: 80vh;
+    min-height: 100vh;
     padding: 0 100px;
     display: flex;
     align-items: center;
@@ -26,7 +26,7 @@
 }
 .hands{
     position: absolute;
-    bottom: 150px;
+    top: 250px;
     right: 80px;
     width: 550px;
     transition: 0.5s all;

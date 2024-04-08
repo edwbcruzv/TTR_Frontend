@@ -38,6 +38,8 @@ import GroupsOutlinedIcon from '@mui/icons-material/GroupsOutlined';
 import Diversity3OutlinedIcon from '@mui/icons-material/Diversity3Outlined';
 import PendingActionsOutlinedIcon from '@mui/icons-material/PendingActionsOutlined';
 import AssignmentLateOutlinedIcon from '@mui/icons-material/AssignmentLateOutlined';
+import "../../../public/styles/header.css"
+import Parallax from "../componentsLuis/Caso"
 
 const itemsHeader = [
   {textItem: "Inicio", path:"", iconItem:<HomeIcon />}
@@ -313,10 +315,10 @@ export default function MiniDrawerFrame({children}) {
 
 
   return (
-    <Box sx={{ display: 'flex' }}>
+    <Box sx={{ display: 'flex' }} className ="containerall">
       <CssBaseline />
       <AppBar position="fixed" open={open}>
-        <Toolbar>
+        <Toolbar className ="nav"> 
           <IconButton
             color="inherit"
             aria-label="open drawer"
@@ -341,7 +343,7 @@ export default function MiniDrawerFrame({children}) {
               inputProps={{ 'aria-label': 'search' }}
             />
           </Search> */}
-          <Box sx={{ flexGrow: 1 }} />
+          <Box sx={{ flexGrow: 1 }} className = "j"/>
 
           <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
           {rol === ROL_TEACHER && <>

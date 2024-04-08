@@ -13,6 +13,7 @@ import CrudUserContext from "../../../context/CrudUserContext";
 import { TextField, Button, Box, Alert, AlertTitle } from "@mui/material";
 import useAuth from "../../../hooks/useAuth";
 import "../../../../public/styles/forms.css";
+import Input from "postcss/lib/input";
 
 function FormRegister() {
   const { token } = useAuth();
@@ -107,6 +108,7 @@ function FormRegister() {
       alignContent="center"
       wrap="wrap"
     >
+      <h2>Registrate</h2>
       <Grid item>
         {!dataToEdit.id ? (
           <FormControl>
@@ -164,7 +166,7 @@ function FormRegister() {
           wrap="wrap"
         >
           <Grid item xs={12} sm={6} className ="input-box">
-            <TextField
+            <input
               {...register("username", {
                 required: { value: true, message: "Es requerido" },
               })}
@@ -175,10 +177,11 @@ function FormRegister() {
               error={errors.username}
               helperText={errors.username && errors.username.message}
               className ="input-data"
+              placeholder="Nombre de usuario"
             />
           </Grid>
           <Grid item xs={12} sm={6} className ="input-box">
-            <TextField
+            <input
               {...register("email", {
                 required: { value: true, message: "Es requerido" },
               })}
@@ -189,10 +192,11 @@ function FormRegister() {
               error={errors.email}
               helperText={errors.email && errors.email.message}
               className ="input-data"
+              placeholder="Correo electrónico"
             />
           </Grid>
           <Grid item xs={12} sm={6} className ="input-box">
-            <TextField
+            <input
               {...register("nombre", {
                 required: { value: true, message: "Es requerido" },
               })}
@@ -203,10 +207,11 @@ function FormRegister() {
               error={errors.nombre}
               helperText={errors.nombre && errors.nombre.message}
               className ="input-data"
+              placeholder="Nombre"
             />
           </Grid>
           <Grid item xs={12} sm={6} className ="input-box">
-            <TextField
+            <input
               {...register("apellido_paterno", {
                 required: { value: true, message: "Es requerido" },
               })}
@@ -219,10 +224,11 @@ function FormRegister() {
                 errors.apellido_paterno && errors.apellido_paterno.message
               }
               className ="input-data"
+              placeholder="Apellido paterno"
             />
           </Grid>
           <Grid item xs={12} sm={6} className ="input-box">
-            <TextField
+            <input
               {...register("apellido_materno", {
                 required: { value: true, message: "Es requerido" },
               })}
@@ -235,11 +241,12 @@ function FormRegister() {
                 errors.apellido_materno && errors.apellido_materno.message
               }
               className ="input-data"
+              placeholder = "Apellido materno"
             />
           </Grid>
 
           <Grid item xs={12} sm={6} className ="input-box">
-            <TextField
+            <input
               {...register("password", {
                 required: { value: true, message: "Es requerido" },
                 minLength: {
@@ -254,12 +261,13 @@ function FormRegister() {
               error={errors.password}
               helperText={errors.password && errors.password.message}
               className ="input-data"
+              placeholder="Contraseña"
             />
           </Grid>
           {token === null && (
             <>
               <Grid item xs={12} sm={6} className ="input-box">
-                <TextField
+                <input
                   {...register("confirm_password", {
                     required: { value: true, message: "Es requerido" },
                     validate: (value) =>
@@ -275,6 +283,7 @@ function FormRegister() {
                     errors.confirm_password && errors.confirm_password.message
                   }
                   className ="input-data"
+                  placeholder="Confirma contraseña"
                 />
               </Grid>
             </>
@@ -283,23 +292,25 @@ function FormRegister() {
           {valueRbtn === ROL_TEACHER && (
             <>
               <Grid item xs={12} sm={6} className ="input-box">
-                <TextField
+                <input
                   {...register("cedula")}
                   id="cedula"
                   label="Cedula"
                   type="text"
                   variant="outlined"
                   className ="input-data"
+                  placeholder="Cedula"
                 />
               </Grid>
               <Grid item xs={12} sm={6} className ="input-box">
-                <TextField
+                <input
                   {...register("escuela")}
                   id="escuela"
                   label="Escuela"
                   type="text"
                   variant="outlined"
                   className ="input-data"
+                  placeholder ="Escuela"
                 />
               </Grid>
             </>
@@ -308,23 +319,25 @@ function FormRegister() {
           {valueRbtn === ROL_STUDENT && (
             <>
               <Grid item xs={12} sm={6} className ="input-box"> 
-                <TextField
+                <input
                   {...register("boleta")}
                   id="boleta"
                   label="Boleta"
                   type="text"
                   variant="outlined"
                   className ="input-data"
+                  placeholder = "Boleta"
                 />
               </Grid>
               <Grid item xs={12} sm={6} className ="input-box">
-                <TextField
+                <input
                   {...register("semestre")}
                   id="semestre"
                   label="Semestre"
                   type="text"
                   variant="outlined"
                   className ="input-data"
+                  placeholder ="Semestre"
                 />
               </Grid>
 

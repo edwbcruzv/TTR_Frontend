@@ -85,31 +85,31 @@ const FormLogin = ({ uri, title }) => {
     >
       <h2>Inicia sesión</h2>
       <div className="input-box">
-        <TextField
+        <input
           {...register("username", {
             required: { value: true, message: "Es requerido" },
           })}
           id="username"
           label="Username"
           type="text"
-          variant="outlined"
           error={errors.username}
           helperText={errors.username && errors.username.message}
           className="input-data"
+          placeholder="Nombre de usuario"
         />
       </div>
       <div className="input-box">
-        <TextField
+        <input
           {...register("password", {
             required: { value: true, message: "Es requerido" },
           })}
           id="password"
           label="Contraseña"
           type="password"
-          variant="outlined"
           error={errors.password}
           helperText={errors.password && errors.password.message}
           className="input-data"
+          placeholder="Contraseña"
         />
       </div>
       <button
