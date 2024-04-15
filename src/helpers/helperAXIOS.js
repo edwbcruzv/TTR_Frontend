@@ -25,10 +25,16 @@ export const helperAXIOS = () => {
 
       const response = await customAxios(config)
       // console.log(response)
-      return {
-        data: response.data,
-        status: response.status,
-        statusText: response.statusText
+      if (typeof miResponse === 'object') {
+        // Si es un objeto, lo convertimos a JSON
+        return {
+          data: response.data,
+          status: response.status,
+          statusText: response.statusText
+        }
+      } else {
+        // Si no es un objeto, lo dejamos como está
+        return response
       }
     } catch (error) {
       if (error.response) {

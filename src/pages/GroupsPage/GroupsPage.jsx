@@ -1,7 +1,19 @@
 import React from 'react'
+import { CrudGrupoProvider } from '../../context/CrudGrupoContext'
+import { Divider } from '@mui/material'
+import CrudGroupModal from '../../components/Forms/Groups/CrudGroupModal'
+import TableGroups from '../../components/Forms/Groups/TableGroups'
 
 export default function GroupsPage () {
   return (
-    <div>GroupsPage</div>
+    <>
+      <CrudGrupoProvider>
+
+        <CrudGroupModal />
+        <Divider />
+        <TableGroups />
+
+      </CrudGrupoProvider>
+    </>
   )
 }

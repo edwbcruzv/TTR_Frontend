@@ -21,15 +21,6 @@ const initialForm = {
 
 const AuthProvider = ({ children }) => {
   /**
-   * Variables Globales
-   */
-  const [token, setToken] = useState(window.localStorage.getItem('token'))
-  const [rol, setRol] = useState(null)
-  const [id, setId] = useState(null)
-  const [nombre, setNombre] = useState(null)
-  const [isValid, setIsValid] = useState(null)
-
-  /**
    * formulario
    */
   const { register, handleSubmit, watch, reset, setValue, getValues, formState: { errors } } = useForm({ defaultValues: initialForm })
@@ -54,16 +45,15 @@ const AuthProvider = ({ children }) => {
   }
 
   /**
-   * Peticioens a la API
+   * Peticiones a la API
    */
 
   async function login (data) {
     setLoading(true)
     // console.log(data)
-    const res = await post(URI_BACKEND('auth/login'), data, token)
+    const res = await post(URI_BACKEND('auth/login'), data, null)
     if (res.status === 200) {
       // console.log(res)
-      setToken(res.data.jwt)
       window.localStorage.setItem('token', res.data.jwt)
       setResponse(res)
       // handleCloseModalForm()
@@ -82,13 +72,13 @@ const AuthProvider = ({ children }) => {
     let res = null
     switch (data.rol) {
       case ROL_ADMIN:
-        res = await post(URI_BACKEND('auth/register-admin'), data, token)
+        res = await post(URI_BACKEND('auth/register-admin'), data, null)
         break
       case ROL_TEACHER:
-        res = await post(URI_BACKEND('auth/register-teacher'), data, token)
+        res = await post(URI_BACKEND('auth/register-teacher'), data, null)
         break
       case ROL_STUDENT:
-        res = await post(URI_BACKEND('auth/register-student'), data, token)
+        res = await post(URI_BACKEND('auth/register-student'), data, null)
         break
       default:
         break
@@ -109,7 +99,7 @@ const AuthProvider = ({ children }) => {
   async function recoveryByEmail (data) {
     setLoading(true)
     // console.log(data)
-    const res = await post(URI_BACKEND('auth/email-password'), data, token)
+    const res = await post(URI_BACKEND('auth/email-password'), data, null)
     if (res.status === 200) {
       setLoading(false)
       // console.log(res)
@@ -124,17 +114,6 @@ const AuthProvider = ({ children }) => {
   }
 
   const values = {
-    token,
-    setToken,
-    rol,
-    setRol,
-    id,
-    setId,
-    nombre,
-    setNombre,
-    isValid,
-    setIsValid,
-
     response,
     error,
     loading,

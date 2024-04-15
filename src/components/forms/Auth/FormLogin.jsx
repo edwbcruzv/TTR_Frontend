@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { ROL_ADMIN, ROL_STUDENT, ROL_TEACHER } from '../../../utils/jwt_data'
 import {
@@ -10,14 +10,19 @@ import {
 
 import '../../../../public/styles/forms.css'
 import { AuthContext } from '../../../context/AuthContext'
-import useAuth from '../../../hooks/useAuth'
 
 const FormLogin = () => {
   const {
+    token,
+    setToken,
+    rol,
+    setRol,
+    id,
+    setId,
+    nombre,
+    setNombre,
     isValid,
-    setIsValid
-  } = useAuth()
-  const {
+    setIsValid,
 
     response,
     error,
@@ -25,41 +30,27 @@ const FormLogin = () => {
 
     register,
     handleSubmit,
+    watch,
+    reset,
+    setValue,
+    getValues,
     errors,
 
+    openModalForm,
+    handleOpenModalForm,
+    handleCloseModalForm,
+
     login
-    // registerUser,
-    // recoveryByEmail
   } = useContext(AuthContext)
+
   const navigate = useNavigate()
+  useEffect(() => {
+    console.log('Response: ', response)
+  }, [response])
 
   function onSubmit (data) {
     console.log(data)
     login(data)
-    if (response.status === 200) {
-      console.log(response)
-
-      const [header, payload, signature] = response.data.jwt.split('.')
-      const payloadJson = JSON.parse(atob(payload))
-
-      // switch (payloadJson.rol) {
-      //   case ROL_ADMIN:
-      //     navigate('/admin')
-      //     break
-      //   case ROL_TEACHER:
-      //     navigate('/teacher')
-      //     break
-      //   case ROL_STUDENT:
-      //     navigate('/student')
-      //     break
-      //   default:
-      //     console.log('sin Rol')
-      //     break
-      // }
-      console.log('Cambiando a Dashboard.', payloadJson.rol)
-    } else {
-      console.log(error)
-    }
   }
 
   return (
@@ -110,7 +101,7 @@ const FormLogin = () => {
       {error && (
         <Alert severity='error'>
           <AlertTitle>Error</AlertTitle>
-          Mensaje: <strong>{res.error}</strong>
+          Mensaje: <strong>{response.error}</strong>
         </Alert>
       )}
     </form>

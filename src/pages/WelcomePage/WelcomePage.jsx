@@ -3,6 +3,7 @@ import NavBarHome from '../../components/Navbars/NavBarHome'
 import { Box, Grid, Modal } from '@mui/material'
 import FormLogin from '../../components/Forms/Auth/FormLogin'
 import AuthProvider from '../../context/AuthContext'
+import FormRegister from '../../components/Forms/Auth/FormRegister'
 
 const style = {
   position: 'absolute',
@@ -55,10 +56,7 @@ export default function WelcomePage () {
           >
 
             <Box sx={style}>
-              aqui el registro
-              {/* <CrudUserProvider>
               <FormRegister />
-            </CrudUserProvider> */}
             </Box>
           </Modal>
           {/* <Fondoinicio />
