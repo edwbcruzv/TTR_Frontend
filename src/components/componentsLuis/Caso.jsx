@@ -8,12 +8,15 @@ const Caso = () => {
       <img src={teams} alt="Equipo" className="hands" />
       <div className="content">
         <div className="contentBx">
-          <h1>Pero ... ¿Qué es un caso?</h1>
+          <h1>Pero ... ¿Cómo ayuda School Coder?</h1>
           <p>
-            Isias Álvarez en su libro " Los estudios de caso como estrategia
-            para la formación en gestión" explica que un caso es una descripción
-            de una situación real, en un espacio y tiempo determinado. El caso
-            contiene información que se transmite a lo largo del texto.
+            Los profesores pueden integrar School Coder en su plan de estudios
+            con facilidad, aprovechando sus capacidades interactivas para
+            mejorar las lecciones de codificación y asignar ejercicios
+            atractivos. Al incorporar School Coder en las actividades en el
+            aula, los educadores pueden potenciar a los estudiantes para que
+            desarrollen habilidades esenciales de alfabetización digital y
+            codificación.
           </p>
         </div>
       </div>

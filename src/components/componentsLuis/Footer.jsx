@@ -10,8 +10,8 @@ const Footer = () => {
           <p>
             Esta herramienta fue elaborada por los alumnos Luis Vega, Edwin
             Bernardo y David Baltazar como un sistema para entrega final sobre
-            el trabajo terminal TT 2023-B129 con la ayuda de los profesores
-            Rubén Peredo Valderrama y Macario Hernandez Cruz
+            el trabajo terminal 24 con la ayuda del profesor
+            Rubén Peredo Valderrama 
           </p>
           <ul className="sci">
             <li>

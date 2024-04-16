@@ -12,14 +12,15 @@ const Fondoinicio = () => {
         <img src={girl} alt="Estudiante" className="girl" />
         <div className="content">
           <div className="contentBx">
-            <h1>Casebuilder</h1>
-            <h2>Creador de casos</h2>
-            <h3>Herramienta didáctica de apoyo para la creación de casos</h3>
+            <h1>School Coder</h1>
+            <h2>Ejecución de código HTML en tiempo real</h2>
+            <h3>Herramienta didáctica de apoyo para la evaluación de practicas hechas en HTML y CSS</h3>
             <p>
-              Esta herramienta web le permitirá a los profesores de la ESCOM, a crear
-              ejericicios basado en el método de casos el cual reciben el nombre de casos.
-              Los profesores podrán añadir contenido digital multimedia para generar los 
-              casos.
+              Presentamos "School Coder" – la aplicación ideal para que los
+              estudiantes se sumerjan en el mundo de HTML y CSS directamente
+              desde el aula. School Coder es una plataforma innovadora diseñada
+              para facilitar el aprendizaje práctico y ejercicios de
+              codificación en un entorno educativo.
             </p>
           </div>
         </div>

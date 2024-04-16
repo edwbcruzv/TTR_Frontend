@@ -8,13 +8,15 @@ const MetodoCasos = () => {
       <img src={fondoimg} alt="idea" className="fondoimg" />
       <div className="content">
         <div className="contentBx">
-          <h1>¿Qué es el método de casos?</h1>
+          <h1>¿Cómo funciona School Coder?</h1>
           <p>
-            De acuerdo con Dirección de Investigación e Innovación Educativa en
-            su libro "Método de Casos Técnicas didácticas" redacta que el método
-            de casos es un modo de enseñanza en el que los alumnos construyen su
-            aprendizaje a partir del análisis y discusión de experiencias y
-            situaciones de la vida real.
+            School Coder funciona como un potente compilador de HTML y CSS,
+            ofreciendo a los estudiantes un ambiente perfecto para escribir,
+            experimentar y mejorar su código en tiempo real. Ya sea que los
+            estudiantes estén explorando el desarrollo web por primera vez o
+            perfeccionando sus habilidades para proyectos más avanzados, School
+            Coder proporciona una interfaz intuitiva adaptada a sus necesidades
+            educativas.
           </p>
         </div>
       </div>
