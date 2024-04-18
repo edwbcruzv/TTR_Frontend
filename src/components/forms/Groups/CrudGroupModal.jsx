@@ -5,6 +5,8 @@ import Modal from '@mui/material/Modal'
 import FormGroup from './FormGroup'
 import { useContext } from 'react'
 import CrudGrupoContext from '../../../context/CrudGrupoContext'
+import useSession from '../../../hooks/useSession'
+import { ROL_ADMIN } from '../../../utils/jwt_data'
 
 const style = {
   position: 'absolute',
@@ -21,6 +23,7 @@ const style = {
 }
 
 export default function CrudGroupModal () {
+  const { token, rol, usernameSession, nombre, isValid, deleteSession } = useSession()
   const {
 
     openModalForm,
@@ -30,7 +33,7 @@ export default function CrudGroupModal () {
 
   return (
     <>
-      <Button onClick={handleOpenModalForm}>Nuevo Grupo</Button>
+      {rol === ROL_ADMIN && <Button onClick={handleOpenModalForm}>Nuevo Grupo</Button>}
       <Modal
         open={openModalForm}
         onClose={handleCloseModalForm}

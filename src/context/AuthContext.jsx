@@ -54,7 +54,7 @@ const AuthProvider = ({ children }) => {
     const res = await post(URI_BACKEND('auth/login'), data, null)
     if (res.status === 200) {
       // console.log(res)
-      window.localStorage.setItem('token', res.data.jwt)
+      window.localStorage.setItem('session', JSON.stringify(res.data))
       setResponse(res)
       // handleCloseModalForm()
     } else {

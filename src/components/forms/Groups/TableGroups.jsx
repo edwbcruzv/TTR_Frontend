@@ -2,12 +2,13 @@ import React, { useContext, useEffect } from 'react'
 import CardGroup from './CardGroup'
 import Grid from '@mui/material/Grid'
 import { Skeleton } from '@mui/material'
-import { ROL_TEACHER } from '../../../utils/jwt_data'
+import { ROL_ADMIN, ROL_TEACHER } from '../../../utils/jwt_data'
 import CrudGrupoContext from '../../../context/CrudGrupoContext'
 import useSession from '../../../hooks/useSession'
+import SessionContext from '../../../context/SessionContext'
 
 const TableGroups = () => {
-  const { token, rol, usernameSession, nombre, isValid, deleteSession } = useSession()
+  const { token, setToken, rol, setRol, usernameSession, setUsernameSession, nombre, setNombre, email, setEmail, isValid, setIsValid } = useContext(SessionContext)
   const {
     response,
     error,
@@ -25,6 +26,7 @@ const TableGroups = () => {
     handleOpenModalForm,
     handleCloseModalForm,
 
+    getAllGrupos,
     getGrupo,
     getAllGruposByProfesorUsername,
     createGrupo,
@@ -32,18 +34,18 @@ const TableGroups = () => {
     deleteGrupo
   } = useContext(CrudGrupoContext)
 
-  useEffect(async () => {
-    async function fAsync () {
-      if (rol === ROL_TEACHER) {
-        console.log(rol, usernameSession)
-        await getAllGruposByProfesorUsername(usernameSession)
-        console.log('Response: ', response)
-      } else {
-        console.log('todos') // getAll
-      }
+  console.log(token, rol, usernameSession, nombre, email, isValid)
+  useEffect(() => {
+    // async function funAsync () {
+    if (rol === ROL_TEACHER) {
+      getAllGruposByProfesorUsername(usernameSession)
+    } else if (rol === ROL_ADMIN) {
+      getAllGrupos() // getAll
     }
-    fAsync()
-  }, [])
+    console.log('Response: ', response)
+    // }
+    // funAsync()
+  }, [isValid])
 
   return (
     <Grid

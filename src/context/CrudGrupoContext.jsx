@@ -51,12 +51,25 @@ function CrudGrupoProvider ({ children }) {
    * Peticiones a la API
    */
 
+  async function getAllGrupos () {
+    setLoading(true)
+    const res = await get(URI_BACKEND('grupo/getAll'), token)
+    if (res.status === 200) {
+      // console.log(res)
+      setResponse(res.data)
+    } else {
+      // console.log(res.error)
+      setError(res.error)
+    }
+    setLoading(false)
+  }
+
   async function getGrupo (id) {
     setLoading(true)
     const res = await get(URI_BACKEND(`grupo/${id}`), token)
     if (res.status === 200) {
       // console.log(res)
-      setResponse(res)
+      setResponse(res.data)
     } else {
       // console.log(res.error)
       setError(res.error)
@@ -68,7 +81,7 @@ function CrudGrupoProvider ({ children }) {
     setLoading(true)
     const res = await get(URI_BACKEND(`grupo/getAllByProfesorUsername/${username}`), token)
     if (res.status === 200) {
-      console.log(res)
+      // console.log(res)
       setResponse(res.data)
     } else {
       // console.log(res.error)
@@ -81,10 +94,10 @@ function CrudGrupoProvider ({ children }) {
     setLoading(true)
     const res = await post(URI_BACKEND('grupo'), data, token)
     if (res.status === 200) {
-      console.log(res)
-      setResponse(res)
+      // console.log(res)
+      setResponse(res.data)
     } else {
-      console.log(res)
+      // console.log(res)
       setError(res.error)
     }
     setLoading(false)
@@ -94,10 +107,10 @@ function CrudGrupoProvider ({ children }) {
     setLoading(true)
     const res = await patch(URI_BACKEND('grupo'), data, token)
     if (res.status === 200) {
-      console.log(res)
-      setResponse(res)
+      // console.log(res)
+      setResponse(res.data)
     } else {
-      console.log(res)
+      // console.log(res)
       setError(res.error)
     }
     setLoading(false)
@@ -108,7 +121,7 @@ function CrudGrupoProvider ({ children }) {
     const res = await del(URI_BACKEND(`grupo/${id}`), token)
     if (res.status === 200) {
       // console.log(res)
-      setResponse(res)
+      setResponse(res.data)
     } else {
       // console.log(res.error)
       setError(res.error)
@@ -133,6 +146,7 @@ function CrudGrupoProvider ({ children }) {
     handleOpenModalForm,
     handleCloseModalForm,
 
+    getAllGrupos,
     getGrupo,
     getAllGruposByProfesorUsername,
     createGrupo,
