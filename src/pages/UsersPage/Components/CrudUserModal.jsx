@@ -1,12 +1,9 @@
-import React, { useState, useContext } from 'react'
-
-import useAuth from '../../../hooks/useAuth'
-import FormUser from './FormUser'
+import React, { useContext } from 'react'
 import Box from '@mui/material/Box'
 import Modal from '@mui/material/Modal'
 import Button from '@mui/material/Button'
-
-import CrudUserContext from '../../../context/CrudUserContext'
+import { AuthContext } from '../../../context/AuthContext'
+import FormRegister from '../../../components/Auth/FormRegister'
 
 const style = {
   position: 'absolute',
@@ -23,22 +20,41 @@ const style = {
 }
 
 const CrudUserModal = () => {
-  const { error, loading, viewDataEdit, createData, dataToEdit, setDataToEdit, updateData, deleteData, openModalForm, handleOpenModal, handleCloseModal } = useContext(CrudUserContext)
+  const {
+    response,
+    error,
+    loading,
+
+    register,
+    handleSubmit,
+    watch,
+    reset,
+    setValue,
+    getValues,
+    errors,
+
+    openModalForm,
+    handleOpenModalForm,
+    handleCloseModalForm,
+
+    login,
+    registerUser,
+    recoveryByEmail
+  } = useContext(AuthContext)
 
   return (
     <>
 
-      <Button onClick={handleOpenModal}>Registrar Usuario</Button>
+      <Button onClick={handleOpenModalForm}>Agregar nuevo usuario</Button>
 
       <Modal
         open={openModalForm}
-        onClose={handleCloseModal}
+        onClose={handleCloseModalForm}
         aria-labelledby='parent-modal-title'
         aria-describedby='parent-modal-description'
       >
         <Box sx={{ ...style, width: 1000 }}>
-
-          <FormUser />
+          <FormRegister />
         </Box>
 
       </Modal>

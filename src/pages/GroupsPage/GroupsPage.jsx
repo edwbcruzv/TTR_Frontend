@@ -1,12 +1,14 @@
 import React from 'react'
 import { CrudGrupoProvider } from '../../context/CrudGrupoContext'
 import { Divider } from '@mui/material'
-import CrudGroupModal from '../../components/Forms/Groups/CrudGroupModal'
-import TableGroups from '../../components/Forms/Groups/TableGroups'
+
+import MiniDrawerFrame from '../../components/Dashboard/MiniDrawerFrame'
+import CrudGroupModal from './Components/CrudGroupModal'
+import TableGroups from './Components/TableGroups'
 
 export default function GroupsPage () {
   return (
-    <>
+    <MiniDrawerFrame>
       <CrudGrupoProvider>
 
         <CrudGroupModal />
@@ -14,6 +16,6 @@ export default function GroupsPage () {
         <TableGroups />
 
       </CrudGrupoProvider>
-    </>
+    </MiniDrawerFrame>
   )
 }

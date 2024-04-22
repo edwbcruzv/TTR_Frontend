@@ -14,6 +14,7 @@ import StudentProtectedRoute from './pages/StudentProtectedRoute'
 import HomeAdminPage from './pages/HomeAdminPage/HomeAdminPage'
 import HomeTeacherPage from './pages/HomeTeacherPage/HomeTeacherPage'
 import HomeStudentPage from './pages/HomeStudentPage/HomeStudentPage'
+import PublicProtectedRoute from './pages/PublicProtectedRoute'
 
 const App = (props) => {
   return (
@@ -23,27 +24,29 @@ const App = (props) => {
         <BrowserRouter>
           {/* Dentro de Routes se declaran las rutas y el componente al que va a direcciones, los componentes deben te derminar en Page.jsx */}
           <Routes>
-            <Route path='/' element={<WelcomePage />} />
-            <Route path='/recovery' element={<RecoveryPage />} />
+            <Route element={<PublicProtectedRoute />}>
+              <Route path='/' element={<WelcomePage />} />
+              <Route path='/recovery' element={<RecoveryPage />} />
+              <Route path='/practices' element={<PracticesPage />} />
+              <Route path='/config' element={<ConfigPage />} />
+            </Route>
 
-            <Route path='/config' element={<ConfigPage />} />
-            <Route path='/practices' element={<PracticesPage />} />
+            <Route path='/admin' element={<AdminProtectedRoute />}>
+              <Route index element={<HomeAdminPage />} />
+              <Route path='users' element={<UsersPage />} />
+              <Route path='groups' element={<GroupsPage />} />
+            </Route>
 
-            {/* <Route path='/admin' element={<AdminProtectedRoute />}> */}
-            {/* <Route index element={<HomeAdminPage />} /> */}
-            <Route path='users' element={<UsersPage />} />
-            <Route path='groups' element={<GroupsPage />} />
-            {/* </Route> */}
+            <Route path='/teacher' element={<TeacherProtectedRoute />}>
+              <Route index element={<HomeTeacherPage />} />
+              <Route path='users' element={<UsersPage />} />
+              <Route path='groups' element={<GroupsPage />} />
+            </Route>
 
-            {/* <Route path='/teacher' element={<TeacherProtectedRoute />}> */}
-            {/* <Route index element={<HomeTeacherPage />} /> */}
-            <Route path='groups' element={<GroupsPage />} />
-            {/* </Route> */}
-
-            {/* <Route path='/student' element={<StudentProtectedRoute />}> */}
-            {/* <Route index element={<HomeStudentPage />} /> */}
-            <Route path='teams' element={<TeamsPage />} />
-            {/* </Route> */}
+            <Route path='/student' element={<StudentProtectedRoute />}>
+              <Route index element={<HomeStudentPage />} />
+              <Route path='teams' element={<TeamsPage />} />
+            </Route>
 
             <Route path='*' element={<NotFoundPage />} />
 

@@ -1,8 +1,9 @@
-import { createContext, useState } from 'react'
+import { createContext, useContext, useState } from 'react'
 import { helperAXIOS } from '../helpers/helperAXIOS'
-import { URI_BACKEND } from '../utils/urls'
+import { URI_BACKEND } from '../utils/environments'
 import { useForm } from 'react-hook-form'
-import useSession from '../hooks/useSession'
+import SessionContext from './SessionContext'
+import Swal from 'sweetalert2'
 
 const CrudUsuarioContext = createContext()
 
@@ -17,7 +18,7 @@ const initialForm = {
 }
 
 function CrudUsuarioProvider ({ children }) {
-  const { token, rol, usernameSession, nombre, isValid } = useSession()
+  const { token, rol, usernameSession, nombreSession, email, isValidSession, validatingSession, deleteSession } = useContext(SessionContext)
 
   /**
    * formulario
@@ -59,7 +60,20 @@ function CrudUsuarioProvider ({ children }) {
     const res = await get(URI_BACKEND(`usuario/${username}`), token)
     if (res.status === 200) {
       // console.log(res)
-      setResponse(res)
+      setResponse(res.data)
+    } else {
+      // console.log(res.error)
+      setError(res.error)
+    }
+    setLoading(false)
+  }
+
+  async function getAllUsuarios () {
+    setLoading(true)
+    const res = await get(URI_BACKEND('usuario/getAll'), token)
+    if (res.status === 200) {
+      // console.log(res)
+      setResponse(res.data)
     } else {
       // console.log(res.error)
       setError(res.error)
@@ -71,10 +85,10 @@ function CrudUsuarioProvider ({ children }) {
     setLoading(true)
     const res = await patch(URI_BACKEND('usuario'), data, token)
     if (res.status === 200) {
-      console.log(res)
-      setResponse(res)
+      // console.log(res)
+      setResponse(res.data)
     } else {
-      console.log(res)
+      // console.log(res.error)
       setError(res.error)
     }
     setLoading(false)
@@ -82,15 +96,47 @@ function CrudUsuarioProvider ({ children }) {
 
   async function deleteUsuario (username) {
     setLoading(true)
-    const res = await del(URI_BACKEND(`usuario/${username}`), token)
-    if (res.status === 200) {
-      // console.log(res)
-      setResponse(res)
-    } else {
-      // console.log(res.error)
-      setError(res.error)
+    setError(null)
+    try {
+      const result = await Swal.fire({
+        title: `¿Esta seguro que desea eliminar al usuario ${username}?`,
+        text: 'Esta decisión es irreversible',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Si,¡Eliminar!'
+      })
+
+      if (result.isConfirmed) {
+        const res = await del(URI_BACKEND(`usuario/${username}`), token)
+        console.log(res)
+        if (!res.err) {
+          Swal.fire({
+            title: '¡Eliminar!',
+            text: `El usuario ${username} A sido Eliminado `,
+            icon: 'success'
+          })
+        } else {
+          Swal.fire({
+            title: 'Error al eliminar',
+            text: `Error: ${res.statusText} (${res.status})`,
+            icon: 'error'
+          })
+          setError(res)
+        }
+        await getAllUsuarios()
+      }
+    } catch (err) {
+      Swal.fire({
+        title: 'Error al eliminar, intentelo mas tarde',
+        text: `Error: ${err}`,
+        icon: 'error'
+      })
+      setError(err)
+    } finally {
+      setLoading(false)
     }
-    setLoading(false)
   }
 
   const data = {
@@ -107,6 +153,7 @@ function CrudUsuarioProvider ({ children }) {
     errors,
 
     getUsuario,
+    getAllUsuarios,
     updateUsuario,
     deleteUsuario
   }

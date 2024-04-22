@@ -2,12 +2,12 @@ import React, { useContext, useEffect, useState } from 'react'
 import { Box, Button, Grid, TextField } from '@mui/material'
 import Autocomplete from '@mui/material/Autocomplete'
 import useAxios from '../../../hooks/useAxios'
-import { URI_BACKEND } from '../../../utils/urls'
+import { URI_BACKEND } from '../../../utils/environments'
 import CrudGrupoContext from '../../../context/CrudGrupoContext'
-import useSession from '../../../hooks/useSession'
+import SessionContext from '../../../context/SessionContext'
 
 export default function FormGroup () {
-  const { token, rol, usernameSession, nombre, isValid, deleteSession } = useSession()
+  const { token, rol, usernameSession, nombre, email, isValid, deleteSession } = useContext(SessionContext)
   const {
     response,
     error,

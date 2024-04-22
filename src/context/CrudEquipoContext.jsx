@@ -1,8 +1,8 @@
-import { createContext, useState } from 'react'
+import { createContext, useContext, useState } from 'react'
 import { helperAXIOS } from '../helpers/helperAXIOS'
-import { URI_BACKEND } from '../utils/urls'
+import { URI_BACKEND } from '../utils/environments'
 import { useForm } from 'react-hook-form'
-import useSession from '../hooks/useSession'
+import SessionContext from './SessionContext'
 
 const CrudEquipoContext = createContext()
 
@@ -19,13 +19,11 @@ const initialForm = {
 }
 
 function CrudEquipoProvider ({ children }) {
-  const { token, rol, usernameSession, nombre, isValid } = useSession()
+  const { token, rol, usernameSession, nombreSession, email, isValidSession, validatingSession, deleteSession } = useContext(SessionContext)
 
   /**
    * formulario
    */
-  const [error, setError] = useState(null)
-  const [response, setResponse] = useState(null)
   const [loading, setLoading] = useState(true)
   const {
     register, // el form lo usa para los inputs
@@ -60,65 +58,70 @@ function CrudEquipoProvider ({ children }) {
     setLoading(true)
     const res = await get(URI_BACKEND(`equipo/${id}`), token)
     if (res.status === 200) {
-      // console.log(res)
-      setResponse(res)
+      setLoading(false)
+      // console.log(res.data)
+      return res.data
     } else {
       // console.log(res.error)
-      setError(res.error)
+      setLoading(false)
+      return res.error
     }
-    setLoading(false)
   }
 
   async function getAllProfesoresByGrupoId (id) {
     setLoading(true)
     const res = await get(URI_BACKEND(`equipo/getAllByGrupoId/${id}`), token)
     if (res.status === 200) {
-      // console.log(res)
-      setResponse(res)
+      setLoading(false)
+      // console.log(res.data)
+      return res.data
     } else {
       // console.log(res.error)
-      setError(res.error)
+      setLoading(false)
+      return res.error
     }
-    setLoading(false)
   }
 
   async function createProfesor (data) {
     setLoading(true)
     const res = await post(URI_BACKEND('equipo'), data, token)
     if (res.status === 200) {
-      console.log(res)
-      setResponse(res)
+      setLoading(false)
+      // console.log(res.data)
+      return res.data
     } else {
-      console.log(res)
-      setError(res.error)
+      // console.log(res.error)
+      setLoading(false)
+      return res.error
     }
-    setLoading(false)
   }
 
   async function updateProfesor (data) {
     setLoading(true)
     const res = await patch(URI_BACKEND('equipo'), data, token)
     if (res.status === 200) {
-      console.log(res)
-      setResponse(res)
+      setLoading(false)
+      // console.log(res.data)
+      return res.data
     } else {
-      console.log(res)
-      setError(res.error)
+      // console.log(res.error)
+      setLoading(false)
+      return res.error
     }
-    setLoading(false)
   }
 
   async function deleteProfesor (id) {
     setLoading(true)
     const res = await del(URI_BACKEND(`equipo/${id}`), token)
     if (res.status === 200) {
-      // console.log(res)
-      setResponse(res)
+      setLoading(false)
+      // console.log(res.data)
+      return res.data
     } else {
       // console.log(res.error)
-      setError(res.error)
+      setLoading(false)
+      return res.error
     }
-    setLoading(false)
   }
 
   const data = {

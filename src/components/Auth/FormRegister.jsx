@@ -1,32 +1,19 @@
 import React, { useEffect, useState, useContext } from 'react'
-
-import { useForm } from 'react-hook-form'
 import Grid from '@mui/material/Grid'
 import Radio from '@mui/material/Radio'
 import RadioGroup from '@mui/material/RadioGroup'
 import FormControlLabel from '@mui/material/FormControlLabel'
 import FormControl from '@mui/material/FormControl'
-
-import { ROL_ADMIN, ROL_STUDENT, ROL_TEACHER } from '../../../utils/jwt_data'
-
 import { TextField, Button, Box, Alert, AlertTitle } from '@mui/material'
-import '../../../../public/styles/forms.css'
-import { AuthContext } from '../../../context/AuthContext'
+import '../../../public/styles/forms.css'
+import { AuthContext } from '../../context/AuthContext'
+import { ROL_ADMIN, ROL_STUDENT, ROL_TEACHER } from '../../utils/environments'
+import SessionContext from '../../context/SessionContext'
 
 function FormRegister () {
   const [valueRbtn, setValueRbtn] = useState(null)
+  const { token, rol, usernameSession, nombreSession, email, isValidSession, validatingSession, deleteSession } = useContext(SessionContext)
   const {
-    token,
-    setToken,
-    rol,
-    setRol,
-    id,
-    setId,
-    nombre,
-    setNombre,
-    isValid,
-    setIsValid,
-
     response,
     error,
     loading,
@@ -82,7 +69,7 @@ function FormRegister () {
             onChange={handleChangeRadioBtn}
             className='text-radio'
           >
-            {!(token === null) && (
+            {isValidSession && rol === ROL_ADMIN && (
               <FormControlLabel
                 {...register('rol')}
                 value={ROL_ADMIN}
@@ -91,12 +78,15 @@ function FormRegister () {
                 className='text-radio'
               />
             )}
-            <FormControlLabel
-              {...register('rol')}
-              value={ROL_TEACHER}
-              control={<Radio />}
-              label='Profesor'
-            />
+            {rol === ROL_TEACHER || (
+              <FormControlLabel
+                {...register('rol')}
+                value={ROL_TEACHER}
+                control={<Radio />}
+                label='Profesor'
+              />
+            )}
+
             <FormControlLabel
               {...register('rol')}
               value={ROL_STUDENT}

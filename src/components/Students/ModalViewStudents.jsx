@@ -1,19 +1,11 @@
 import * as React from 'react'
 import Box from '@mui/material/Box'
-import Button from '@mui/material/Button'
-import Typography from '@mui/material/Typography'
 import Modal from '@mui/material/Modal'
-import useAxios from '../../../hooks/useAxios'
-import { URI_BACKEND } from '../../../utils/urls'
-import { useEffect, useState } from 'react'
-import List from '@mui/material/List'
-import ListItem from '@mui/material/ListItem'
-import ListItemText from '@mui/material/ListItemText'
-import CommentIcon from '@mui/icons-material/Comment'
-import IconButton from '@mui/material/IconButton'
-
+import useAxios from '../../hooks/useAxios'
+import { URI_BACKEND } from '../../utils/environments'
+import { useEffect, useState, useContext } from 'react'
 import ListStudents from './ListStudents'
-import useSession from '../../../hooks/useSession'
+import SessionContext from '../../context/SessionContext'
 
 const style = {
   position: 'absolute',
@@ -29,7 +21,7 @@ const style = {
 
 export default function ModalViewStudents ({ group_id, open, setOpen }) {
   const handleClose = () => setOpen(false)
-  const { token } = useSession()
+  const { token, rol, usernameSession, nombre, email, isValid, deleteSession } = useContext(SessionContext)
   const { Data, IsPending, Error } = useAxios(URI_BACKEND(`estudiante/getAllByGroupId/${group_id}/NotTeam`), 'GET', token)
   const [students, setStudents] = useState(null)
 

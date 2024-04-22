@@ -2,13 +2,12 @@ import React, { useContext, useEffect } from 'react'
 import CardGroup from './CardGroup'
 import Grid from '@mui/material/Grid'
 import { Skeleton } from '@mui/material'
-import { ROL_ADMIN, ROL_TEACHER } from '../../../utils/jwt_data'
 import CrudGrupoContext from '../../../context/CrudGrupoContext'
-import useSession from '../../../hooks/useSession'
+import { ROL_ADMIN, ROL_TEACHER } from '../../../utils/environments'
 import SessionContext from '../../../context/SessionContext'
-
+SessionContext
 const TableGroups = () => {
-  const { token, setToken, rol, setRol, usernameSession, setUsernameSession, nombre, setNombre, email, setEmail, isValid, setIsValid } = useContext(SessionContext)
+  const { token, rol, usernameSession, nombre, email, isValid, deleteSession } = useContext(SessionContext)
   const {
     response,
     error,
@@ -34,7 +33,7 @@ const TableGroups = () => {
     deleteGrupo
   } = useContext(CrudGrupoContext)
 
-  console.log(token, rol, usernameSession, nombre, email, isValid)
+  // console.log(token, rol, usernameSession, nombre, email, isValid)
   useEffect(() => {
     // async function funAsync () {
     if (rol === ROL_TEACHER) {
@@ -45,7 +44,7 @@ const TableGroups = () => {
     console.log('Response: ', response)
     // }
     // funAsync()
-  }, [isValid])
+  }, [])
 
   return (
     <Grid

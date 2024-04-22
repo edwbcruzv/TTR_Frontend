@@ -1,8 +1,8 @@
-import { createContext, useState } from 'react'
+import { createContext, useContext, useState } from 'react'
 import { helperAXIOS } from '../helpers/helperAXIOS'
-import { URI_BACKEND } from '../utils/urls'
+import { URI_BACKEND } from '../utils/environments'
 import { useForm } from 'react-hook-form'
-import useSession from '../hooks/useSession'
+import SessionContext from './SessionContext'
 
 const CrudGrupoContext = createContext()
 
@@ -14,7 +14,7 @@ const initialForm = {
 }
 
 function CrudGrupoProvider ({ children }) {
-  const { token, rol, usernameSession, nombre, isValid } = useSession()
+  const { token, rol, usernameSession, nombre, email, isValid, deleteSession } = useContext(SessionContext)
 
   /**
    * formulario

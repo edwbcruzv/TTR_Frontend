@@ -1,7 +1,6 @@
 import { useState, createContext } from 'react'
 import { useForm } from 'react-hook-form'
-import { ROL_ADMIN, ROL_STUDENT, ROL_TEACHER } from '../utils/jwt_data'
-import { URI_BACKEND } from '../utils/urls'
+import { ROL_ADMIN, ROL_STUDENT, ROL_TEACHER, URI_BACKEND } from '../utils/environments'
 import { helperAXIOS } from '../helpers/helperAXIOS'
 
 const AuthContext = createContext()
@@ -56,7 +55,8 @@ const AuthProvider = ({ children }) => {
       // console.log(res)
       window.localStorage.setItem('session', JSON.stringify(res.data))
       setResponse(res)
-      // handleCloseModalForm()
+      handleCloseModalForm()
+      window.location.reload()
     } else {
       console.log(res)
       setError(res.error)
@@ -88,6 +88,7 @@ const AuthProvider = ({ children }) => {
       // console.log(res)
       setResponse(res)
       handleCloseModalForm()
+      window.location.reload()
     } else {
       console.log(res)
       setError(res.error)

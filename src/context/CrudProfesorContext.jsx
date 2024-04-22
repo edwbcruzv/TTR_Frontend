@@ -1,9 +1,10 @@
 import { createContext, useState } from 'react'
 import { helperAXIOS } from '../helpers/helperAXIOS'
-import useAuth from '../hooks/useAuth'
-import { URI_BACKEND } from '../utils/urls'
+import { URI_BACKEND } from '../utils/environments'
 import { useForm } from 'react-hook-form'
-import useSession from '../hooks/useSession'
+import { useStepContext } from '@mui/material'
+import SessionContext from './SessionContext'
+import Swal from 'sweetalert2'
 
 const CrudProfesorContext = createContext()
 
@@ -19,7 +20,7 @@ const initialForm = {
 }
 
 function CrudProfesorProvider ({ children }) {
-  const { token, rol, usernameSession, nombre, isValid } = useSession()
+  const { token, rol, usernameSession, nombreSession, email, isValidSession, validatingSession, deleteSession } = useStepContext(SessionContext)
 
   /**
    * formulario
@@ -58,10 +59,25 @@ function CrudProfesorProvider ({ children }) {
 
   async function getProfesor (username) {
     setLoading(true)
+    setError(null)
     const res = await get(URI_BACKEND(`profesor/${username}`), token)
     if (res.status === 200) {
       // console.log(res)
-      setResponse(res)
+      setResponse(res.data)
+    } else {
+      // console.log(res.error)
+      setError(res.error)
+    }
+    setLoading(false)
+  }
+
+  async function getAllProfesores () {
+    setLoading(true)
+    setError(null)
+    const res = await get(URI_BACKEND('profesor/getAll'), token)
+    if (res.status === 200) {
+      // console.log(res)
+      setResponse(res.data)
     } else {
       // console.log(res.error)
       setError(res.error)
@@ -71,12 +87,13 @@ function CrudProfesorProvider ({ children }) {
 
   async function updateProfesor (data) {
     setLoading(true)
+    setError(null)
     const res = await patch(URI_BACKEND('profesor'), data, token)
     if (res.status === 200) {
-      console.log(res)
-      setResponse(res)
+      // console.log(res)
+      setResponse(res.data)
     } else {
-      console.log(res)
+      // console.log(res.error)
       setError(res.error)
     }
     setLoading(false)
@@ -84,15 +101,47 @@ function CrudProfesorProvider ({ children }) {
 
   async function deleteProfesor (username) {
     setLoading(true)
-    const res = await del(URI_BACKEND(`profesor/${username}`), token)
-    if (res.status === 200) {
-      // console.log(res)
-      setResponse(res)
-    } else {
-      // console.log(res.error)
-      setError(res.error)
+    setError(null)
+    try {
+      const result = await Swal.fire({
+        title: `¿Esta seguro que desea eliminar al profesor ${username}?`,
+        text: 'Esta decisión es irreversible',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Si,¡Eliminar!'
+      })
+
+      if (result.isConfirmed) {
+        const res = await del(URI_BACKEND(`profesor/${username}`), token)
+        console.log(res)
+        if (!res.err) {
+          Swal.fire({
+            title: '¡Eliminar!',
+            text: `El profesor ${username} A sido Eliminado `,
+            icon: 'success'
+          })
+        } else {
+          Swal.fire({
+            title: 'Error al eliminar',
+            text: `Error: ${res.statusText} (${res.status})`,
+            icon: 'error'
+          })
+          setError(res)
+        }
+        await getAllProfesores()
+      }
+    } catch (err) {
+      Swal.fire({
+        title: 'Error al eliminar, intentelo mas tarde',
+        text: `Error: ${err}`,
+        icon: 'error'
+      })
+      setError(err)
+    } finally {
+      setLoading(false)
     }
-    setLoading(false)
   }
 
   const data = {
@@ -109,6 +158,7 @@ function CrudProfesorProvider ({ children }) {
     errors,
 
     getProfesor,
+    getAllProfesores,
     updateProfesor,
     deleteProfesor
   }

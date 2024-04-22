@@ -1,6 +1,4 @@
 import React, { useContext, useEffect } from 'react'
-import { useNavigate } from 'react-router-dom'
-import { ROL_ADMIN, ROL_STUDENT, ROL_TEACHER } from '../../../utils/jwt_data'
 import {
   Alert,
   AlertTitle,
@@ -8,22 +6,11 @@ import {
   TextField
 } from '@mui/material'
 
-import '../../../../public/styles/forms.css'
-import { AuthContext } from '../../../context/AuthContext'
+import '../../../public/styles/forms.css'
+import { AuthContext } from '../../context/AuthContext'
 
 const FormLogin = () => {
   const {
-    token,
-    setToken,
-    rol,
-    setRol,
-    id,
-    setId,
-    nombre,
-    setNombre,
-    isValid,
-    setIsValid,
-
     response,
     error,
     loading,
@@ -40,10 +27,11 @@ const FormLogin = () => {
     handleOpenModalForm,
     handleCloseModalForm,
 
-    login
+    login,
+    registerUser,
+    recoveryByEmail
   } = useContext(AuthContext)
 
-  const navigate = useNavigate()
   useEffect(() => {
     console.log('Response: ', response)
   }, [response])
