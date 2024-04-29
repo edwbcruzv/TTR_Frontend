@@ -1,11 +1,12 @@
 import * as React from 'react'
 import Box from '@mui/material/Box'
 import Modal from '@mui/material/Modal'
-import useAxios from '../../hooks/useAxios'
-import { URI_BACKEND } from '../../utils/environments'
+import useAxios from '../../../hooks/useAxios'
+import { URI_BACKEND } from '../../../utils/environments'
 import { useEffect, useState, useContext } from 'react'
 import ListStudents from './ListStudents'
-import SessionContext from '../../context/SessionContext'
+import SessionContext from '../../../context/SessionContext'
+import CrudInscripcionContext from '../../../context/CrudInscripcionContext'
 
 const style = {
   position: 'absolute',
@@ -21,17 +22,11 @@ const style = {
 
 export default function ModalViewStudents ({ group_id, open, setOpen }) {
   const handleClose = () => setOpen(false)
-  const { token, rol, usernameSession, nombre, email, isValid, deleteSession } = useContext(SessionContext)
-  const { Data, IsPending, Error } = useAxios(URI_BACKEND(`estudiante/getAllByGroupId/${group_id}/NotTeam`), 'GET', token)
-  const [students, setStudents] = useState(null)
+  const { token, rol, usernameSession, nombreSession, email, isValidSession, validatingSession, deleteSession } = useContext(SessionContext)
 
   useEffect(() => {
-    if (IsPending === false && Data) {
-      const list_aux = Data.map((elem) => ({ nombre: `${elem.nombre} ${elem.apellido_paterno} ${elem.apellido_materno}`, id: elem.id }))
-      console.log(list_aux)
-      setStudents(list_aux)
-    }
-  }, [IsPending])
+    console.log('Response: ', response)
+  }, [])
 
   return (
     <div>
@@ -43,7 +38,7 @@ export default function ModalViewStudents ({ group_id, open, setOpen }) {
         aria-describedby='modal-modal-description'
       >
         <Box sx={style}>
-          {students && <ListStudents students={students} />}
+          {/* {!loading && <ListStudents students={inscripciones} />} */}
         </Box>
       </Modal>
     </div>

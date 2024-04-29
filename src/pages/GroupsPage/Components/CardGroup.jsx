@@ -8,7 +8,7 @@ import Typography from '@mui/material/Typography'
 import Grid from '@mui/material/Grid'
 import copy from 'clipboard-copy'
 import { useNavigate } from 'react-router-dom'
-import ModalViewStudents from '../../../components/Students/ModalViewStudents'
+import ModalViewStudents from './ModalViewStudents'
 
 export default function CardGroup ({ group }) {
   const {

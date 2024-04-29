@@ -1,12 +1,11 @@
 import React, { useContext, useEffect } from 'react'
-import CardGroup from './CardGroup'
 import Grid from '@mui/material/Grid'
 import { Skeleton } from '@mui/material'
-import CrudGrupoContext from '../../../context/CrudGrupoContext'
-import { ROL_ADMIN, ROL_TEACHER } from '../../../utils/environments'
+import CardInscription from './CardInscription'
+import CrudInscripcionContext from '../../../context/CrudInscripcionContext'
 import SessionContext from '../../../context/SessionContext'
 
-const TableGroups = () => {
+const TableInscriptions = () => {
   const { token, rol, usernameSession, nombreSession, email, isValidSession, validatingSession, deleteSession } = useContext(SessionContext)
   const {
     response,
@@ -21,24 +20,16 @@ const TableGroups = () => {
     getValues,
     errors,
 
-    openModalForm,
-    handleOpenModalForm,
-    handleCloseModalForm,
-
-    getAllGrupos,
-    getGrupo,
-    getAllGruposByProfesorUsername,
-    createGrupo,
-    updateGrupo,
-    deleteGrupo
-  } = useContext(CrudGrupoContext)
+    getInscripcion,
+    getAllInscripcionesByGrupoId,
+    getAllInscripcionesByEstudianteUsername,
+    createInscripcion,
+    updateInscripcion,
+    deleteInscripcion
+  } = useContext(CrudInscripcionContext)
 
   useEffect(() => {
-    if (rol === ROL_TEACHER) {
-      getAllGruposByProfesorUsername(usernameSession)
-    } else if (rol === ROL_ADMIN) {
-      getAllGrupos()
-    }
+    getAllInscripcionesByEstudianteUsername(usernameSession)
     console.log('Response: ', response)
   }, [])
 
@@ -52,7 +43,7 @@ const TableGroups = () => {
       alignContent='stretch'
       wrap='wrap'
     >
-      {response && response.map((grupo, index) => <Grid key={index} item xs={12} sm={6} md={4} lg={3}><CardGroup key={index} group={grupo} /></Grid>)}
+      {response && response.map((inscripcion, index) => <Grid key={index} item xs={12} sm={6} md={4} lg={3}><CardInscription key={index} inscription={inscripcion} /></Grid>)}
       {loading && [0, 1, 2, 3, 4, 5, 6, 7, 8].map((elem, index) => <Grid key={index} item xs={12} sm={6} md={4} lg={3} sx={{ pt: 0.5, maxWidth: 345 }}>
         <Skeleton variant='rectangular' width={305} height={140} />
         <Skeleton />
@@ -63,4 +54,4 @@ const TableGroups = () => {
   )
 }
 
-export default TableGroups
+export default TableInscriptions

@@ -3,23 +3,35 @@ import Popover from '@mui/material/Popover'
 import Button from '@mui/material/Button'
 import TextField from '@mui/material/TextField'
 import Grid from '@mui/material/Grid'
-import { Alert, AlertTitle, Box, CircularProgress } from '@mui/material'
 import { useContext } from 'react'
-import CrudInscriptionContext from '../../context/CrudInscriptionContext'
+import CrudInscripcionContext from '../../../context/CrudInscripcionContext'
+import { Box } from '@mui/material'
 
-export default function GroupPopover () {
-  const {
-    response, error, loading,
-    viewDataEdit, createData,
-    updateData, deleteData,
-    register, handleSubmit, watch, errors, setValue, getValues,
-    openModalForm, handleOpenModalForm, handleCloseModalForm,
-    openModalView, handleOpenModalView, handleCloseModalView
-  } = useContext(CrudInscriptionContext)
+export default function InscriptionPopover () {
   const [anchorEl, setAnchorEl] = React.useState(null)
+  const {
+    response,
+    error,
+    loading,
 
+    register,
+    handleSubmit,
+    watch,
+    reset,
+    setValue,
+    getValues,
+    errors,
+
+    getInscripcion,
+    getAllInscripcionesByGrupoId,
+    getAllInscripcionesByEstudianteUsername,
+    createInscripcion,
+    updateInscripcion,
+    deleteInscripcion
+  } = useContext(CrudInscripcionContext)
   function onSubmit (data) {
-    createData(data)
+    // console.log(data)
+    createInscripcion(data)
   }
 
   const handleClick = (event) => {
@@ -48,8 +60,8 @@ export default function GroupPopover () {
           horizontal: 'left'
         }}
       >
-        <Box component='form' onSubmit={handleSubmit(onSubmit)}>
 
+        <Box component='form' onSubmit={handleSubmit(onSubmit)}>
           <Grid
             container
             spacing={1}
@@ -69,25 +81,14 @@ export default function GroupPopover () {
               alignContent='center'
             >
 
-              <Grid item><TextField {...register('clave_grupo', { required: { value: true, message: 'Es requerido' } })} id='clave_grupo' label='Clave del grupo' type='text' variant='outlined' error={errors.clave_grupo} helperText={(errors.clave_grupo) && errors.clave_grupo.message} /></Grid>
+              <Grid item><TextField {...register('codigo', { required: { value: true, message: 'Es requerido' } })} id='codigo' label='Codigo del grupo' type='text' variant='outlined' error={errors.codigo} helperText={(errors.codigo) && errors.codigo.message} /></Grid>
               <Grid item>
                 <Button variant='outlined' color='primary' type='submit'>Unirse</Button>
               </Grid>
             </Grid>
-            <Grid item>
 
-              {!loading || <CircularProgress color='inherit' />}
+            {/* {loading || <Grid item> <CircularProgress color='inherit' /></Grid>} */}
 
-              {!error && response && <Alert severity='success'>
-                <AlertTitle>Success</AlertTitle>
-                <strong>Usuario creado correctamente</strong>
-                                     </Alert>}
-
-              {error && <Alert severity='error'>
-                <AlertTitle>Error</AlertTitle>
-                Mensaje: <strong>{res.error}</strong>
-                        </Alert>}
-            </Grid>
           </Grid>
         </Box>
       </Popover>

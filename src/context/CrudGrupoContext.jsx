@@ -14,7 +14,7 @@ const initialForm = {
 }
 
 function CrudGrupoProvider ({ children }) {
-  const { token, rol, usernameSession, nombre, email, isValid, deleteSession } = useContext(SessionContext)
+  const { token, rol, usernameSession, nombreSession, email, isValidSession, validatingSession, deleteSession } = useContext(SessionContext)
 
   /**
    * formulario

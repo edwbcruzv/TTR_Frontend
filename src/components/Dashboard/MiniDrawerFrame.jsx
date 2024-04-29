@@ -165,13 +165,14 @@ export default function MiniDrawerFrame ({ children }) {
         { textItem: 'Usuarios', path: 'teacher/users', iconItem: <PeopleOutlinedIcon /> },
         { textItem: 'Mis Casos', path: 'teacher/cases', iconItem: <CasesOutlinedIcon /> },
         { textItem: 'Mis Grupos', path: 'teacher/groups', iconItem: <GroupsOutlinedIcon /> },
-        { textItem: 'Casos por Revisar', path: 'teacher/revision', iconItem: <PendingActionsOutlinedIcon /> }
+        { textItem: 'Practices', path: 'teacher/practices', iconItem: <PendingActionsOutlinedIcon /> }
       )
       break
     case ROL_STUDENT:
       itemsBody.push(
-        { textItem: 'Casos pendientes', path: 'student/cases', iconItem: <AssignmentLateOutlinedIcon /> },
-        { textItem: 'Mis Equipos', path: 'student/teams', iconItem: <Diversity3OutlinedIcon /> }
+        { textItem: 'Practicas', path: 'student/practices', iconItem: <AssignmentLateOutlinedIcon /> },
+        { textItem: 'Equipos', path: 'student/teams', iconItem: <Diversity3OutlinedIcon /> },
+        { textItem: 'Grupos', path: 'student/inscriptions', iconItem: <GroupsOutlinedIcon /> }
       )
       break
     default:

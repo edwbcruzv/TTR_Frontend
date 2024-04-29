@@ -1,6 +1,6 @@
 import React from 'react'
 import useAuth from '../../../hooks/useAuth'
-import useAxios from '../../hooks/useAxios'
+import useAxios from '../../../hooks/useAxios'
 import { URI_BACKEND } from '../../../utils/urls'
 import { Grid, Skeleton } from '@mui/material'
 import CardTeam from './CardTeam'
@@ -28,7 +28,7 @@ function TableTeams ({ group_id }) {
         <Skeleton variant='rectangular' width={305} height={140} />
         <Skeleton />
         <Skeleton width='60%' />
-                                                              </Grid>)}
+      </Grid>)}
 
     </Grid>
   )

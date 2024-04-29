@@ -15,6 +15,8 @@ import HomeAdminPage from './pages/HomeAdminPage/HomeAdminPage'
 import HomeTeacherPage from './pages/HomeTeacherPage/HomeTeacherPage'
 import HomeStudentPage from './pages/HomeStudentPage/HomeStudentPage'
 import PublicProtectedRoute from './pages/PublicProtectedRoute'
+import GroupPage from './pages/GroupsPage/GroupPage/GroupPage'
+import InscriptionPage from './pages/InscriptionPage/InscriptionPage'
 
 const App = (props) => {
   return (
@@ -45,7 +47,10 @@ const App = (props) => {
 
             <Route path='/student' element={<StudentProtectedRoute />}>
               <Route index element={<HomeStudentPage />} />
+              <Route path='practices' element={<PracticesPage />} />
               <Route path='teams' element={<TeamsPage />} />
+              <Route path='inscriptions' element={<InscriptionPage />} />
+              <Route path='group/:id' element={<GroupPage />} />
             </Route>
 
             <Route path='*' element={<NotFoundPage />} />

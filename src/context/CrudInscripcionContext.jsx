@@ -3,23 +3,30 @@ import { helperAXIOS } from '../helpers/helperAXIOS'
 import { URI_BACKEND } from '../utils/environments'
 import { useForm } from 'react-hook-form'
 import SessionContext from './SessionContext'
+import Swal from 'sweetalert2'
 
 const CrudInscripcionContext = createContext()
 
-const initialForm = {
-  grupoId: null,
-  estudianteUsername: null,
-  calificacion: null,
-  codigo: null
-}
+// const initialForm = {
+//   grupoId: null,
+//   estudianteUsername: null,
+//   calificacion: null,
+//   codigo: null
+// }
 
 function CrudInscripcionProvider ({ children }) {
   const { token, rol, usernameSession, nombreSession, email, isValidSession, validatingSession, deleteSession } = useContext(SessionContext)
-
+  const initialForm = {
+    grupoId: null,
+    estudianteUsername: usernameSession,
+    calificacion: null,
+    codigo: null
+  }
   /**
    * formulario
    */
-
+  const [error, setError] = useState(null)
+  const [response, setResponse] = useState(null)
   const [loading, setLoading] = useState(true)
   const {
     register, // el form lo usa para los inputs
@@ -29,7 +36,14 @@ function CrudInscripcionProvider ({ children }) {
     setValue, // settear el valor a un atributo
     getValues, //
     formState: { errors } // errores de un formulario
-  } = useForm({ defaultValues: initialForm }) // inicializar un formulario
+  } = useForm({
+    defaultValues: {
+      grupoId: null,
+      estudianteUsername: usernameSession,
+      calificacion: null,
+      codigo: null
+    }
+  }) // inicializar un formulario
 
   const { get, post, patch, del } = helperAXIOS()
 
@@ -56,11 +70,11 @@ function CrudInscripcionProvider ({ children }) {
     if (res.status === 200) {
       setLoading(false)
       // console.log(res.data)
-      return res.data
+      setResponse(res.data)
     } else {
       // console.log(res.error)
       setLoading(false)
-      return res.error
+      setError(res)
     }
   }
 
@@ -70,11 +84,24 @@ function CrudInscripcionProvider ({ children }) {
     if (res.status === 200) {
       setLoading(false)
       // console.log(res.data)
-      return res.data
+      setResponse(res.data)
     } else {
       // console.log(res.error)
       setLoading(false)
-      return res.error
+      setError(res)
+    }
+  }
+
+  async function getAllInscripcionesByEstudianteUsername (username) {
+    setLoading(true)
+    const res = await get(URI_BACKEND(`inscripcion/getAllByEstudianteUsername/${username}`), token)
+    if (res.status === 200) {
+      setLoading(false)
+      // console.log(res.data)
+      setResponse(res.data)
+    } else {
+      setError(res)
+      setLoading(false)
     }
   }
 
@@ -83,12 +110,25 @@ function CrudInscripcionProvider ({ children }) {
     const res = await post(URI_BACKEND('inscripcion'), data, token)
     if (res.status === 200) {
       setLoading(false)
+      Swal.fire({
+        position: 'top-end',
+        icon: 'success',
+        title: 'Te has unido al grupo correctamente',
+        showConfirmButton: false,
+        timer: 2000
+      })
+      getAllInscripcionesByEstudianteUsername(usernameSession)
       // console.log(res.data)
-      return res.data
+      setResponse(res.data)
     } else {
+      Swal.fire({
+        title: 'Error al unirte',
+        text: 'Verifica el codigo de acceso con tu profesor.',
+        icon: 'error'
+      })
       // console.log(res.error)
       setLoading(false)
-      return res.error
+      setError(res)
     }
   }
 
@@ -98,11 +138,11 @@ function CrudInscripcionProvider ({ children }) {
     if (res.status === 200) {
       setLoading(false)
       // console.log(res.data)
-      return res.data
+      setResponse(res.data)
     } else {
       // console.log(res.error)
       setLoading(false)
-      return res.error
+      setError(res)
     }
   }
 
@@ -112,11 +152,11 @@ function CrudInscripcionProvider ({ children }) {
     if (res.status === 200) {
       setLoading(false)
       // console.log(res.data)
-      return res.data
+      setResponse(res.data)
     } else {
       // console.log(res.error)
       setLoading(false)
-      return res.error
+      setError(res)
     }
   }
 
@@ -135,6 +175,7 @@ function CrudInscripcionProvider ({ children }) {
 
     getInscripcion,
     getAllInscripcionesByGrupoId,
+    getAllInscripcionesByEstudianteUsername,
     createInscripcion,
     updateInscripcion,
     deleteInscripcion
