@@ -7,11 +7,8 @@ import IconButton from '@mui/material/IconButton'
 import Typography from '@mui/material/Typography'
 import CloseIcon from '@mui/icons-material/Close'
 import Slide from '@mui/material/Slide'
-
-import CrudTeamContext from '../../../context/CrudTeamContext'
-import FormTeam from '../../../TeamsPage/Components/FormTeam'
-import HelpTooltip from '../../Tooltips/HelpTooltip'
 import Grid from '@mui/material/Grid'
+import CrudEquipoContext from '../../../../context/CrudEquipoContext'
 
 const Transition = React.forwardRef(function Transition (props, ref) {
   return <Slide direction='up' ref={ref} {...props} />
@@ -19,13 +16,28 @@ const Transition = React.forwardRef(function Transition (props, ref) {
 
 const FullScreenTeamCreate = ({ group_id }) => {
   const {
-    response, error, loading,
-    viewDataEdit, createData,
-    updateData, deleteData,
-    register, handleSubmit, watch, errors, setValue, getValues,
-    openModalForm, handleOpenModalForm, handleCloseModalForm,
-    openModalView, handleOpenModalView, handleCloseModalView
-  } = useContext(CrudTeamContext)
+    response,
+    error,
+    loading,
+
+    register,
+    handleSubmit,
+    watch,
+    reset,
+    setValue,
+    getValues,
+    errors,
+
+    openModalForm,
+    handleOpenModalForm,
+    handleCloseModalForm,
+
+    getEquipo,
+    getAllEquipoByGrupoId,
+    createEquipo,
+    updateEquipo,
+    deleteEquipo
+  } = useContext(CrudEquipoContext)
 
   return (
     <>
@@ -40,7 +52,7 @@ const FullScreenTeamCreate = ({ group_id }) => {
         <Button variant='outlined' onClick={handleOpenModalForm}>
           Crear Equipo
         </Button>
-        <HelpTooltip text='Aqui se muestran los grupos del semestre en curso.' />
+        {/* <HelpTooltip text='Aqui se muestran los grupos del semestre en curso.' /> */}
       </Grid>
       <Dialog
         fullScreen
@@ -66,7 +78,7 @@ const FullScreenTeamCreate = ({ group_id }) => {
             </Button> */}
           </Toolbar>
         </AppBar>
-        <FormTeam group_id={group_id} />
+        {/* <FormTeam group_id={group_id} /> */}
       </Dialog>
     </>
   )

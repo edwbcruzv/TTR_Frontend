@@ -1,17 +1,33 @@
-import React from 'react'
-import useAuth from '../../../hooks/useAuth'
-import useAxios from '../../../hooks/useAxios'
-import { URI_BACKEND } from '../../../utils/urls'
+import React, { useContext, useEffect } from 'react'
 import { Grid, Skeleton } from '@mui/material'
 import CardTeam from './CardTeam'
+import CrudEquipoContext from '../../../context/CrudEquipoContext'
 
 function TableTeams ({ group_id }) {
-  const { token, id } = useAuth()
+  const {
+    response,
+    error,
+    loading,
 
-  const { Data, IsPending, Error } = useAxios(URI_BACKEND(`equipo/getAllByGrupoId/${group_id}`), 'GET', token)
-  if (IsPending === false && Data) {
-    console.log(Data)
-  }
+    register,
+    handleSubmit,
+    watch,
+    reset,
+    setValue,
+    getValues,
+    errors,
+
+    getEquipo,
+    getAllEquipoByGrupoId,
+    createEquipo,
+    updateEquipo,
+    deleteEquipo
+  } = useContext(CrudEquipoContext)
+
+  useEffect(() => {
+    getAllEquipoByGrupoId(group_id)
+    console.log('Response: ', response)
+  }, [])
 
   return (
     <Grid
@@ -23,8 +39,8 @@ function TableTeams ({ group_id }) {
       alignContent='stretch'
       wrap='wrap'
     >
-      {Data && Data.map((equipo, index) => <Grid key={index} item xs={12} sm={6} md={4} lg={3}><CardTeam team={equipo} /></Grid>)}
-      {IsPending && [, 1, 2, 3, 4, 5, 6, 7, 8].map((index) => <Grid key={index} item xs={12} sm={6} md={4} lg={3} sx={{ pt: 0.5, maxWidth: 345 }}>
+      {response && response.map((equipo, index) => <Grid key={index} item xs={12} sm={6} md={4} lg={3}><CardTeam team={equipo} /></Grid>)}
+      {loading && [, 1, 2, 3, 4, 5, 6, 7, 8].map((index) => <Grid key={index} item xs={12} sm={6} md={4} lg={3} sx={{ pt: 0.5, maxWidth: 345 }}>
         <Skeleton variant='rectangular' width={305} height={140} />
         <Skeleton />
         <Skeleton width='60%' />

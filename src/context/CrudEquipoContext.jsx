@@ -25,6 +25,8 @@ function CrudEquipoProvider ({ children }) {
    * formulario
    */
   const [loading, setLoading] = useState(true)
+  const [response, setResponse] = useState(null)
+  const [error, setError] = useState(null)
   const {
     register, // el form lo usa para los inputs
     handleSubmit, // hace el envio
@@ -54,73 +56,73 @@ function CrudEquipoProvider ({ children }) {
    * Peticiones a la API
    */
 
-  async function getProfesor (id) {
+  async function getEquipo (id) {
     setLoading(true)
     const res = await get(URI_BACKEND(`equipo/${id}`), token)
     if (res.status === 200) {
       setLoading(false)
       // console.log(res.data)
-      return res.data
+      setResponse(res.data)
     } else {
       // console.log(res.error)
       setLoading(false)
-      return res.error
+      setError(res.error)
     }
   }
 
-  async function getAllProfesoresByGrupoId (id) {
+  async function getAllEquipoByGrupoId (id) {
     setLoading(true)
     const res = await get(URI_BACKEND(`equipo/getAllByGrupoId/${id}`), token)
     if (res.status === 200) {
       setLoading(false)
       // console.log(res.data)
-      return res.data
+      setResponse(res.data)
     } else {
       // console.log(res.error)
       setLoading(false)
-      return res.error
+      setError(res.error)
     }
   }
 
-  async function createProfesor (data) {
+  async function createEquipo (data) {
     setLoading(true)
     const res = await post(URI_BACKEND('equipo'), data, token)
     if (res.status === 200) {
       setLoading(false)
       // console.log(res.data)
-      return res.data
+      setResponse(res.data)
     } else {
       // console.log(res.error)
       setLoading(false)
-      return res.error
+      setError(res.error)
     }
   }
 
-  async function updateProfesor (data) {
+  async function updateEquipo (data) {
     setLoading(true)
     const res = await patch(URI_BACKEND('equipo'), data, token)
     if (res.status === 200) {
       setLoading(false)
       // console.log(res.data)
-      return res.data
+      setResponse(res.data)
     } else {
       // console.log(res.error)
       setLoading(false)
-      return res.error
+      setError(res.error)
     }
   }
 
-  async function deleteProfesor (id) {
+  async function deleteEquipo (id) {
     setLoading(true)
     const res = await del(URI_BACKEND(`equipo/${id}`), token)
     if (res.status === 200) {
       setLoading(false)
       // console.log(res.data)
-      return res.data
+      setResponse(res.data)
     } else {
       // console.log(res.error)
       setLoading(false)
-      return res.error
+      setError(res.error)
     }
   }
 
@@ -137,11 +139,15 @@ function CrudEquipoProvider ({ children }) {
     getValues,
     errors,
 
-    getProfesor,
-    getAllProfesoresByGrupoId,
-    createProfesor,
-    updateProfesor,
-    deleteProfesor
+    openModalForm,
+    handleOpenModalForm,
+    handleCloseModalForm,
+
+    getEquipo,
+    getAllEquipoByGrupoId,
+    createEquipo,
+    updateEquipo,
+    deleteEquipo
   }
   return (
     <CrudEquipoContext.Provider value={data}>

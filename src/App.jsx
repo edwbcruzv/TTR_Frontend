@@ -37,12 +37,14 @@ const App = (props) => {
               <Route index element={<HomeAdminPage />} />
               <Route path='users' element={<UsersPage />} />
               <Route path='groups' element={<GroupsPage />} />
+              <Route path='group/:id' element={<GroupPage />} />
             </Route>
 
             <Route path='/teacher' element={<TeacherProtectedRoute />}>
               <Route index element={<HomeTeacherPage />} />
               <Route path='users' element={<UsersPage />} />
               <Route path='groups' element={<GroupsPage />} />
+              <Route path='group/:id' element={<GroupPage />} />
             </Route>
 
             <Route path='/student' element={<StudentProtectedRoute />}>
@@ -50,7 +52,7 @@ const App = (props) => {
               <Route path='practices' element={<PracticesPage />} />
               <Route path='teams' element={<TeamsPage />} />
               <Route path='inscriptions' element={<InscriptionPage />} />
-              <Route path='group/:id' element={<GroupPage />} />
+
             </Route>
 
             <Route path='*' element={<NotFoundPage />} />

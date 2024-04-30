@@ -82,6 +82,19 @@ function CrudEstudianteProvider ({ children }) {
     setLoading(false)
   }
 
+  async function getAllEstudiantesByGroupId (id) {
+    setLoading(true)
+    const res = await get(URI_BACKEND(`estudiante/getAllByGroupId/${id}`), token)
+    if (res.status === 200) {
+      // console.log(res)
+      setResponse(res.data)
+    } else {
+      // console.log(res.error)
+      setError(res)
+    }
+    setLoading(false)
+  }
+
   async function updateEstudiante (data) {
     setLoading(true)
     const res = await patch(URI_BACKEND('estudiante'), data, token)
@@ -154,6 +167,7 @@ function CrudEstudianteProvider ({ children }) {
 
     getEstudiante,
     getAllEstudiantes,
+    getAllEstudiantesByGroupId,
     updateEstudiante,
     deleteEstudiante
   }

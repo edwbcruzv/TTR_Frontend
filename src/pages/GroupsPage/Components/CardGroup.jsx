@@ -9,8 +9,12 @@ import Grid from '@mui/material/Grid'
 import copy from 'clipboard-copy'
 import { useNavigate } from 'react-router-dom'
 import ModalViewStudents from './ModalViewStudents'
+import { CrudEstudianteProvider } from '../../../context/CrudEstudianteContext'
+import { ROL_ADMIN, ROL_TEACHER } from '../../../utils/environments'
+import SessionContext from '../../../context/SessionContext'
 
 export default function CardGroup ({ group }) {
+  const { token, rol, usernameSession, nombreSession, email, isValidSession, validatingSession, deleteSession } = React.useContext(SessionContext)
   const {
     id,
     clave,
@@ -21,8 +25,11 @@ export default function CardGroup ({ group }) {
 
   const navigate = useNavigate()
   const handleGroup = () => {
-    navigate(`/teacher/group/${id}`, { replace: true }
-    )
+    if (rol === ROL_TEACHER) {
+      navigate(`/teacher/group/${id}`, { replace: true })
+    } else if (rol === ROL_ADMIN) {
+      navigate(`/admin/group/${id}`, { replace: true })
+    }
   }
   const [open, setOpen] = React.useState(false)
   const handleOpen = () => setOpen(true)
@@ -38,7 +45,9 @@ export default function CardGroup ({ group }) {
         image='/images/fondo_card.jpg'
         title='green iguana'
       />
-      <ModalViewStudents group_id={id} open={open} setOpen={setOpen} />
+      <CrudEstudianteProvider>
+        <ModalViewStudents group_id={id} open={open} setOpen={setOpen} />
+      </CrudEstudianteProvider>
       <CardContent>
         <Grid container justifyContent='space-between'>
           <Grid item>

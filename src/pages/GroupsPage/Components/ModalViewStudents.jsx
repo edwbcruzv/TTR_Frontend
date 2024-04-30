@@ -1,12 +1,10 @@
 import * as React from 'react'
 import Box from '@mui/material/Box'
 import Modal from '@mui/material/Modal'
-import useAxios from '../../../hooks/useAxios'
-import { URI_BACKEND } from '../../../utils/environments'
 import { useEffect, useState, useContext } from 'react'
-import ListStudents from './ListStudents'
 import SessionContext from '../../../context/SessionContext'
-import CrudInscripcionContext from '../../../context/CrudInscripcionContext'
+import CrudEstudianteContext from '../../../context/CrudEstudianteContext'
+import ListStudents from './ListStudents'
 
 const style = {
   position: 'absolute',
@@ -23,8 +21,27 @@ const style = {
 export default function ModalViewStudents ({ group_id, open, setOpen }) {
   const handleClose = () => setOpen(false)
   const { token, rol, usernameSession, nombreSession, email, isValidSession, validatingSession, deleteSession } = useContext(SessionContext)
+  const {
+    response,
+    error,
+    loading,
 
+    register,
+    handleSubmit,
+    watch,
+    reset,
+    setValue,
+    getValues,
+    errors,
+
+    getEstudiante,
+    getAllEstudiantes,
+    getAllEstudiantesByGroupId,
+    updateEstudiante,
+    deleteEstudiante
+  } = useContext(CrudEstudianteContext)
   useEffect(() => {
+    getAllEstudiantesByGroupId(group_id)
     console.log('Response: ', response)
   }, [])
 
@@ -38,7 +55,7 @@ export default function ModalViewStudents ({ group_id, open, setOpen }) {
         aria-describedby='modal-modal-description'
       >
         <Box sx={style}>
-          {/* {!loading && <ListStudents students={inscripciones} />} */}
+          {!loading && <ListStudents students={response} />}
         </Box>
       </Modal>
     </div>
