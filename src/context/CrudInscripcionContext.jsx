@@ -119,7 +119,7 @@ function CrudInscripcionProvider ({ children }) {
       })
       getAllInscripcionesByEstudianteUsername(usernameSession)
       // console.log(res.data)
-      setResponse(res.data)
+      // setResponse(res.data)
     } else {
       Swal.fire({
         title: 'Error al unirte',
@@ -148,15 +148,47 @@ function CrudInscripcionProvider ({ children }) {
 
   async function deleteInscripcion (grupoId, username) {
     setLoading(true)
-    const res = await del(URI_BACKEND(`inscripcion/grupo/${grupoId}/estudiante/${username}`), token)
-    if (res.status === 200) {
+
+    setError(null)
+    try {
+      const result = await Swal.fire({
+        title: `¿Esta seguro que desea eliminar del grupo a ${username}?`,
+        text: 'Esta decisión es irreversible',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Si,¡Eliminar!'
+      })
+
+      if (result.isConfirmed) {
+        const res = await del(URI_BACKEND(`inscripcion/grupo/${grupoId}/estudiante/${username}`), token)
+        console.log(res)
+        if (!res.err) {
+          Swal.fire({
+            title: '¡Eliminar!',
+            text: `El estudiante ${username} a sido Eliminado del grupo `,
+            icon: 'success'
+          })
+        } else {
+          Swal.fire({
+            title: 'Error al eliminar',
+            text: `Error: ${res.statusText} (${res.status})`,
+            icon: 'error'
+          })
+          setError(res)
+        }
+        await getAllInscripcionesByEstudianteUsername(username)
+      }
+    } catch (err) {
+      Swal.fire({
+        title: 'Error al eliminar, intentelo mas tarde',
+        text: `Error: ${err}`,
+        icon: 'error'
+      })
+      setError(err)
+    } finally {
       setLoading(false)
-      // console.log(res.data)
-      setResponse(res.data)
-    } else {
-      // console.log(res.error)
-      setLoading(false)
-      setError(res)
     }
   }
 

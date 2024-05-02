@@ -1,7 +1,7 @@
 import React, { useContext, useEffect } from 'react'
 import { Grid, Skeleton } from '@mui/material'
 import CardTeam from './CardTeam'
-import CrudEquipoContext from '../../../context/CrudEquipoContext'
+import CrudEquipoContext from '../../../../context/CrudEquipoContext'
 
 function TableTeams ({ group_id }) {
   const {

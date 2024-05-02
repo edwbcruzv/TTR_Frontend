@@ -5,7 +5,7 @@ import CardContent from '@mui/material/CardContent'
 import Button from '@mui/material/Button'
 import Typography from '@mui/material/Typography'
 import { useContext } from 'react'
-import CrudEquipoContext from '../../../context/CrudEquipoContext'
+import CrudEquipoContext from '../../../../context/CrudEquipoContext'
 
 export default function CardTeam ({ team }) {
   const {
@@ -21,8 +21,18 @@ export default function CardTeam ({ team }) {
     getValues,
     errors,
 
+    openModalForm,
+    handleOpenModalForm,
+    handleCloseModalForm,
+
+    left,
+    setLeft,
+    right,
+    setRight,
+
     getEquipo,
     getAllEquipoByGrupoId,
+    setRightEstudiantesNotTeamByGroupId,
     createEquipo,
     updateEquipo,
     deleteEquipo
@@ -46,7 +56,7 @@ export default function CardTeam ({ team }) {
         </Typography>
       </CardContent>
       <CardActions>
-        {/* <Button onClick={() => viewDataEdit(team.id)} size='small'>Editar</Button> */}
+        <Button onClick={() => getEquipo(team.id)} size='small'>Editar</Button>
         <Button onClick={() => deleteEquipo(team.id)} size='small'>Eliminar</Button>
       </CardActions>
     </Card>
