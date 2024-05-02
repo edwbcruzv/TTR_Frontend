@@ -1,179 +1,139 @@
-import React from "react";
-import { useEffect } from "react";
-import { useForm } from "react-hook-form";
-import Grid from "@mui/material/Grid";
-import Radio from "@mui/material/Radio";
-import RadioGroup from "@mui/material/RadioGroup";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import FormControl from "@mui/material/FormControl";
-import { useState } from "react";
-import { ROL_ADMIN, ROL_STUDENT, ROL_TEACHER } from "../../../utils/jwt_data";
-import { useContext } from "react";
-import CrudUserContext from "../../../context/CrudUserContext";
-import { TextField, Button, Box, Alert, AlertTitle } from "@mui/material";
-import useAuth from "../../../hooks/useAuth";
-import "../../../../public/styles/forms.css";
-import Input from "postcss/lib/input";
+import React, { useEffect, useState, useContext } from 'react'
 
-function FormRegister() {
-  const { token } = useAuth();
-  const [url, setUrl] = useState(null);
+import { useForm } from 'react-hook-form'
+import Grid from '@mui/material/Grid'
+import Radio from '@mui/material/Radio'
+import RadioGroup from '@mui/material/RadioGroup'
+import FormControlLabel from '@mui/material/FormControlLabel'
+import FormControl from '@mui/material/FormControl'
+
+import { ROL_ADMIN, ROL_STUDENT, ROL_TEACHER } from '../../../utils/jwt_data'
+
+import { TextField, Button, Box, Alert, AlertTitle } from '@mui/material'
+import '../../../../public/styles/forms.css'
+import { AuthContext } from '../../../context/AuthContext'
+
+function FormRegister () {
+  const [valueRbtn, setValueRbtn] = useState(null)
   const {
+    token,
+    setToken,
+    rol,
+    setRol,
+    id,
+    setId,
+    nombre,
+    setNombre,
+    isValid,
+    setIsValid,
+
     response,
     error,
     loading,
-    viewDataEdit,
-    createData,
-    dataToEdit,
-    setDataToEdit,
-    updateData,
-    deleteData,
-    openModalForm,
-    handleOpenModal,
-    handleCloseModal,
-  } = useContext(CrudUserContext);
-  const [valueRbtn, setValueRbtn] = useState(null);
-  const {
+
     register,
     handleSubmit,
     watch,
-    formState: { errors },
-  } = useForm({ defaultValues: dataToEdit });
+    reset,
+    setValue,
+    getValues,
+    errors,
+
+    openModalForm,
+    handleOpenModalForm,
+    handleCloseModalForm,
+
+    login,
+    registerUser,
+    recoveryByEmail
+  } = useContext(AuthContext)
 
   useEffect(() => {
-    console.log(dataToEdit);
-    switch (dataToEdit.rol) {
-      case ROL_ADMIN:
-        setUrl("usuario");
-        setValueRbtn(ROL_ADMIN);
-        break;
-      case ROL_TEACHER:
-        setUrl("profesor");
-        setValueRbtn(ROL_TEACHER);
-        break;
-      case ROL_STUDENT:
-        setUrl("estudiante");
-        setValueRbtn(ROL_STUDENT);
-        break;
-      default:
-        setUrl(null);
-        break;
-    }
-
-    return () => {
-      // handleReset()
-    };
-  }, []);
+    console.log('Response: ', response)
+  }, [response])
 
   const handleChangeRadioBtn = (event) => {
-    setValueRbtn(event.target.value);
-    switch (event.target.value) {
-      case ROL_ADMIN:
-        setUrl("usuario");
-        break;
-      case ROL_TEACHER:
-        setUrl("profesor");
-        break;
-      case ROL_STUDENT:
-        setUrl("estudiante");
-        break;
-      default:
-        setUrl(null);
-        break;
-    }
-  };
+    setValueRbtn(event.target.value)
+  }
 
-  console.log(url);
-
-  function onSubmit(data) {
-    console.log(data);
-    // console.log(errors)
-    // id de un formulario es nulo: se crea un nuevo dato
-    if (data.id === null) {
-      console.log("se creo un dato");
-      createData(data);
-    } else {
-      // si no es nulo se editara un formulario ya existente
-      console.log("Actualizando");
-    }
+  function onSubmit (data) {
+    console.log(data)
+    registerUser(data)
   }
 
   return (
     <Grid
       container
       spacing={2}
-      direction="column"
-      justifyContent="center"
-      alignItems="center"
-      alignContent="center"
-      wrap="wrap"
+      direction='column'
+      justifyContent='center'
+      alignItems='center'
+      alignContent='center'
+      wrap='wrap'
     >
       <h2>Registrate</h2>
       <Grid item>
-        {!dataToEdit.id ? (
-          <FormControl>
-            <RadioGroup
-              row
-              aria-labelledby="demo-row-radio-buttons-group-label"
-              name="row-radio-buttons-group"
-              value={valueRbtn}
-              onChange={handleChangeRadioBtn}
-              className ="text-radio"
 
-            >
-              {!(token === null) && (
-                <FormControlLabel
-                  {...register("rol")}
-                  value={ROL_ADMIN}
-                  control={<Radio />}
-                  label="Administrador"
-                  className ="text-radio"
-                />
-              )}
+        <FormControl>
+          <RadioGroup
+            row
+            aria-labelledby='demo-row-radio-buttons-group-label'
+            name='row-radio-buttons-group'
+            value={valueRbtn}
+            onChange={handleChangeRadioBtn}
+            className='text-radio'
+          >
+            {!(token === null) && (
               <FormControlLabel
-                {...register("rol")}
-                value={ROL_TEACHER}
+                {...register('rol')}
+                value={ROL_ADMIN}
                 control={<Radio />}
-                label="Profesor"
+                label='Administrador'
+                className='text-radio'
               />
-              <FormControlLabel
-                {...register("rol")}
-                value={ROL_STUDENT}
-                control={<Radio />}
-                label="Estudiante"
-              />
-              {/* <FormControlLabel
+            )}
+            <FormControlLabel
+              {...register('rol')}
+              value={ROL_TEACHER}
+              control={<Radio />}
+              label='Profesor'
+            />
+            <FormControlLabel
+              {...register('rol')}
+              value={ROL_STUDENT}
+              control={<Radio />}
+              label='Estudiante'
+            />
+            {/* <FormControlLabel
           value="disabled"
           disabled
           control={<Radio />}
           label="other"
         /> */}
-            </RadioGroup>
-          </FormControl>
-        ) : (
-          valueRbtn
-        )}
+          </RadioGroup>
+        </FormControl>
+
       </Grid>
 
-      <form component="form" onSubmit={handleSubmit(onSubmit)}>
+      <form component='form' onSubmit={handleSubmit(onSubmit)}>
         <Grid
           container
           spacing={2}
-          direction="row"
-          justifyContent="center"
-          alignItems="flex-start"
-          alignContent="center"
-          wrap="wrap"
+          direction='row'
+          justifyContent='center'
+          alignItems='flex-start'
+          alignContent='center'
+          wrap='wrap'
         >
           <Grid item xs={12} sm={6} className ="input-box">
-            <input
+            <TextField
               {...register("username", {
                 required: { value: true, message: "Es requerido" },
               })}
-              id="username"
-              label="Username"
-              type="text"
-              variant="outlined"
+              id='username'
+              label='Username'
+              type='text'
+              variant='outlined'
               error={errors.username}
               helperText={errors.username && errors.username.message}
               className ="input-data"
@@ -185,10 +145,10 @@ function FormRegister() {
               {...register("email", {
                 required: { value: true, message: "Es requerido" },
               })}
-              id="email"
-              label="Email"
-              type="email"
-              variant="outlined"
+              id='email'
+              label='Email'
+              type='email'
+              variant='outlined'
               error={errors.email}
               helperText={errors.email && errors.email.message}
               className ="input-data"
@@ -200,10 +160,10 @@ function FormRegister() {
               {...register("nombre", {
                 required: { value: true, message: "Es requerido" },
               })}
-              id="nombre"
-              label="Nombre"
-              type="text"
-              variant="outlined"
+              id='nombre'
+              label='Nombre'
+              type='text'
+              variant='outlined'
               error={errors.nombre}
               helperText={errors.nombre && errors.nombre.message}
               className ="input-data"
@@ -215,13 +175,13 @@ function FormRegister() {
               {...register("apellido_paterno", {
                 required: { value: true, message: "Es requerido" },
               })}
-              id="apellido_paterno"
-              label="Apellido Paterno"
-              type="text"
-              variant="outlined"
-              error={errors.apellido_paterno}
+              id='apellidoPaterno'
+              label='Apellido Paterno'
+              type='text'
+              variant='outlined'
+              error={errors.apellidoPaterno}
               helperText={
-                errors.apellido_paterno && errors.apellido_paterno.message
+                errors.apellidoPaterno && errors.apellidoPaterno.message
               }
               className ="input-data"
               placeholder="Apellido paterno"
@@ -232,13 +192,13 @@ function FormRegister() {
               {...register("apellido_materno", {
                 required: { value: true, message: "Es requerido" },
               })}
-              id="apellido_materno"
-              label="Apellido Materno"
-              type="text"
-              variant="outlined"
-              error={errors.apellido_materno}
+              id='apellidoMaterno'
+              label='Apellido Materno'
+              type='text'
+              variant='outlined'
+              error={errors.apellidoMaterno}
               helperText={
-                errors.apellido_materno && errors.apellido_materno.message
+                errors.apellidoMaterno && errors.apellidoMaterno.message
               }
               className ="input-data"
               placeholder = "Apellido materno"
@@ -251,13 +211,13 @@ function FormRegister() {
                 required: { value: true, message: "Es requerido" },
                 minLength: {
                   value: 8,
-                  message: "Debe ser mayor de 8 caracteres",
-                },
+                  message: 'Debe ser mayor de 8 caracteres'
+                }
               })}
-              id="password"
-              label="Contraseña"
-              type="password"
-              variant="outlined"
+              id='password'
+              label='Contraseña'
+              type='password'
+              variant='outlined'
               error={errors.password}
               helperText={errors.password && errors.password.message}
               className ="input-data"
@@ -345,9 +305,9 @@ function FormRegister() {
             </>
           )}
 
-          <Grid item xs={12} sm={12} className="input-box">
+          <Grid item xs={12} sm={12} className='input-box'>
             {valueRbtn && (
-              <button variant="outlined" color="primary" type="submit" className ="btn-register">
+              <button variant='outlined' color='primary' type='submit' className='btn-register'>
                 Crear
               </button>
             )}
@@ -355,21 +315,21 @@ function FormRegister() {
         </Grid>
 
         {!error && response && (
-          <Alert severity="success">
+          <Alert severity='success'>
             <AlertTitle>Success</AlertTitle>
             <strong>Usuario creado correctamente</strong>
           </Alert>
         )}
 
         {error && !response && (
-          <Alert severity="error">
+          <Alert severity='error'>
             <AlertTitle>Error</AlertTitle>
             Error <strong>error</strong>
           </Alert>
         )}
       </form>
     </Grid>
-  );
+  )
 }
 
-export default FormRegister;
+export default FormRegister

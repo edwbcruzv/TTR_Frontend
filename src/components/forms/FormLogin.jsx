@@ -19,6 +19,7 @@ const style_inputs = {
   width: "100 %",
   fontSize: "1rem",
   lineHeight: 1,
+  backgroundColor: "transparent",
   resize: "none",
 };
 
@@ -32,7 +33,7 @@ const style_button = {
   padding: "0.5rem 1rem",
   margin: "0 0.5rem 0 0",
   display: "inline - block",
-  backgroundColor: " #fff",
+  backgroundColor: " #eee",
   color: "#444",
   fontWeight: "bold",
   fontSize: "1rem",
