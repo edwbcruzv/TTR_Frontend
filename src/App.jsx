@@ -17,6 +17,7 @@ import HomeStudentPage from './pages/HomeStudentPage/HomeStudentPage'
 import PublicProtectedRoute from './pages/PublicProtectedRoute'
 import GroupPage from './pages/GroupsPage/GroupPage/GroupPage'
 import InscriptionPage from './pages/InscriptionPage/InscriptionPage'
+import PracticePage from './pages/PracticesPage/PracticePage/PracticePage'
 
 const App = (props) => {
   return (
@@ -29,7 +30,6 @@ const App = (props) => {
             <Route element={<PublicProtectedRoute />}>
               <Route path='/' element={<WelcomePage />} />
               <Route path='/recovery' element={<RecoveryPage />} />
-              <Route path='/practices' element={<PracticesPage />} />
               <Route path='/config' element={<ConfigPage />} />
             </Route>
 
@@ -38,11 +38,14 @@ const App = (props) => {
               <Route path='users' element={<UsersPage />} />
               <Route path='groups' element={<GroupsPage />} />
               <Route path='group/:id' element={<GroupPage />} />
+              <Route path='practices' element={<PracticesPage />} />
+              <Route path='practice/:id' element={<PracticePage />} />
             </Route>
 
             <Route path='/teacher' element={<TeacherProtectedRoute />}>
               <Route index element={<HomeTeacherPage />} />
-              <Route path='users' element={<UsersPage />} />
+              <Route path='practices' element={<PracticesPage />} />
+              <Route path='practice/:id' element={<PracticePage />} />
               <Route path='groups' element={<GroupsPage />} />
               <Route path='group/:id' element={<GroupPage />} />
             </Route>
@@ -50,6 +53,7 @@ const App = (props) => {
             <Route path='/student' element={<StudentProtectedRoute />}>
               <Route index element={<HomeStudentPage />} />
               <Route path='practices' element={<PracticesPage />} />
+              <Route path='practice/:id' element={<PracticePage />} />
               <Route path='teams' element={<TeamsPage />} />
               <Route path='inscriptions' element={<InscriptionPage />} />
 

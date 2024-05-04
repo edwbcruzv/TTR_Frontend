@@ -40,8 +40,8 @@ export default function FormGroup () {
     if (IsPending === false && Data && !Error.error) {
       console.log(Data)
       listAux = Data.map(item => ({
-        label: `${item.nombre} ${item.apellido_paterno} ${item.apellido_materno}`,
-        profesor_username: item.username
+        label: `${item.nombre} ${item.apellidoPaterno} ${item.apellidoMaterno}`,
+        profesorUsername: item.username
       }))
       // console.log(listAux)
       setProfesores(listAux)
@@ -78,7 +78,7 @@ export default function FormGroup () {
             <Grid item xs={12} sm={12}>
 
               <Autocomplete
-                onChange={(e, value) => setValue('profesorUsername', value.profesor_username)}
+                onChange={(e, value) => setValue('profesorUsername', value.profesorUsername)}
                 disablePortal
                 id='combo-box-profesor'
                 options={profesores}

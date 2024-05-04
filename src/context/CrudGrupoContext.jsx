@@ -1,6 +1,6 @@
 import { createContext, useContext, useState } from 'react'
 import { helperAXIOS } from '../helpers/helperAXIOS'
-import { URI_BACKEND } from '../utils/environments'
+import { ROL_ADMIN, ROL_TEACHER, URI_BACKEND } from '../utils/environments'
 import { useForm } from 'react-hook-form'
 import SessionContext from './SessionContext'
 
@@ -95,7 +95,13 @@ function CrudGrupoProvider ({ children }) {
     const res = await post(URI_BACKEND('grupo'), data, token)
     if (res.status === 200) {
       // console.log(res)
-      setResponse(res.data)
+      // setResponse(res.data)
+      if (rol === ROL_ADMIN) {
+        getAllGrupos()
+      } else if (rol === ROL_TEACHER) {
+        getAllGruposByProfesorUsername(usernameSession)
+      }
+      handleCloseModalForm()
     } else {
       // console.log(res)
       setError(res.error)
@@ -108,7 +114,8 @@ function CrudGrupoProvider ({ children }) {
     const res = await patch(URI_BACKEND('grupo'), data, token)
     if (res.status === 200) {
       // console.log(res)
-      setResponse(res.data)
+      // setResponse(res.data)
+      handleCloseModalForm()
     } else {
       // console.log(res)
       setError(res.error)

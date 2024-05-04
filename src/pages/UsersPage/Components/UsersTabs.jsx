@@ -4,12 +4,16 @@ import Tab from '@mui/material/Tab'
 import TabContext from '@mui/lab/TabContext'
 import TabList from '@mui/lab/TabList'
 import TabPanel from '@mui/lab/TabPanel'
-import { useState } from 'react'
+import { useState, useContext } from 'react'
 import TableAdmins from './TableAdmins'
 import TableTeachers from './TableTeachers'
 import TableStudents from './TableStudents'
 
+import SessionContext from '../../../context/SessionContext'
+import { ROL_ADMIN } from '../../../utils/environments'
+
 export default function UsersTabs () {
+  const { token, rol, usernameSession, nombreSession, email, isValidSession, validatingSession, deleteSession } = useContext(SessionContext)
   const [value, setValue] = useState('1')
 
   const handleChange = (event, newValue) => {
@@ -21,13 +25,13 @@ export default function UsersTabs () {
       <TabContext value={value}>
         <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
           <TabList onChange={handleChange} aria-label='lab API tabs example'>
-            <Tab label='Administradores' value='1' />
-            <Tab label='Profesores' value='2' />
+            {rol === ROL_ADMIN && <Tab label='Administradores' value='1' />}
+            {rol === ROL_ADMIN && <Tab label='Profesores' value='2' />}
             <Tab label='Alumnos' value='3' />
           </TabList>
         </Box>
-        <TabPanel value='1'><TableAdmins /></TabPanel>
-        <TabPanel value='2'><TableTeachers /> </TabPanel>
+        {rol === ROL_ADMIN && <TabPanel value='1'><TableAdmins /></TabPanel>}
+        {rol === ROL_ADMIN && <TabPanel value='2'><TableTeachers /> </TabPanel>}
         <TabPanel value='3'><TableStudents /> </TabPanel>
       </TabContext>
     </Box>

@@ -14,6 +14,7 @@ export default function GroupsPage () {
 
         <CrudGroupModal />
         <Divider />
+        <br />
         <CrudInscripcionProvider>
           <TableGroups />
         </CrudInscripcionProvider>
