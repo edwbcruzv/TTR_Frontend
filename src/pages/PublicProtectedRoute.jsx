@@ -5,7 +5,7 @@ import SessionContext from '../context/SessionContext'
 
 const PublicProtectedRoute = () => {
   const { token, rol, usernameSession, nombreSession, email, isValidSession, validatingSession, deleteSession } = useContext(SessionContext)
-  console.log(token, rol, usernameSession, nombreSession, email, isValidSession, validatingSession)
+  // console.log(token, rol, usernameSession, nombreSession, email, isValidSession, validatingSession)
   if (isValidSession) {
     console.log('Paso PublicProtected: ' + rol)
     switch (rol) {

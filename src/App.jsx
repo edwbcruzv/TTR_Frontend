@@ -18,6 +18,9 @@ import PublicProtectedRoute from './pages/PublicProtectedRoute'
 import GroupPage from './pages/GroupsPage/GroupPage/GroupPage'
 import InscriptionPage from './pages/InscriptionPage/InscriptionPage'
 import PracticePage from './pages/PracticesPage/PracticePage/PracticePage'
+import UsersProtectedRoute from './pages/UsersProtectedRoute'
+import AccountPage from './pages/AccountPage/AccountPage'
+import ProfilePage from './pages/ProfilePage/ProfilePage'
 
 const App = (props) => {
   return (
@@ -30,7 +33,6 @@ const App = (props) => {
             <Route element={<PublicProtectedRoute />}>
               <Route path='/' element={<WelcomePage />} />
               <Route path='/recovery' element={<RecoveryPage />} />
-              <Route path='/config' element={<ConfigPage />} />
             </Route>
 
             <Route path='/admin' element={<AdminProtectedRoute />}>
@@ -59,8 +61,14 @@ const App = (props) => {
 
             </Route>
 
-            <Route path='*' element={<NotFoundPage />} />
+            <Route path='/' element={<UsersProtectedRoute />}>
+              <Route path='config' element={<ConfigPage />} />
+              <Route path='profile' element={<ProfilePage />} />
+              <Route path='account' element={<AccountPage />} />
 
+            </Route>
+
+            <Route path='*' element={<NotFoundPage />} />
           </Routes>
         </BrowserRouter>
       </SessionProvider>

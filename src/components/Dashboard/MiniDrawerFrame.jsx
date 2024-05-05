@@ -180,8 +180,6 @@ export default function MiniDrawerFrame ({ children }) {
 
   const navigate = useNavigate()
   const onClickItemMenu = (path) => {
-    // navigate: nos permite alterar la URL por programacion
-    console.log(path)
     navigate(`/${path}`)
   }
 
@@ -233,8 +231,8 @@ export default function MiniDrawerFrame ({ children }) {
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
-      <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
-      <MenuItem onClick={handleMenuClose}>My account</MenuItem>
+      <MenuItem onClick={() => onClickItemMenu('profile')}>Perfil</MenuItem>
+      <MenuItem onClick={() => onClickItemMenu('account')}>Cuenta</MenuItem>
       <MenuItem onClick={() => deleteSession()}>Logout</MenuItem>
     </Menu>
   )

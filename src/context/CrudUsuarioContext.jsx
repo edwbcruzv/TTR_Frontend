@@ -60,7 +60,8 @@ function CrudUsuarioProvider ({ children }) {
     const res = await get(URI_BACKEND(`usuario/${username}`), token)
     if (res.status === 200) {
       // console.log(res)
-      setResponse(res.data)
+      // setResponse(res.data)
+      reset(res.data)
     } else {
       // console.log(res.error)
       setError(res.error)

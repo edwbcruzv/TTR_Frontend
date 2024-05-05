@@ -20,14 +20,14 @@ const SessionProvider = ({ children }) => {
 
   useEffect(() => {
     setValidatingSession(true)
-    console.log('ejecucion del sessionContext')
+    // console.log('ejecucion del sessionContext')
     try {
       const decodeJWT = jwtDecode(token)
       const tokenExpired = Date.now() > (decodeJWT.exp * 1000) // Convertir la fecha de expiración a milisegundos
       if (tokenExpired) {
         console.log('La sesion ha expirado.')
         deleteSession()
-        window.localStorage.removeItem('session')
+        // window.localStorage.removeItem('session')
         Swal.fire({
           title: 'Se ha terminado la sesion',
           text: 'Por favor, vuelve a iniciar sesion',
@@ -37,14 +37,15 @@ const SessionProvider = ({ children }) => {
         console.log('Sesion aun valida.')
       }
     } catch (error) {
-      console.error('Error al decodificar el token:', error.message)
+      // console.error('Error al decodificar el token:', error.message)
       deleteSession()
-      window.localStorage.removeItem('session')
+      // window.localStorage.removeItem('session')
     }
     setValidatingSession(false)
   }, [])
 
   function deleteSession () {
+    window.localStorage.removeItem('session')
     console.log('Sesion cerrada.')
     setRol(null)
     setToken(null)
