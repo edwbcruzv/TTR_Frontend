@@ -3,7 +3,7 @@ import React, { useContext, useEffect } from 'react'
 import CrudUsuarioContext from '../../../context/CrudUsuarioContext'
 import CrudProfesorContext from '../../../context/CrudProfesorContext'
 
-export default function EditTeacher ({ username }) {
+export default function EditTeacher ({ username, goBack }) {
   const {
     response,
     error,
@@ -28,13 +28,14 @@ export default function EditTeacher ({ username }) {
     console.log('Response: ', response)
   }, [])
 
-  function onSubmit (data) {
+  async function onSubmit (data) {
     // console.log(data)
-    updateProfesor(data)
+    await updateProfesor(data)
+    goBack()
   }
   return (
     <Grid
-      container
+      container item
       spacing={0}
       direction='column'
       justifyContent='center'
@@ -66,6 +67,7 @@ export default function EditTeacher ({ username }) {
               error={errors.username}
               helperText={errors.username && errors.username.message}
               className='input-data'
+              disabled
             />
           </Grid>
           <Grid item xs={12} sm={6} className='input-box'>
@@ -80,6 +82,7 @@ export default function EditTeacher ({ username }) {
               error={errors.email}
               helperText={errors.email && errors.email.message}
               className='input-data'
+              disabled
             />
           </Grid>
           <Grid item xs={12} sm={12} className='input-box'>

@@ -30,8 +30,8 @@ const TableInscriptions = () => {
 
   useEffect(() => {
     getAllInscripcionesByEstudianteUsername(usernameSession)
-    console.log('Response: ', response)
   }, [])
+  console.log('Response: ', response)
 
   return (
     <Grid

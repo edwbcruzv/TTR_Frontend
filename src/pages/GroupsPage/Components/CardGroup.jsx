@@ -9,9 +9,9 @@ import Grid from '@mui/material/Grid'
 import copy from 'clipboard-copy'
 import { useNavigate } from 'react-router-dom'
 import ModalViewStudents from './ModalViewStudents'
-import { CrudEstudianteProvider } from '../../../context/CrudEstudianteContext'
 import { ROL_ADMIN, ROL_TEACHER } from '../../../utils/environments'
 import SessionContext from '../../../context/SessionContext'
+import { CrudInscripcionProvider } from '../../../context/CrudInscripcionContext'
 
 export default function CardGroup ({ group }) {
   const { token, rol, usernameSession, nombreSession, email, isValidSession, validatingSession, deleteSession } = React.useContext(SessionContext)
@@ -45,9 +45,9 @@ export default function CardGroup ({ group }) {
         image='/images/fondo_card.jpg'
         title='green iguana'
       />
-      <CrudEstudianteProvider>
-        <ModalViewStudents group_id={id} open={open} setOpen={setOpen} />
-      </CrudEstudianteProvider>
+      <CrudInscripcionProvider>
+        <ModalViewStudents groupId={id} open={open} setOpen={setOpen} />
+      </CrudInscripcionProvider>
       <CardContent>
         <Grid container justifyContent='space-between'>
           <Grid item>
@@ -61,8 +61,11 @@ export default function CardGroup ({ group }) {
             </Typography>
           </Grid>
         </Grid>
+        <Typography variant='body3' color='text.secondary'>
+          {nombre}
+        </Typography>
         <Typography variant='body2' color='text.secondary'>
-          {nombre}:{profesorNombre}
+          {profesorNombre}
         </Typography>
       </CardContent>
       <CardActions>

@@ -2,7 +2,7 @@ import { Button, Grid, TextField } from '@mui/material'
 import React, { useContext, useEffect } from 'react'
 import CrudEstudianteContext from '../../../context/CrudEstudianteContext'
 
-export default function EditStudent ({ username }) {
+export default function EditStudent ({ username, goBack }) {
   const {
     response,
     error,
@@ -28,9 +28,10 @@ export default function EditStudent ({ username }) {
     console.log('Response: ', response)
   }, [])
 
-  function onSubmit (data) {
+  async function onSubmit (data) {
     // console.log(data)
-    updateEstudiante(data)
+    await updateEstudiante(data)
+    goBack()
   }
   return (
     <Grid
@@ -45,8 +46,8 @@ export default function EditStudent ({ username }) {
 
       <form component='form' onSubmit={handleSubmit(onSubmit)}>
         <Grid
-          container
-          spacing={2}
+          container item
+          spacing={0}
           direction='row'
           justifyContent='center'
           alignItems='flex-start'
@@ -66,6 +67,7 @@ export default function EditStudent ({ username }) {
               error={errors.username}
               helperText={errors.username && errors.username.message}
               className='input-data'
+              disabled
             />
           </Grid>
           <Grid item xs={12} sm={6} className='input-box'>
@@ -80,6 +82,7 @@ export default function EditStudent ({ username }) {
               error={errors.email}
               helperText={errors.email && errors.email.message}
               className='input-data'
+              disabled
             />
           </Grid>
           <Grid item xs={12} sm={12} className='input-box'>

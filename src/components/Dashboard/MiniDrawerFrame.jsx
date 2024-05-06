@@ -183,6 +183,11 @@ export default function MiniDrawerFrame ({ children }) {
     navigate(`/${path}`)
   }
 
+  const handleProfile = () => {
+    // Navegar a la página de destino con argumentos
+    navigate('/profile', { state: { usernameView: usernameSession, rolView: rol } })
+  }
+
   const handleDrawerOpen = () => {
     setOpen(true)
   }
@@ -231,7 +236,7 @@ export default function MiniDrawerFrame ({ children }) {
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
-      <MenuItem onClick={() => onClickItemMenu('profile')}>Perfil</MenuItem>
+      <MenuItem onClick={handleProfile}>Perfil</MenuItem>
       <MenuItem onClick={() => onClickItemMenu('account')}>Cuenta</MenuItem>
       <MenuItem onClick={() => deleteSession()}>Logout</MenuItem>
     </Menu>

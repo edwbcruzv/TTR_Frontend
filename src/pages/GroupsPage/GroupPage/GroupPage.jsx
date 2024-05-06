@@ -11,11 +11,11 @@ export default function GroupPage () {
   return (
     <MiniDrawerFrame>
       <CrudEquipoProvider>
-        <FullScreenTeamCreate group_id={id} />
+        <FullScreenTeamCreate grupoId={id} />
         <br />
         <Divider />
         <br />
-        <TableTeams group_id={id} />
+        <TableTeams grupoId={id} />
       </CrudEquipoProvider>
 
     </MiniDrawerFrame>

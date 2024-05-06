@@ -13,17 +13,16 @@ import { CrudEstudianteProvider } from '../../context/CrudEstudianteContext'
 import { CrudProfesorProvider } from '../../context/CrudProfesorContext'
 import EditStudent from './Components/EditStudent'
 import EditTeacher from './Components/EditTeacher'
-import { useNavigate } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 
-export default function ProfilePage ({ username, rol }) {
-  rol = ROL_TEACHER
-
+export default function ProfilePage () {
   const navigate = useNavigate()
-
   const goBack = () => {
     // Navega hacia atrás en la historia
     navigate(-1)
   }
+  const location = useLocation()
+  const { usernameView, rolView } = location.state
   return (
 
     <Container>
@@ -33,6 +32,7 @@ export default function ProfilePage ({ username, rol }) {
         direction='column'
         justifyContent='flex-start'
         alignItems='center'
+        spacing={2}
       >
 
         <AppBar position='static' color='primary'>
@@ -50,24 +50,24 @@ export default function ProfilePage ({ username, rol }) {
           </Toolbar>
         </AppBar>
         {
-          rol === ROL_ADMIN &&
+          rolView === ROL_ADMIN &&
             <CrudUsuarioProvider>
-              <EditAdmin username='edwin' />
+              <EditAdmin username={usernameView} goBack={goBack} />
             </CrudUsuarioProvider>
         }
 
         {
-          rol === ROL_STUDENT &&
+          rolView === ROL_STUDENT &&
             <CrudEstudianteProvider>
-              <EditStudent username='edwin' />
+              <EditStudent username={usernameView} goBack={goBack} />
             </CrudEstudianteProvider>
 
         }
 
         {
-          rol === ROL_TEACHER &&
+          rolView === ROL_TEACHER &&
             <CrudProfesorProvider>
-              <EditTeacher username='edwin_teacher' />
+              <EditTeacher username={usernameView} goBack={goBack} />
             </CrudProfesorProvider>
 
         }

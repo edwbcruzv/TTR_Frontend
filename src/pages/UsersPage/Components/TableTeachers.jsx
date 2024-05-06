@@ -8,6 +8,7 @@ import { Box, Button, LinearProgress, Table, TableBody, TableHead } from '@mui/m
 import { useContext, useEffect, useState } from 'react'
 import CrudUsuarioContext from '../../../context/CrudUsuarioContext'
 import CrudProfesorContext from '../../../context/CrudProfesorContext'
+import { useNavigate } from 'react-router-dom'
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -62,7 +63,11 @@ function TableTeachers () {
   const headersListData = ['username', 'rol', 'email', 'nombre', 'apellidoPaterno', 'apellidoMaterno', 'fechaNacimiento', 'editar', 'eliminar']
   const headersListView = ['Username', 'Rol', 'Correo electronico', 'Nombre', 'Apellido Paterno', 'Apellido Materno', 'Fecha de nacimiento', 'Editar', 'Eliminar']
   const [dataList, setdataList] = useState(null)
-
+  const navigate = useNavigate()
+  const handleProfile = (username, rol) => {
+    // Navegar a la página de destino con argumentos
+    navigate('/profile', { state: { usernameView: username, rolView: rol } })
+  }
   useEffect(() => {
     getAllProfesores()
     if (!loading && response) {
@@ -71,7 +76,7 @@ function TableTeachers () {
         const { passwordHash, ...rest } = elem
         return {
           ...rest,
-          editar: <Button onClick={() => getProfesor(elem.username)} color='info'>Editar</Button>,
+          editar: <Button onClick={() => handleProfile(elem.username, elem.rol)} color='info'>Editar</Button>,
           eliminar: <Button onClick={() => deleteProfesor(elem.username)} color='error'>Eliminar</Button>
         }
       })

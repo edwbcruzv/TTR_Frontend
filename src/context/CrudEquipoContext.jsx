@@ -23,7 +23,7 @@ function CrudEquipoProvider ({ children }) {
   /**
    * formulario
    */
-  const [loading, setLoading] = useState(true)
+  const [loading, setLoading] = useState(false)
   const [response, setResponse] = useState(null)
   const [error, setError] = useState(null)
   const [left, setLeft] = useState([])
@@ -48,8 +48,10 @@ function CrudEquipoProvider ({ children }) {
     setOpenModalForm(true)
   }
   const handleCloseModalForm = () => {
-    console.log('cerrando')
+    // console.log('cerrando')
     setOpenModalForm(false)
+    setLeft([])
+    setRight([])
     reset(initialForm)
   }
 
@@ -61,33 +63,35 @@ function CrudEquipoProvider ({ children }) {
     setLoading(true)
     const res = await get(URI_BACKEND(`equipo/${id}`), token)
     if (res.status === 200) {
-      console.log(res.data)
-      const estudiantesUsernames = { estudiantes_ids: res.data.estudiantesUsernames }
+      // console.log(res.data)
+      reset(res.data)
+      const estudiantesUsernames = { estudiantesUsernames: res.data.estudiantesUsernames }
       const estudiantes = await post(URI_BACKEND('estudiante/getByUsernames'), estudiantesUsernames, token)
-      const left = estudiantes.map((elem) => ({ nombre: `${elem.nombre} ${elem.apellidoPaterno} ${elem.apellidoMaterno}`, username: elem.username }))
-      setLoading(false)
+      // console.log(estudiantes.data)
+      const left = estudiantes.data.map((elem) => ({ nombre: `${elem.nombre} ${elem.apellidoPaterno} ${elem.apellidoMaterno}`, username: elem.username }))
+
       setLeft(left)
       // console.log(res.data)
       // setResponse(res.data)
+      handleOpenModalForm()
     } else {
       // console.log(res.error)
-      setLoading(false)
-      setError(res.error)
+      setError(res)
     }
+    setLoading(false)
   }
 
   async function getAllEquipoByGrupoId (id) {
     setLoading(true)
     const res = await get(URI_BACKEND(`equipo/getAllByGrupoId/${id}`), token)
     if (res.status === 200) {
-      setLoading(false)
       // console.log(res.data)
       setResponse(res.data)
     } else {
       // console.log(res.error)
-      setLoading(false)
-      setError(res.error)
+      setError(res)
     }
+    setLoading(false)
   }
 
   async function setRightEstudiantesNotTeamByGroupId (id) {
@@ -95,13 +99,13 @@ function CrudEquipoProvider ({ children }) {
     const res = await get(URI_BACKEND(`estudiante/getAllByGroupId/${id}/NotTeam`), token)
     if (res.status === 200) {
       const right = res.data.map((elem) => ({ nombre: `${elem.nombre} ${elem.apellidoPaterno} ${elem.apellidoMaterno}`, username: elem.username }))
-      setLoading(false)
+
       setRight(right)
     } else {
       console.log(res.error)
-      setLoading(false)
-      setError(res.error)
+      setError(res)
     }
+    setLoading(false)
   }
 
   async function createEquipo (data) {
@@ -109,7 +113,6 @@ function CrudEquipoProvider ({ children }) {
     console.log(data)
     const res = await post(URI_BACKEND('equipo'), data, token)
     if (res.status === 200) {
-      setLoading(false)
       Swal.fire({
         position: 'top-end',
         icon: 'success',
@@ -119,9 +122,10 @@ function CrudEquipoProvider ({ children }) {
       })
       // console.log(res.data)
       // setResponse(res.data)
+      handleCloseModalForm()
+      await getAllEquipoByGrupoId(data.grupoId)
     } else {
-      // console.log(res.error)
-      setLoading(false)
+      console.log(res)
       Swal.fire({
         title: 'Error al crear equipo',
         text: 'Verificar',
@@ -129,23 +133,25 @@ function CrudEquipoProvider ({ children }) {
       })
       setError(res)
     }
+    setLoading(false)
   }
 
   async function updateEquipo (data) {
     setLoading(true)
     const res = await patch(URI_BACKEND('equipo'), data, token)
     if (res.status === 200) {
-      setLoading(false)
       // console.log(res.data)
-      setResponse(res.data)
+      // setResponse(res.data)
+      handleCloseModalForm()
+      await getAllEquipoByGrupoId(data.grupoId)
     } else {
       // console.log(res.error)
-      setLoading(false)
-      setError(res.error)
+      setError(res)
     }
+    setLoading(false)
   }
 
-  async function deleteEquipo (id) {
+  async function deleteEquipo (id, grupoId) {
     setLoading(true)
     setError(null)
     try {
@@ -176,7 +182,7 @@ function CrudEquipoProvider ({ children }) {
           })
           setError(res)
         }
-        // await getAllEquipoByGrupoId(data.grupoId)
+        await getAllEquipoByGrupoId(grupoId)
       }
     } catch (err) {
       Swal.fire({

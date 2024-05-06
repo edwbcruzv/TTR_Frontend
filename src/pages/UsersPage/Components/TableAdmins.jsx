@@ -7,6 +7,7 @@ import Paper from '@mui/material/Paper'
 import { Box, Button, LinearProgress, Table, TableBody, TableHead } from '@mui/material'
 import { useContext, useEffect, useState } from 'react'
 import CrudUsuarioContext from '../../../context/CrudUsuarioContext'
+import { useNavigate } from 'react-router-dom'
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -62,6 +63,12 @@ function TableAdmins () {
   const headersListView = ['Username', 'Rol', 'Correo electronico', 'Nombre', 'Apellido Paterno', 'Apellido Materno', 'Fecha de nacimiento', 'Editar', 'Eliminar']
   const [dataList, setdataList] = useState(null)
 
+  const navigate = useNavigate()
+  const handleProfile = (username, rol) => {
+    // Navegar a la página de destino con argumentos
+    navigate('/profile', { state: { usernameView: username, rolView: rol } })
+  }
+
   useEffect(() => {
     getAllUsuarios()
     if (!loading && response) {
@@ -70,7 +77,7 @@ function TableAdmins () {
         const { passwordHash, ...rest } = elem
         return {
           ...rest,
-          editar: <Button onClick={() => getUsuario(elem.username)} color='info'>Editar</Button>,
+          editar: <Button onClick={() => handleProfile(elem.username, elem.rol)} color='info'>Editar</Button>,
           eliminar: <Button onClick={() => deleteUsuario(elem.username)} color='error'>Eliminar</Button>
         }
       })

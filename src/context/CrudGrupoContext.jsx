@@ -21,7 +21,7 @@ function CrudGrupoProvider ({ children }) {
    */
   const [error, setError] = useState(null)
   const [response, setResponse] = useState(null)
-  const [loading, setLoading] = useState(true)
+  const [loading, setLoading] = useState(false)
   const {
     register, // el form lo usa para los inputs
     handleSubmit, // hace el envio
@@ -59,7 +59,7 @@ function CrudGrupoProvider ({ children }) {
       setResponse(res.data)
     } else {
       // console.log(res.error)
-      setError(res.error)
+      setError(res)
     }
     setLoading(false)
   }
@@ -72,7 +72,7 @@ function CrudGrupoProvider ({ children }) {
       setResponse(res.data)
     } else {
       // console.log(res.error)
-      setError(res.error)
+      setError(res)
     }
     setLoading(false)
   }
@@ -85,7 +85,7 @@ function CrudGrupoProvider ({ children }) {
       setResponse(res.data)
     } else {
       // console.log(res.error)
-      setError(res.error)
+      setError(res)
     }
     setLoading(false)
   }
@@ -104,7 +104,7 @@ function CrudGrupoProvider ({ children }) {
       handleCloseModalForm()
     } else {
       // console.log(res)
-      setError(res.error)
+      setError(res)
     }
     setLoading(false)
   }
@@ -118,7 +118,7 @@ function CrudGrupoProvider ({ children }) {
       handleCloseModalForm()
     } else {
       // console.log(res)
-      setError(res.error)
+      setError(res)
     }
     setLoading(false)
   }
@@ -131,7 +131,7 @@ function CrudGrupoProvider ({ children }) {
       setResponse(res.data)
     } else {
       // console.log(res.error)
-      setError(res.error)
+      setError(res)
     }
     setLoading(false)
   }

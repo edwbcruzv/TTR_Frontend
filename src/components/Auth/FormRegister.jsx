@@ -4,7 +4,7 @@ import Radio from '@mui/material/Radio'
 import RadioGroup from '@mui/material/RadioGroup'
 import FormControlLabel from '@mui/material/FormControlLabel'
 import FormControl from '@mui/material/FormControl'
-import { TextField, Button, Box, Alert, AlertTitle } from '@mui/material'
+import { TextField, Button, Box, Alert, AlertTitle, CircularProgress } from '@mui/material'
 import '../../../public/styles/forms.css'
 import { AuthContext } from '../../context/AuthContext'
 import { ROL_ADMIN, ROL_STUDENT, ROL_TEACHER } from '../../utils/environments'
@@ -51,7 +51,7 @@ function FormRegister () {
   return (
     <Grid
       container
-      spacing={2}
+      spacing={1}
       direction='column'
       justifyContent='center'
       alignItems='center'
@@ -107,7 +107,7 @@ function FormRegister () {
       <form component='form' onSubmit={handleSubmit(onSubmit)}>
         <Grid
           container
-          spacing={2}
+          spacing={1}
           direction='row'
           justifyContent='center'
           alignItems='flex-start'
@@ -142,7 +142,7 @@ function FormRegister () {
               className='input-data'
             />
           </Grid>
-          <Grid item xs={12} sm={6} className='input-box'>
+          <Grid item xs={12} sm={12} className='input-box'>
             <TextField
               {...register('nombre', {
                 required: { value: true, message: 'Es requerido' }
@@ -261,27 +261,23 @@ function FormRegister () {
             </>
           )}
 
-          <Grid item xs={12} sm={12} className='input-box'>
-            {valueRbtn && (
+          {valueRbtn && (
+            <Grid item xs={12} sm={12} className='input-box'>
               <button variant='outlined' color='primary' type='submit' className='btn-register'>
                 Crear
               </button>
-            )}
-          </Grid>
+            </Grid>
+          )}
         </Grid>
+        {loading && <Grid item xs={12} sm={12}> <CircularProgress color='inherit' /> </Grid>}
 
-        {!error && response && (
-          <Alert severity='success'>
-            <AlertTitle>Success</AlertTitle>
-            <strong>Usuario creado correctamente</strong>
-          </Alert>
-        )}
-
-        {error && !response && (
-          <Alert severity='error'>
-            <AlertTitle>Error</AlertTitle>
-            Error <strong>error</strong>
-          </Alert>
+        {error && (
+          <Grid item xs={12} sm={12}>
+            <Alert severity='error'>
+              <AlertTitle>Error</AlertTitle>
+              Mensaje: <strong>{error.statusText}</strong>
+            </Alert>
+          </Grid>
         )}
       </form>
     </Grid>

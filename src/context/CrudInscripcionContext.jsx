@@ -27,7 +27,7 @@ function CrudInscripcionProvider ({ children }) {
    */
   const [error, setError] = useState(null)
   const [response, setResponse] = useState(null)
-  const [loading, setLoading] = useState(true)
+  const [loading, setLoading] = useState(false)
   const {
     register, // el form lo usa para los inputs
     handleSubmit, // hace el envio
@@ -146,13 +146,13 @@ function CrudInscripcionProvider ({ children }) {
     }
   }
 
-  async function deleteInscripcion (grupoId, username) {
+  async function deleteInscripcion (grupoId, username, nombre) {
     setLoading(true)
 
     setError(null)
     try {
       const result = await Swal.fire({
-        title: `¿Esta seguro que desea eliminar del grupo a ${username}?`,
+        title: `¿Esta seguro que desea eliminar del grupo a ${nombre}?`,
         text: 'Esta decisión es irreversible',
         icon: 'warning',
         showCancelButton: true,
@@ -167,7 +167,7 @@ function CrudInscripcionProvider ({ children }) {
         if (!res.err) {
           Swal.fire({
             title: '¡Eliminar!',
-            text: `El estudiante ${username} a sido Eliminado del grupo `,
+            text: `El estudiante ${nombre} a sido eliminado del grupo `,
             icon: 'success'
           })
         } else {
@@ -178,7 +178,7 @@ function CrudInscripcionProvider ({ children }) {
           })
           setError(res)
         }
-        await getAllInscripcionesByEstudianteUsername(username)
+        // await getAllInscripcionesByEstudianteUsername(username)
       }
     } catch (err) {
       Swal.fire({

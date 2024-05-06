@@ -3,7 +3,7 @@ import { Box, Button, Grid, TextField } from '@mui/material'
 import CrudEquipoContext from '../../../../context/CrudEquipoContext'
 import TransferListStudents from './TransferListStudents'
 
-const FormTeam = ({ group_id }) => {
+const FormTeam = ({ grupoId }) => {
   const {
     response,
     error,
@@ -35,21 +35,23 @@ const FormTeam = ({ group_id }) => {
   } = useContext(CrudEquipoContext)
 
   useEffect(() => {
-    setRightEstudiantesNotTeamByGroupId(group_id)
+    setRightEstudiantesNotTeamByGroupId(grupoId)
     // console.log('formTeam')
   }, [])
 
   async function onSubmit (data) {
     const estudiantesUsernames = left.map((elem) => elem.username)
     data.estudiantesUsernames = estudiantesUsernames
-    data.grupoId = group_id
+    data.grupoId = grupoId
 
     // id de un formulario es nulo: se crea un nuevo dato
     if (data.id === null) {
       createEquipo(data)
+      console.log('create')
     } else {
       // si no es nulo se editara un formulario ya existente
       updateEquipo(data)
+      console.log('update')
     }
   }
 

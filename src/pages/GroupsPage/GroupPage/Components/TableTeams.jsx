@@ -3,7 +3,7 @@ import { Grid, Skeleton } from '@mui/material'
 import CardTeam from './CardTeam'
 import CrudEquipoContext from '../../../../context/CrudEquipoContext'
 
-function TableTeams ({ group_id }) {
+function TableTeams ({ grupoId }) {
   const {
     response,
     error,
@@ -25,8 +25,8 @@ function TableTeams ({ group_id }) {
   } = useContext(CrudEquipoContext)
 
   useEffect(() => {
-    getAllEquipoByGrupoId(group_id)
-    console.log('Response: ', response)
+    getAllEquipoByGrupoId(grupoId)
+    // console.log('Response: ', response)
   }, [])
 
   return (

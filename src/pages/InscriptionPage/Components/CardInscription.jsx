@@ -8,10 +8,13 @@ import Grid from '@mui/material/Grid'
 
 export default function CardInscription ({ inscription }) {
   const {
-    grupo_nombre,
-    profesor_nombre,
-    calificacion,
-    clave
+    estudianteUsername,
+    estudianteNombre,
+    profesorNombre,
+    grupoId,
+    grupoClave,
+    grupoNombre,
+    calificacion
   } = inscription
 
   return (
@@ -22,27 +25,31 @@ export default function CardInscription ({ inscription }) {
         title='green iguana'
       />
       <CardContent>
-        <Grid container justifyContent='space-between'>
+        <Grid container spacing={2}>
           <Grid item>
             <Typography gutterBottom variant='h5' component='div'>
-              {grupo_nombre}
+              {grupoClave}:{grupoNombre}
             </Typography>
           </Grid>
           <Grid item>
             <Typography variant='body1' color='text.secondary'>
-              {clave}
+              {grupoNombre}
+            </Typography>
+          </Grid>
+          <Grid item>
+            <Typography variant='body2' color='text.secondary'>
+              Profesor: {profesorNombre}
+            </Typography>
+          </Grid>
+          <Grid item>
+            <Typography variant='body2' color='text.secondary'>
+              Calificacion:{calificacion}
             </Typography>
           </Grid>
         </Grid>
-        <Typography variant='body2' color='text.secondary'>
-          Profesor: {profesor_nombre}
-        </Typography>
       </CardContent>
-      <CardActions>
-        <Typography variant='body2' color='text.secondary'>
-          Calificacion:{calificacion}
-        </Typography>
-      </CardActions>
+
+      <CardActions />
     </Card>
   )
 }

@@ -26,7 +26,7 @@ const AuthProvider = ({ children }) => {
 
   const [error, setError] = useState(null)
   const [response, setResponse] = useState(null)
-  const [loading, setLoading] = useState(true)
+  const [loading, setLoading] = useState(false)
 
   const { post } = helperAXIOS()
 
@@ -59,7 +59,7 @@ const AuthProvider = ({ children }) => {
       window.location.reload()
     } else {
       console.log(res)
-      setError(res.error)
+      setError(res)
     }
     setLoading(false)
     // window.location.reload();
@@ -88,10 +88,11 @@ const AuthProvider = ({ children }) => {
       // console.log(res)
       setResponse(res)
       handleCloseModalForm()
+      window.localStorage.setItem('session', JSON.stringify(res.data))
       window.location.reload()
     } else {
       console.log(res)
-      setError(res.error)
+      setError(res)
     }
     setLoading(false)
     // window.location.reload();

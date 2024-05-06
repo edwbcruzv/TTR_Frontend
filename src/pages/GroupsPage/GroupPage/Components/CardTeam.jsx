@@ -37,7 +37,7 @@ export default function CardTeam ({ team }) {
     updateEquipo,
     deleteEquipo
   } = useContext(CrudEquipoContext)
-
+  // console.log(team)
   return (
     <Card sx={{ maxWidth: 345 }}>
       {/* <CardMedia
@@ -57,7 +57,7 @@ export default function CardTeam ({ team }) {
       </CardContent>
       <CardActions>
         <Button onClick={() => getEquipo(team.id)} size='small'>Editar</Button>
-        <Button onClick={() => deleteEquipo(team.id)} size='small'>Eliminar</Button>
+        <Button onClick={() => deleteEquipo(team.id, team.grupoId)} size='small'>Eliminar</Button>
       </CardActions>
     </Card>
   )
