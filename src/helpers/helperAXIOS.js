@@ -30,13 +30,15 @@ export const helperAXIOS = () => {
         return {
           data: response.data,
           status: response.status,
-          statusText: response.statusText
+          statusText: response.statusText,
+          err: false
         }
       } else {
         // Si no es un objeto, lo dejamos como está
         return response
       }
     } catch (error) {
+      console.log(error)
       if (error.response) {
         // La solicitud fue hecha, pero el servidor respondió con un código de estado que no está en el rango de 2xx
         return {

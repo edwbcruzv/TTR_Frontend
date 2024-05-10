@@ -1,6 +1,6 @@
 import React from "react";
-import girl from "../../../public/assets/chicafondo.png";
-import "../../../public/styles/casebuilder.css";
+import girl from "../../images/codigo.jpg";
+import "../../styles/casebuilder.css";
 const Fondoinicio = () => {
   return (
     <>

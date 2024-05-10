@@ -2,7 +2,7 @@ import React from 'react'
 import {
   Typography
 } from '@mui/material'
-import '../../../public/styles/header.css'
+import '../../styles/header.css'
 
 const NavBarHome = ({ handleOpenLogin, handleOpenRegister }) => {
   // const navigate = useNavigate()
@@ -12,10 +12,10 @@ const NavBarHome = ({ handleOpenLogin, handleOpenRegister }) => {
         Bienvenido
       </Typography>
       <button onClick={handleOpenLogin} color='inherit' className='btn-home'>
-        Login
+        Iniciar sesión
       </button>
       <button onClick={handleOpenRegister} color='inherit' className='btn-home'>
-        Register
+        Registrarse
       </button>
     </header>
   )

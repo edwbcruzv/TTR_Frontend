@@ -1,6 +1,5 @@
-import * as React from 'react'
+import { useContext, useState } from 'react'
 import { styled, useTheme, alpha } from '@mui/material/styles'
-
 import Box from '@mui/material/Box'
 import MuiDrawer from '@mui/material/Drawer'
 import MuiAppBar from '@mui/material/AppBar'
@@ -17,11 +16,9 @@ import AccountCircle from '@mui/icons-material/AccountCircle'
 import Menu from '@mui/material/Menu'
 import MenuItem from '@mui/material/MenuItem'
 import MoreIcon from '@mui/icons-material/MoreVert'
-// import useAuth from '../../hooks/useAuth'
 import { useNavigate } from 'react-router-dom'
-import { useEffect } from 'react'
 import ListItemFrame from './ListItemFrame'
-import { ROL_ADMIN, ROL_STUDENT, ROL_TEACHER } from '../../utils/jwt_data'
+import { ROL_ADMIN, ROL_STUDENT, ROL_TEACHER } from '../../utils/environments'
 import AddIcon from '@mui/icons-material/Add'
 import PostAddIcon from '@mui/icons-material/PostAdd'
 import SettingsIcon from '@mui/icons-material/Settings'
@@ -32,6 +29,7 @@ import GroupsOutlinedIcon from '@mui/icons-material/GroupsOutlined'
 import Diversity3OutlinedIcon from '@mui/icons-material/Diversity3Outlined'
 import PendingActionsOutlinedIcon from '@mui/icons-material/PendingActionsOutlined'
 import AssignmentLateOutlinedIcon from '@mui/icons-material/AssignmentLateOutlined'
+import SessionContext from '../../context/SessionContext'
 
 const itemsHeader = [
   { textItem: 'Inicio', path: '', iconItem: <HomeIcon /> }
@@ -150,33 +148,29 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 
 export default function MiniDrawerFrame ({ children }) {
   const theme = useTheme()
-  const [open, setOpen] = React.useState(false)
-  const [token, setToken] = React.useState('false')
-  // const { token, setToken, rol, nombre } = useAuth()
+  const [open, setOpen] = useState(false)
   const itemsBody = []
-
-  const rol = ROL_ADMIN
-  const nombre = 'Joaquin guzman loera'
+  const { token, rol, usernameSession, nombreSession, email, isValidSession, validatingSession, deleteSession } = useContext(SessionContext)
 
   switch (rol) {
     case ROL_ADMIN:
       itemsBody.push(
         { textItem: 'Usuarios', path: 'admin/users', iconItem: <PeopleOutlinedIcon /> },
         { textItem: 'Grupos', path: 'admin/groups', iconItem: <GroupsOutlinedIcon /> },
-        { textItem: 'Casos', path: 'admin/cases', iconItem: <CasesOutlinedIcon /> }
+        { textItem: 'Practicas', path: 'admin/practices', iconItem: <CasesOutlinedIcon /> }
       )
       break
     case ROL_TEACHER:
       itemsBody.push(
-        { textItem: 'Mis Casos', path: 'teacher/cases', iconItem: <CasesOutlinedIcon /> },
         { textItem: 'Mis Grupos', path: 'teacher/groups', iconItem: <GroupsOutlinedIcon /> },
-        { textItem: 'Casos por Revisar', path: 'teacher/revision', iconItem: <PendingActionsOutlinedIcon /> }
+        { textItem: 'Practices', path: 'teacher/practices', iconItem: <PendingActionsOutlinedIcon /> }
       )
       break
     case ROL_STUDENT:
       itemsBody.push(
-        { textItem: 'Casos pendientes', path: 'student/cases', iconItem: <AssignmentLateOutlinedIcon /> },
-        { textItem: 'Mis Equipos', path: 'student/teams', iconItem: <Diversity3OutlinedIcon /> }
+        { textItem: 'Practicas', path: 'student/practices', iconItem: <AssignmentLateOutlinedIcon /> },
+        { textItem: 'Equipos', path: 'student/teams', iconItem: <Diversity3OutlinedIcon /> },
+        { textItem: 'Grupos', path: 'student/inscriptions', iconItem: <GroupsOutlinedIcon /> }
       )
       break
     default:
@@ -186,19 +180,13 @@ export default function MiniDrawerFrame ({ children }) {
 
   const navigate = useNavigate()
   const onClickItemMenu = (path) => {
-    // navigate: nos permite alterar la URL por programacion
-    console.log(path)
     navigate(`/${path}`)
   }
 
-  useEffect(() => {
-    if (!token) {
-      // Elimina el token del almacenamiento local
-      localStorage.removeItem('token')
-      // Redirige a la página de inicio
-      navigate('/')
-    }
-  }, [token])
+  const handleProfile = () => {
+    // Navegar a la página de destino con argumentos
+    navigate('/profile', { state: { usernameView: usernameSession, rolView: rol } })
+  }
 
   const handleDrawerOpen = () => {
     setOpen(true)
@@ -208,8 +196,8 @@ export default function MiniDrawerFrame ({ children }) {
     setOpen(false)
   }
 
-  const [anchorEl, setAnchorEl] = React.useState(null)
-  const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null)
+  const [anchorEl, setAnchorEl] = useState(null)
+  const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null)
 
   const isMenuOpen = Boolean(anchorEl)
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl)
@@ -248,9 +236,9 @@ export default function MiniDrawerFrame ({ children }) {
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
-      <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
-      <MenuItem onClick={handleMenuClose}>My account</MenuItem>
-      <MenuItem onClick={() => setToken(null)}>Logout</MenuItem>
+      <MenuItem onClick={handleProfile}>Perfil</MenuItem>
+      <MenuItem onClick={() => onClickItemMenu('account')}>Cuenta</MenuItem>
+      <MenuItem onClick={() => deleteSession()}>Logout</MenuItem>
     </Menu>
   )
 
@@ -272,7 +260,7 @@ export default function MiniDrawerFrame ({ children }) {
             <MenuIcon />
           </IconButton>
           <Typography variant='h6' noWrap component='div'>
-            {nombre}
+            {nombreSession}
           </Typography>
           {/* <Search>
             <SearchIconWrapper>

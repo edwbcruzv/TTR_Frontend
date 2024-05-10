@@ -1,32 +1,33 @@
-import { createContext, useState } from 'react'
+import { createContext, useContext, useState } from 'react'
 import { helperAXIOS } from '../helpers/helperAXIOS'
-import { URI_BACKEND } from '../utils/urls'
+import { URI_BACKEND } from '../utils/environments'
 import { useForm } from 'react-hook-form'
-import useSession from '../hooks/useSession'
+import SessionContext from './SessionContext'
+import Swal from 'sweetalert2'
 
 const CrudEquipoContext = createContext()
 
 const initialForm = {
-  id: 0,
-  nombre: 'string',
-  grupoId: 0,
+  id: null,
+  nombre: null,
+  grupoId: null,
   estudiantesUsernames: [
-    ''
   ],
   solucionesIds: [
-    0
   ]
 }
 
 function CrudEquipoProvider ({ children }) {
-  const { token, rol, usernameSession, nombre, isValid } = useSession()
+  const { token, rol, usernameSession, nombreSession, email, isValidSession, validatingSession, deleteSession } = useContext(SessionContext)
 
   /**
    * formulario
    */
-  const [error, setError] = useState(null)
+  const [loading, setLoading] = useState(false)
   const [response, setResponse] = useState(null)
-  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState(null)
+  const [left, setLeft] = useState([])
+  const [right, setRight] = useState([])
   const {
     register, // el form lo usa para los inputs
     handleSubmit, // hace el envio
@@ -47,8 +48,10 @@ function CrudEquipoProvider ({ children }) {
     setOpenModalForm(true)
   }
   const handleCloseModalForm = () => {
-    console.log('cerrando')
+    // console.log('cerrando')
     setOpenModalForm(false)
+    setLeft([])
+    setRight([])
     reset(initialForm)
   }
 
@@ -56,69 +59,141 @@ function CrudEquipoProvider ({ children }) {
    * Peticiones a la API
    */
 
-  async function getProfesor (id) {
+  async function getEquipo (id) {
     setLoading(true)
     const res = await get(URI_BACKEND(`equipo/${id}`), token)
     if (res.status === 200) {
-      // console.log(res)
-      setResponse(res)
+      // console.log(res.data)
+      reset(res.data)
+      const estudiantesUsernames = { estudiantesUsernames: res.data.estudiantesUsernames }
+      const estudiantes = await post(URI_BACKEND('estudiante/getByUsernames'), estudiantesUsernames, token)
+      // console.log(estudiantes.data)
+      const left = estudiantes.data.map((elem) => ({ nombre: `${elem.nombre} ${elem.apellidoPaterno} ${elem.apellidoMaterno}`, username: elem.username }))
+
+      setLeft(left)
+      // console.log(res.data)
+      // setResponse(res.data)
+      handleOpenModalForm()
     } else {
       // console.log(res.error)
-      setError(res.error)
+      setError(res)
     }
     setLoading(false)
   }
 
-  async function getAllProfesoresByGrupoId (id) {
+  async function getAllEquipoByGrupoId (id) {
     setLoading(true)
     const res = await get(URI_BACKEND(`equipo/getAllByGrupoId/${id}`), token)
     if (res.status === 200) {
-      // console.log(res)
-      setResponse(res)
+      // console.log(res.data)
+      setResponse(res.data)
     } else {
       // console.log(res.error)
-      setError(res.error)
+      setError(res)
     }
     setLoading(false)
   }
 
-  async function createProfesor (data) {
+  async function setRightEstudiantesNotTeamByGroupId (id) {
     setLoading(true)
+    const res = await get(URI_BACKEND(`estudiante/getAllByGroupId/${id}/NotTeam`), token)
+    if (res.status === 200) {
+      const right = res.data.map((elem) => ({ nombre: `${elem.nombre} ${elem.apellidoPaterno} ${elem.apellidoMaterno}`, username: elem.username }))
+
+      setRight(right)
+    } else {
+      console.log(res.error)
+      setError(res)
+    }
+    setLoading(false)
+  }
+
+  async function createEquipo (data) {
+    setLoading(true)
+    console.log(data)
     const res = await post(URI_BACKEND('equipo'), data, token)
     if (res.status === 200) {
-      console.log(res)
-      setResponse(res)
+      Swal.fire({
+        position: 'top-end',
+        icon: 'success',
+        title: 'Equipo creado correctamente',
+        showConfirmButton: false,
+        timer: 2000
+      })
+      // console.log(res.data)
+      // setResponse(res.data)
+      handleCloseModalForm()
+      await getAllEquipoByGrupoId(data.grupoId)
     } else {
       console.log(res)
-      setError(res.error)
+      Swal.fire({
+        title: 'Error al crear equipo',
+        text: 'Verificar',
+        icon: 'error'
+      })
+      setError(res)
     }
     setLoading(false)
   }
 
-  async function updateProfesor (data) {
+  async function updateEquipo (data) {
     setLoading(true)
     const res = await patch(URI_BACKEND('equipo'), data, token)
     if (res.status === 200) {
-      console.log(res)
-      setResponse(res)
+      // console.log(res.data)
+      // setResponse(res.data)
+      handleCloseModalForm()
+      await getAllEquipoByGrupoId(data.grupoId)
     } else {
-      console.log(res)
-      setError(res.error)
+      // console.log(res.error)
+      setError(res)
     }
     setLoading(false)
   }
 
-  async function deleteProfesor (id) {
+  async function deleteEquipo (id, grupoId) {
     setLoading(true)
-    const res = await del(URI_BACKEND(`equipo/${id}`), token)
-    if (res.status === 200) {
-      // console.log(res)
-      setResponse(res)
-    } else {
-      // console.log(res.error)
-      setError(res.error)
+    setError(null)
+    try {
+      const result = await Swal.fire({
+        title: '¿Esta seguro que desea eliminar a este equipo?',
+        text: 'Esta decisión es irreversible',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Si,¡Eliminar!'
+      })
+
+      if (result.isConfirmed) {
+        const res = await del(URI_BACKEND(`equipo/${id}`), token)
+        console.log(res)
+        if (!res.err) {
+          Swal.fire({
+            title: '¡Eliminar!',
+            text: 'El equipo a sido Eliminado ',
+            icon: 'success'
+          })
+        } else {
+          Swal.fire({
+            title: 'Error al eliminar',
+            text: `Error: ${res.statusText} (${res.status})`,
+            icon: 'error'
+          })
+          setError(res)
+        }
+        await getAllEquipoByGrupoId(grupoId)
+      }
+    } catch (err) {
+      Swal.fire({
+        title: 'Error al eliminar, intentelo mas tarde',
+        text: `Error: ${err}`,
+        icon: 'error'
+      })
+      setError(err)
+    } finally {
+      setLoading(false)
     }
-    setLoading(false)
   }
 
   const data = {
@@ -134,11 +209,21 @@ function CrudEquipoProvider ({ children }) {
     getValues,
     errors,
 
-    getProfesor,
-    getAllProfesoresByGrupoId,
-    createProfesor,
-    updateProfesor,
-    deleteProfesor
+    openModalForm,
+    handleOpenModalForm,
+    handleCloseModalForm,
+
+    left,
+    setLeft,
+    right,
+    setRight,
+
+    getEquipo,
+    getAllEquipoByGrupoId,
+    setRightEstudiantesNotTeamByGroupId,
+    createEquipo,
+    updateEquipo,
+    deleteEquipo
   }
   return (
     <CrudEquipoContext.Provider value={data}>

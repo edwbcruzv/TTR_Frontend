@@ -1,27 +1,33 @@
-import { createContext, useState } from 'react'
+import { createContext, useContext, useState } from 'react'
 import { helperAXIOS } from '../helpers/helperAXIOS'
-import { URI_BACKEND } from '../utils/urls'
+import { URI_BACKEND } from '../utils/environments'
 import { useForm } from 'react-hook-form'
-import useSession from '../hooks/useSession'
+import SessionContext from './SessionContext'
+import Swal from 'sweetalert2'
 
 const CrudInscripcionContext = createContext()
 
-const initialForm = {
-  grupoId: null,
-  estudianteUsername: null,
-  calificacion: null,
-  codigo: null
-}
+// const initialForm = {
+//   grupoId: null,
+//   estudianteUsername: null,
+//   calificacion: null,
+//   codigo: null
+// }
 
 function CrudInscripcionProvider ({ children }) {
-  const { token, rol, usernameSession, nombre, isValid } = useSession()
-
+  const { token, rol, usernameSession, nombreSession, email, isValidSession, validatingSession, deleteSession } = useContext(SessionContext)
+  const initialForm = {
+    grupoId: null,
+    estudianteUsername: usernameSession,
+    calificacion: null,
+    codigo: null
+  }
   /**
    * formulario
    */
   const [error, setError] = useState(null)
   const [response, setResponse] = useState(null)
-  const [loading, setLoading] = useState(true)
+  const [loading, setLoading] = useState(false)
   const {
     register, // el form lo usa para los inputs
     handleSubmit, // hace el envio
@@ -30,7 +36,14 @@ function CrudInscripcionProvider ({ children }) {
     setValue, // settear el valor a un atributo
     getValues, //
     formState: { errors } // errores de un formulario
-  } = useForm({ defaultValues: initialForm }) // inicializar un formulario
+  } = useForm({
+    defaultValues: {
+      grupoId: null,
+      estudianteUsername: usernameSession,
+      calificacion: null,
+      codigo: null
+    }
+  }) // inicializar un formulario
 
   const { get, post, patch, del } = helperAXIOS()
 
@@ -55,65 +68,128 @@ function CrudInscripcionProvider ({ children }) {
     setLoading(true)
     const res = await get(URI_BACKEND(`inscripcion/grupo/${grupoId}/estudiante/${username}`), token)
     if (res.status === 200) {
-      // console.log(res)
-      setResponse(res)
+      setLoading(false)
+      // console.log(res.data)
+      setResponse(res.data)
     } else {
       // console.log(res.error)
-      setError(res.error)
+      setLoading(false)
+      setError(res)
     }
-    setLoading(false)
   }
 
   async function getAllInscripcionesByGrupoId (id) {
     setLoading(true)
     const res = await get(URI_BACKEND(`inscripcion/getAllByGrupoId/${id}`), token)
     if (res.status === 200) {
-      // console.log(res)
-      setResponse(res)
+      setLoading(false)
+      // console.log(res.data)
+      setResponse(res.data)
     } else {
       // console.log(res.error)
-      setError(res.error)
+      setLoading(false)
+      setError(res)
     }
-    setLoading(false)
+  }
+
+  async function getAllInscripcionesByEstudianteUsername (username) {
+    setLoading(true)
+    const res = await get(URI_BACKEND(`inscripcion/getAllByEstudianteUsername/${username}`), token)
+    if (res.status === 200) {
+      setLoading(false)
+      // console.log(res.data)
+      setResponse(res.data)
+    } else {
+      setError(res)
+      setLoading(false)
+    }
   }
 
   async function createInscripcion (data) {
     setLoading(true)
     const res = await post(URI_BACKEND('inscripcion'), data, token)
     if (res.status === 200) {
-      console.log(res)
-      setResponse(res)
+      setLoading(false)
+      Swal.fire({
+        position: 'top-end',
+        icon: 'success',
+        title: 'Te has unido al grupo correctamente',
+        showConfirmButton: false,
+        timer: 2000
+      })
+      getAllInscripcionesByEstudianteUsername(usernameSession)
+      // console.log(res.data)
+      // setResponse(res.data)
     } else {
-      console.log(res)
-      setError(res.error)
+      Swal.fire({
+        title: 'Error al unirte',
+        text: 'Verifica el codigo de acceso con tu profesor.',
+        icon: 'error'
+      })
+      // console.log(res.error)
+      setLoading(false)
+      setError(res)
     }
-    setLoading(false)
   }
 
   async function updateInscripcion (data) {
     setLoading(true)
     const res = await patch(URI_BACKEND('inscripcion'), data, token)
     if (res.status === 200) {
-      console.log(res)
-      setResponse(res)
-    } else {
-      console.log(res)
-      setError(res.error)
-    }
-    setLoading(false)
-  }
-
-  async function deleteInscripcion (grupoId, username) {
-    setLoading(true)
-    const res = await del(URI_BACKEND(`inscripcion/grupo/${grupoId}/estudiante/${username}`), token)
-    if (res.status === 200) {
-      // console.log(res)
-      setResponse(res)
+      setLoading(false)
+      // console.log(res.data)
+      setResponse(res.data)
     } else {
       // console.log(res.error)
-      setError(res.error)
+      setLoading(false)
+      setError(res)
     }
-    setLoading(false)
+  }
+
+  async function deleteInscripcion (grupoId, username, nombre) {
+    setLoading(true)
+
+    setError(null)
+    try {
+      const result = await Swal.fire({
+        title: `¿Esta seguro que desea eliminar del grupo a ${nombre}?`,
+        text: 'Esta decisión es irreversible',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Si,¡Eliminar!'
+      })
+
+      if (result.isConfirmed) {
+        const res = await del(URI_BACKEND(`inscripcion/grupo/${grupoId}/estudiante/${username}`), token)
+        console.log(res)
+        if (!res.err) {
+          Swal.fire({
+            title: '¡Eliminar!',
+            text: `El estudiante ${nombre} a sido eliminado del grupo `,
+            icon: 'success'
+          })
+        } else {
+          Swal.fire({
+            title: 'Error al eliminar',
+            text: `Error: ${res.statusText} (${res.status})`,
+            icon: 'error'
+          })
+          setError(res)
+        }
+        // await getAllInscripcionesByEstudianteUsername(username)
+      }
+    } catch (err) {
+      Swal.fire({
+        title: 'Error al eliminar, intentelo mas tarde',
+        text: `Error: ${err}`,
+        icon: 'error'
+      })
+      setError(err)
+    } finally {
+      setLoading(false)
+    }
   }
 
   const data = {
@@ -131,6 +207,7 @@ function CrudInscripcionProvider ({ children }) {
 
     getInscripcion,
     getAllInscripcionesByGrupoId,
+    getAllInscripcionesByEstudianteUsername,
     createInscripcion,
     updateInscripcion,
     deleteInscripcion

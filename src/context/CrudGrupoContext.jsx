@@ -1,8 +1,8 @@
-import { createContext, useState } from 'react'
+import { createContext, useContext, useState } from 'react'
 import { helperAXIOS } from '../helpers/helperAXIOS'
-import { URI_BACKEND } from '../utils/urls'
+import { ROL_ADMIN, ROL_TEACHER, URI_BACKEND } from '../utils/environments'
 import { useForm } from 'react-hook-form'
-import useSession from '../hooks/useSession'
+import SessionContext from './SessionContext'
 
 const CrudGrupoContext = createContext()
 
@@ -14,14 +14,14 @@ const initialForm = {
 }
 
 function CrudGrupoProvider ({ children }) {
-  const { token, rol, usernameSession, nombre, isValid } = useSession()
+  const { token, rol, usernameSession, nombreSession, email, isValidSession, validatingSession, deleteSession } = useContext(SessionContext)
 
   /**
    * formulario
    */
   const [error, setError] = useState(null)
   const [response, setResponse] = useState(null)
-  const [loading, setLoading] = useState(true)
+  const [loading, setLoading] = useState(false)
   const {
     register, // el form lo usa para los inputs
     handleSubmit, // hace el envio
@@ -51,15 +51,28 @@ function CrudGrupoProvider ({ children }) {
    * Peticiones a la API
    */
 
+  async function getAllGrupos () {
+    setLoading(true)
+    const res = await get(URI_BACKEND('grupo/getAll'), token)
+    if (res.status === 200) {
+      // console.log(res)
+      setResponse(res.data)
+    } else {
+      // console.log(res.error)
+      setError(res)
+    }
+    setLoading(false)
+  }
+
   async function getGrupo (id) {
     setLoading(true)
     const res = await get(URI_BACKEND(`grupo/${id}`), token)
     if (res.status === 200) {
       // console.log(res)
-      setResponse(res)
+      setResponse(res.data)
     } else {
       // console.log(res.error)
-      setError(res.error)
+      setError(res)
     }
     setLoading(false)
   }
@@ -68,11 +81,11 @@ function CrudGrupoProvider ({ children }) {
     setLoading(true)
     const res = await get(URI_BACKEND(`grupo/getAllByProfesorUsername/${username}`), token)
     if (res.status === 200) {
-      console.log(res)
+      // console.log(res)
       setResponse(res.data)
     } else {
       // console.log(res.error)
-      setError(res.error)
+      setError(res)
     }
     setLoading(false)
   }
@@ -81,11 +94,17 @@ function CrudGrupoProvider ({ children }) {
     setLoading(true)
     const res = await post(URI_BACKEND('grupo'), data, token)
     if (res.status === 200) {
-      console.log(res)
-      setResponse(res)
+      // console.log(res)
+      // setResponse(res.data)
+      if (rol === ROL_ADMIN) {
+        getAllGrupos()
+      } else if (rol === ROL_TEACHER) {
+        getAllGruposByProfesorUsername(usernameSession)
+      }
+      handleCloseModalForm()
     } else {
-      console.log(res)
-      setError(res.error)
+      // console.log(res)
+      setError(res)
     }
     setLoading(false)
   }
@@ -94,11 +113,12 @@ function CrudGrupoProvider ({ children }) {
     setLoading(true)
     const res = await patch(URI_BACKEND('grupo'), data, token)
     if (res.status === 200) {
-      console.log(res)
-      setResponse(res)
+      // console.log(res)
+      // setResponse(res.data)
+      handleCloseModalForm()
     } else {
-      console.log(res)
-      setError(res.error)
+      // console.log(res)
+      setError(res)
     }
     setLoading(false)
   }
@@ -108,10 +128,10 @@ function CrudGrupoProvider ({ children }) {
     const res = await del(URI_BACKEND(`grupo/${id}`), token)
     if (res.status === 200) {
       // console.log(res)
-      setResponse(res)
+      setResponse(res.data)
     } else {
       // console.log(res.error)
-      setError(res.error)
+      setError(res)
     }
     setLoading(false)
   }
@@ -133,6 +153,7 @@ function CrudGrupoProvider ({ children }) {
     handleOpenModalForm,
     handleCloseModalForm,
 
+    getAllGrupos,
     getGrupo,
     getAllGruposByProfesorUsername,
     createGrupo,

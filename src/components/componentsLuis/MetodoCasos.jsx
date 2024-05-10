@@ -1,6 +1,6 @@
 import React from "react";
-import fondoimg from "../../../public/assets/whatis.png";
-import "../../../public/styles/metodocasos.css";
+import fondoimg from "../../images/profesor.jpg";
+import "../../styles/metodocasos.css";
 
 const MetodoCasos = () => {
   return (

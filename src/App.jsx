@@ -8,8 +8,19 @@ import RecoveryPage from './pages/RecoveryPage/RecoveryPage'
 import PracticesPage from './pages/PracticesPage/PracticesPage'
 import WelcomePage from './pages/WelcomePage/WelcomePage'
 import { SessionProvider } from './context/SessionContext'
-
-// import "/styles/app.css"
+import AdminProtectedRoute from './pages/AdminProtectedRoute'
+import TeacherProtectedRoute from './pages/TeacherProtectedRoute'
+import StudentProtectedRoute from './pages/StudentProtectedRoute'
+import HomeAdminPage from './pages/HomeAdminPage/HomeAdminPage'
+import HomeTeacherPage from './pages/HomeTeacherPage/HomeTeacherPage'
+import HomeStudentPage from './pages/HomeStudentPage/HomeStudentPage'
+import PublicProtectedRoute from './pages/PublicProtectedRoute'
+import GroupPage from './pages/GroupsPage/GroupPage/GroupPage'
+import InscriptionPage from './pages/InscriptionPage/InscriptionPage'
+import PracticePage from './pages/PracticesPage/PracticePage/PracticePage'
+import UsersProtectedRoute from './pages/UsersProtectedRoute'
+import AccountPage from './pages/AccountPage/AccountPage'
+import ProfilePage from './pages/ProfilePage/ProfilePage'
 
 const App = (props) => {
   return (
@@ -19,15 +30,45 @@ const App = (props) => {
         <BrowserRouter>
           {/* Dentro de Routes se declaran las rutas y el componente al que va a direcciones, los componentes deben te derminar en Page.jsx */}
           <Routes>
+            <Route element={<PublicProtectedRoute />}>
+              <Route path='/' element={<WelcomePage />} />
+              <Route path='/recovery' element={<RecoveryPage />} />
+            </Route>
 
-            <Route path='/config' element={<ConfigPage />} />
-            <Route path='/groups' element={<GroupsPage />} />
+            <Route path='/admin' element={<AdminProtectedRoute />}>
+              <Route index element={<HomeAdminPage />} />
+              <Route path='users' element={<UsersPage />} />
+              <Route path='groups' element={<GroupsPage />} />
+              <Route path='group/:id' element={<GroupPage />} />
+              <Route path='practices' element={<PracticesPage />} />
+              <Route path='practice/:id' element={<PracticePage />} />
+            </Route>
+
+            <Route path='/teacher' element={<TeacherProtectedRoute />}>
+              <Route index element={<HomeTeacherPage />} />
+              <Route path='practices' element={<PracticesPage />} />
+              <Route path='practice/:id' element={<PracticePage />} />
+              <Route path='groups' element={<GroupsPage />} />
+              <Route path='group/:id' element={<GroupPage />} />
+            </Route>
+
+            <Route path='/student' element={<StudentProtectedRoute />}>
+              <Route index element={<HomeStudentPage />} />
+              <Route path='practices' element={<PracticesPage />} />
+              <Route path='practice/:id' element={<PracticePage />} />
+              <Route path='teams' element={<TeamsPage />} />
+              <Route path='inscriptions' element={<InscriptionPage />} />
+
+            </Route>
+
+            <Route path='/' element={<UsersProtectedRoute />}>
+              <Route path='config' element={<ConfigPage />} />
+              <Route path='profile' element={<ProfilePage />} />
+              <Route path='account' element={<AccountPage />} />
+
+            </Route>
+
             <Route path='*' element={<NotFoundPage />} />
-            <Route path='/practices' element={<PracticesPage />} />
-            <Route path='/recovery' element={<RecoveryPage />} />
-            <Route path='/teams' element={<TeamsPage />} />
-            <Route path='/users' element={<UsersPage />} />
-            <Route path='/' element={<WelcomePage />} />
           </Routes>
         </BrowserRouter>
       </SessionProvider>

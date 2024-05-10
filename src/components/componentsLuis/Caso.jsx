@@ -1,6 +1,6 @@
 import React from "react";
-import teams from "../../../public/assets/teams.jpg";
-import "../../../public/styles/caso.css";
+import teams from "../../images/codigohtml.jpg";
+import "../../styles/caso.css";
 
 const Caso = () => {
   return (
