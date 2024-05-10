@@ -1,9 +1,9 @@
 import React from 'react'
-import NavBarHome from '../../components/Navbars/NavBarHome'
 import { Box, Grid, Modal } from '@mui/material'
 import FormLogin from '../../components/Auth/FormLogin'
 import AuthProvider from '../../context/AuthContext'
 import FormRegister from '../../components/Auth/FormRegister'
+import NavBarHome from '../../components/navbars/NavBarHome'
 
 const style = {
   position: 'absolute',
@@ -15,7 +15,6 @@ const style = {
 
   p: 4
 }
-
 export default function WelcomePage () {
   const [openLogin, setOpenLogin] = React.useState(false)
   const handleOpenLogin = () => setOpenLogin(true)
