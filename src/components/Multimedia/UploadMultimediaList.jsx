@@ -1,13 +1,11 @@
-import * as React from 'react'
 import { styled } from '@mui/material/styles'
-import Button from '@mui/material/Button'
 import CloudUploadIcon from '@mui/icons-material/CloudUpload'
-import { Stack } from '@mui/material'
-import { helperAXIOS } from '../../../helpers/helperAXIOS'
-import useAuth from '../../../hooks/useAuth'
-import { URI_BACKEND } from '../../../utils/urls'
-import { useEffect } from 'react'
-import MultimediaComponent from '../Multimedia/MultimediaComponent'
+import MultimediaComponent from './MultimediaComponent'
+import { useContext, useEffect, useState } from 'react'
+import { helperAXIOS } from '../../helpers/helperAXIOS'
+import SessionContext from '../../context/SessionContext'
+import { Button, Stack } from '@mui/material'
+import { URI_BACKEND } from '../../utils/environments'
 
 const VisuallyHiddenInput = styled('input')({
   clip: 'rect(0 0 0 0)',
@@ -21,11 +19,11 @@ const VisuallyHiddenInput = styled('input')({
   width: 1
 })
 
-export default function FilesUpload ({ name, setValue, uploadedFilesIds, setUploadedFilesIds }) {
-  const { token, id } = useAuth()
-  const [files, setFiles] = React.useState([])
-  const [loading, setLoading] = React.useState([])
-  const [error, setError] = React.useState([])
+export default function UploadMultimediaList ({ name, setValue, uploadedFilesIds, setUploadedFilesIds }) {
+  const { token, rol, usernameSession, nombreSession, email, isValidSession, validatingSession, deleteSession } = useContext(SessionContext)
+  const [files, setFiles] = useState([])
+  const [loading, setLoading] = useState([])
+  const [error, setError] = useState([])
   const { get, post, put, patch, del } = helperAXIOS()
 
   useEffect(() => {
@@ -40,7 +38,7 @@ export default function FilesUpload ({ name, setValue, uploadedFilesIds, setUplo
   const handleFileChange = (event) => {
     const newFiles = Array.from(event.target.files)
     if (files.length + uploadedFilesIds.length + newFiles.length > 4) {
-      alert('Solo se permiten 4 archivos.')
+      window.alert('Solo se permiten 4 archivos.')
     } else {
       setFiles([...files, ...newFiles])
     }
@@ -54,7 +52,7 @@ export default function FilesUpload ({ name, setValue, uploadedFilesIds, setUplo
 
   const handleUploadIndividual = async (file) => {
     const formData = new FormData()
-    formData.append('usuario_id', id)
+    formData.append('usuario_id', usernameSession)
     formData.append('nombre', file.name.split('.')[0])
     formData.append('archivo_multimedia', file)
 

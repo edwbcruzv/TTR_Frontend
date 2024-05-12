@@ -1,5 +1,4 @@
 import React from 'react'
-import NavBarHome from '../../components/Navbars/NavBarHome'
 import { Box, Grid, Modal } from '@mui/material'
 import FormLogin from '../../components/Auth/FormLogin'
 import AuthProvider from '../../context/AuthContext'
@@ -8,6 +7,7 @@ import Fondoinicio from '../../components/componentsLuis/FondoInicio'
 import MetodoCasos from '../../components/componentsLuis/MetodoCasos'
 import Caso from '../../components/componentsLuis/Caso'
 import Footer from '../../components/componentsLuis/Footer'
+import NavBarHome from '../../components/navbars/NavBarHome'
 
 const style = {
   position: 'absolute',
@@ -64,12 +64,11 @@ export default function WelcomePage () {
             </Box>
           </Modal>
           <Fondoinicio />
-        <MetodoCasos />
-        <Caso />
+          <MetodoCasos />
+          <Caso />
         </Grid>
 
-    
-        <Footer /> 
+        <Footer />
       </AuthProvider>
     </>
   )
