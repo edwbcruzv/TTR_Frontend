@@ -4,6 +4,6 @@ import MiniDrawerFrame from '../../components/Dashboard/MiniDrawerFrame'
 export default function HomeAdminPage () {
   return (
 
-    <MiniDrawerFrame>HomeAdminPage</MiniDrawerFrame>
+    <MiniDrawerFrame>Rol: Administrador</MiniDrawerFrame>
   )
 }

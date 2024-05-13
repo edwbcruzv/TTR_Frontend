@@ -30,6 +30,7 @@ import Diversity3OutlinedIcon from '@mui/icons-material/Diversity3Outlined'
 import PendingActionsOutlinedIcon from '@mui/icons-material/PendingActionsOutlined'
 import AssignmentLateOutlinedIcon from '@mui/icons-material/AssignmentLateOutlined'
 import SessionContext from '../../context/SessionContext'
+import "../../styles/dashborad.css"
 
 const itemsHeader = [
   { textItem: 'Inicio', path: '', iconItem: <HomeIcon /> }
@@ -66,6 +67,7 @@ const DrawerHeader = styled('div')(({ theme }) => ({
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'flex-end',
+  background : '#9d5ceb',
   padding: theme.spacing(0, 1),
   // necessary for content to be below app bar
   ...theme.mixins.toolbar
@@ -238,14 +240,14 @@ export default function MiniDrawerFrame ({ children }) {
     >
       <MenuItem onClick={handleProfile}>Perfil</MenuItem>
       <MenuItem onClick={() => onClickItemMenu('account')}>Cuenta</MenuItem>
-      <MenuItem onClick={() => deleteSession()}>Logout</MenuItem>
+      <MenuItem onClick={() => deleteSession()}>Salir</MenuItem>
     </Menu>
   )
 
   return (
-    <Box sx={{ display: 'flex' }}>
+    <Box sx={{ display: 'flex' }} >
       <CssBaseline />
-      <AppBar position='fixed' open={open}>
+      <nav position='fixed' open={open} className='barra'>
         <Toolbar>
           <IconButton
             color='inherit'
@@ -333,7 +335,7 @@ export default function MiniDrawerFrame ({ children }) {
             </IconButton>
           </Box>
         </Toolbar>
-      </AppBar>
+      </nav>
 
       {renderMenu}
 

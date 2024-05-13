@@ -1,0 +1,13 @@
+.barra{
+      background-color: #9d5ceb;
+      width: 100%;
+      position: fixed;
+      z-index: 999;
+      color: aliceblue;
+}
+.dashboard{
+      background-color: #29313c;
+}
+.list-item-button{
+      color: #9d5ceb;
+}
