@@ -22,4 +22,5 @@ const PATH = (recurso) => `${API}/${recurso}`
 
 export const URI_BACKEND = (recurso) => {
   return `${SERVER_URL}/${PATH(recurso)}`
+  // return `${SERVER_URL}/${recurso}`
 }

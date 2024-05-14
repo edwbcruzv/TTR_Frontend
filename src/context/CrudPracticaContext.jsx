@@ -2,6 +2,7 @@ import { createContext, useContext, useState } from 'react'
 import { helperAXIOS } from '../helpers/helperAXIOS'
 import { useForm } from 'react-hook-form'
 import SessionContext from './SessionContext'
+import { URI_BACKEND } from '../utils/environments'
 
 const CrudPracticaContext = createContext()
 
@@ -64,87 +65,48 @@ function CrudPracticaProvider ({ children }) {
 
   async function getAllPracticas () {
     setLoading(true)
-    // const res = await get(URI_BACKEND('grupo/getAll'), token)
-    // if (res.status === 200) {
-    //   // console.log(res)
-    //   setResponse(res.data)
-    // } else {
-    //   // console.log(res.error)
-    //   setError(res)
-    // }
+    const res = await get(URI_BACKEND('practica/getAll'), token)
     setLoading(false)
+    return res
   }
 
   async function getPractica (id) {
     setLoading(true)
-    // const res = await get(URI_BACKEND(`grupo/${id}`), token)
-    // if (res.status === 200) {
-    //   // console.log(res)
-    //   setResponse(res.data)
-    // } else {
-    //   // console.log(res.error)
-    //   setError(res)
-    // }
+    const res = await get(URI_BACKEND(`practica/${id}`), token)
     setLoading(false)
+    return res
   }
 
   async function getAllPracticasByProfesorUsername (username) {
     setLoading(true)
-    // const res = await get(URI_BACKEND(`grupo/getAllByProfesorUsername/${username}`), token)
-    // if (res.status === 200) {
-    //   // console.log(res)
-    //   setResponse(res.data)
-    // } else {
-    //   // console.log(res.error)
-    //   setError(res)
-    // }
+    const res = await get(URI_BACKEND(`practica/getAllByProfesorUsername/${username}`), token)
+
     setLoading(false)
+    return res
   }
 
   async function createPractica (data) {
     setLoading(true)
-    // const res = await post(URI_BACKEND('grupo'), data, token)
-    // if (res.status === 200) {
-    //   // console.log(res)
-    //   // setResponse(res.data)
-    //   if (rol === ROL_ADMIN) {
-    //     getAllGrupos()
-    //   } else if (rol === ROL_TEACHER) {
-    //     getAllGruposByProfesorUsername(usernameSession)
-    //   }
-    //   handleCloseModalForm()
-    // } else {
-    //   // console.log(res)
-    //   setError(res)
-    // }
+    const res = await post(URI_BACKEND('practica'), data, token)
+
     setLoading(false)
+    return res
   }
 
   async function updatePractica (data) {
     setLoading(true)
-    // const res = await patch(URI_BACKEND('grupo'), data, token)
-    // if (res.status === 200) {
-    //   // console.log(res)
-    //   // setResponse(res.data)
-    //   handleCloseModalForm()
-    // } else {
-    //   // console.log(res)
-    //   setError(res)
-    // }
+    const res = await patch(URI_BACKEND('practica'), data, token)
+
     setLoading(false)
+    return res
   }
 
   async function deletePractica (id) {
     setLoading(true)
-    // const res = await del(URI_BACKEND(`grupo/${id}`), token)
-    // if (res.status === 200) {
-    //   // console.log(res)
-    //   setResponse(res.data)
-    // } else {
-    //   // console.log(res.error)
-    //   setError(res)
-    // }
+    const res = await del(URI_BACKEND(`practica/${id}`), token)
+
     setLoading(false)
+    return res
   }
 
   const data = {

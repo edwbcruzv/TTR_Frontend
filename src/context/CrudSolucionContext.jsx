@@ -2,6 +2,7 @@ import { createContext, useContext, useState } from 'react'
 import { helperAXIOS } from '../helpers/helperAXIOS'
 import { useForm } from 'react-hook-form'
 import SessionContext from './SessionContext'
+import { URI_BACKEND } from '../utils/environments'
 
 const CrudSolucionContext = createContext()
 
@@ -69,87 +70,50 @@ function CrudSolucionProvider ({ children }) {
 
   async function getAllSoluciones () {
     setLoading(true)
-    // const res = await get(URI_BACKEND('grupo/getAll'), token)
-    // if (res.status === 200) {
-    //   // console.log(res)
-    //   setResponse(res.data)
-    // } else {
-    //   // console.log(res.error)
-    //   setError(res)
-    // }
+    const res = await get(URI_BACKEND('solucion/getAll'), token)
+
     setLoading(false)
+    return res
   }
 
   async function getSolucion (id) {
     setLoading(true)
-    // const res = await get(URI_BACKEND(`grupo/${id}`), token)
-    // if (res.status === 200) {
-    //   // console.log(res)
-    //   setResponse(res.data)
-    // } else {
-    //   // console.log(res.error)
-    //   setError(res)
-    // }
+    const res = await get(URI_BACKEND(`solucion/${id}`), token)
+
     setLoading(false)
+    return res
   }
 
-  async function getAllSolucionesByProfesorUsername (username) {
+  async function getAllSolucionesByGrupoId (grupoId) {
     setLoading(true)
-    // const res = await get(URI_BACKEND(`grupo/getAllByProfesorUsername/${username}`), token)
-    // if (res.status === 200) {
-    //   // console.log(res)
-    //   setResponse(res.data)
-    // } else {
-    //   // console.log(res.error)
-    //   setError(res)
-    // }
+    const res = await get(URI_BACKEND(`solucion/getAllByGrupoId/${grupoId}`), token)
+
     setLoading(false)
+    return res
   }
 
   async function createSolucion (data) {
     setLoading(true)
-    // const res = await post(URI_BACKEND('grupo'), data, token)
-    // if (res.status === 200) {
-    //   // console.log(res)
-    //   // setResponse(res.data)
-    //   if (rol === ROL_ADMIN) {
-    //     getAllGrupos()
-    //   } else if (rol === ROL_TEACHER) {
-    //     getAllGruposByProfesorUsername(usernameSession)
-    //   }
-    //   handleCloseModalForm()
-    // } else {
-    //   // console.log(res)
-    //   setError(res)
-    // }
+    const res = await post(URI_BACKEND('solucion'), data, token)
+
     setLoading(false)
+    return res
   }
 
   async function updateSolucion (data) {
     setLoading(true)
-    // const res = await patch(URI_BACKEND('grupo'), data, token)
-    // if (res.status === 200) {
-    //   // console.log(res)
-    //   // setResponse(res.data)
-    //   handleCloseModalForm()
-    // } else {
-    //   // console.log(res)
-    //   setError(res)
-    // }
+    const res = await patch(URI_BACKEND('solucion'), data, token)
+
     setLoading(false)
+    return res
   }
 
   async function deleteSolucion (id) {
     setLoading(true)
-    // const res = await del(URI_BACKEND(`grupo/${id}`), token)
-    // if (res.status === 200) {
-    //   // console.log(res)
-    //   setResponse(res.data)
-    // } else {
-    //   // console.log(res.error)
-    //   setError(res)
-    // }
+    const res = await del(URI_BACKEND(`solucion/${id}`), token)
+
     setLoading(false)
+    return res
   }
 
   const data = {
@@ -173,7 +137,7 @@ function CrudSolucionProvider ({ children }) {
 
     getAllSoluciones,
     getSolucion,
-    getAllSolucionesByProfesorUsername,
+    getAllSolucionesByGrupoId,
     createSolucion,
     updateSolucion,
     deleteSolucion
