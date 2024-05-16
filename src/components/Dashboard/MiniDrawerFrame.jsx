@@ -32,6 +32,9 @@ import AssignmentLateOutlinedIcon from '@mui/icons-material/AssignmentLateOutlin
 import SessionContext from '../../context/SessionContext'
 import "../../styles/dashborad.css"
 
+const style_drawer = {
+  backgroundColor : '#9d5ceb'
+}
 const itemsHeader = [
   { textItem: 'Inicio', path: '', iconItem: <HomeIcon /> }
 ]
@@ -67,7 +70,7 @@ const DrawerHeader = styled('div')(({ theme }) => ({
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'flex-end',
-  background : '#9d5ceb',
+  
   padding: theme.spacing(0, 1),
   // necessary for content to be below app bar
   ...theme.mixins.toolbar
@@ -95,6 +98,7 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
   ({ theme, open }) => ({
     width: drawerWidth,
     flexShrink: 0,
+    backgroundColor : '#9d5ceb',
     whiteSpace: 'nowrap',
     boxSizing: 'border-box',
     ...(open && {
@@ -237,6 +241,7 @@ export default function MiniDrawerFrame ({ children }) {
       }}
       open={isMenuOpen}
       onClose={handleMenuClose}
+      className='Drawer'
     >
       <MenuItem onClick={handleProfile}>Perfil</MenuItem>
       <MenuItem onClick={() => onClickItemMenu('account')}>Cuenta</MenuItem>
@@ -245,10 +250,10 @@ export default function MiniDrawerFrame ({ children }) {
   )
 
   return (
-    <Box sx={{ display: 'flex' }} >
+    <Box sx={{ display: 'flex' }}>
       <CssBaseline />
       <nav position='fixed' open={open} className='barra'>
-        <Toolbar>
+        <Toolbar className='barra'>
           <IconButton
             color='inherit'
             aria-label='open drawer'
@@ -339,14 +344,14 @@ export default function MiniDrawerFrame ({ children }) {
 
       {renderMenu}
 
-      <Drawer variant='permanent' open={open}>
-        <DrawerHeader>
-          <IconButton onClick={handleDrawerClose}>
-            {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
+      <Drawer variant='permanent' open={open}  style={style_drawer}>
+        <DrawerHeader className='Drawer' style={style_drawer}>
+          <IconButton onClick={handleDrawerClose} style={style_drawer} className='Drawer'>
+            {theme.direction === 'rtl' ? <ChevronRightIcon style={style_drawer}/> : <ChevronLeftIcon />}
           </IconButton>
         </DrawerHeader>
 
-        <Divider />
+        <Divider style={style_drawer}/>
         <ListItemFrame items={itemsHeader} onClickItemMenu={onClickItemMenu} />
         <Divider />
         <ListItemFrame items={itemsBody} onClickItemMenu={onClickItemMenu} />

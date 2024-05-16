@@ -178,3 +178,20 @@ h4{
     margin-bottom: 10px;
     font-style: italic;
 }
+.btn-reload{
+    background-color: #9d5ceb;
+    border: none;
+    padding: 15px;
+    border-radius: 50px;
+    color: #1c2630;
+    font-weight: 600;
+    font-size: 1.15em;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    cursor: pointer;
+    transition: 0.5s;
+    width: 60%;
+}
+.form-reload{
+    margin-top: 200px;
+}

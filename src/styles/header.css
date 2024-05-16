@@ -35,3 +35,11 @@
 body{
     background-color: #29313c;
 }
+.btn-back{
+    background-color: #1c2630;
+    color: #fff;
+    font-family: 'Poppins';
+    border-radius: 15px;
+    font-size: 1.2rem;
+    width: 100px;
+}
