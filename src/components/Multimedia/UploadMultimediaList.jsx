@@ -52,9 +52,9 @@ export default function UploadMultimediaList ({ name, setValue, uploadedFilesIds
 
   const handleUploadIndividual = async (file) => {
     const formData = new FormData()
-    formData.append('usuario_id', usernameSession)
+    formData.append('username', usernameSession)
     formData.append('nombre', file.name.split('.')[0])
-    formData.append('archivo_multimedia', file)
+    formData.append('archivoMultimedia', file)
 
     try {
       const res = await post(URI_BACKEND('multimedia'), formData, token)
@@ -128,7 +128,7 @@ export default function UploadMultimediaList ({ name, setValue, uploadedFilesIds
                     Cargar
                   </Button>
                 </Stack>
-                {console.log(file)}
+                {/* {console.log(file)} */}
               </li>
             ))}
           </ul>
@@ -153,7 +153,7 @@ export default function UploadMultimediaList ({ name, setValue, uploadedFilesIds
                 }}
               >
                 <Stack style={{ flex: 1 }}>
-                  <MultimediaComponent file_id={uploadedFileId} width={100} height={100} />
+                  <MultimediaComponent file_id={uploadedFileId} width='10%' height='10%' />
                 </Stack>
                 <Stack>
                   <Button variant='outlined' onClick={() => handleDeleteIndividual(uploadedFileId)} style={{ marginLeft: '10px' }}>
