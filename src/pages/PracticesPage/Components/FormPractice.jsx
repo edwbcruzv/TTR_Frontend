@@ -3,6 +3,7 @@ import React, { useContext, useState } from 'react'
 import CrudPracticaContext from '../../../context/CrudPracticaContext'
 import EditorHTML from './EditorHTML'
 import UploadMultimediaList from '../../../components/Multimedia/UploadMultimediaList'
+import "../../../styles/dashborad.css"
 
 export default function FormPractice () {
   const {
@@ -69,24 +70,27 @@ export default function FormPractice () {
         <Grid item xs={5}>
           <Box sx={{ mb: 2 }}>
 
-            <Button
+            <button
               variant='contained'
               color='primary'
               onClick={handleSubmit(onSubmit)}
               sx={{ mt: 1, mr: 1 }}
+              className='btn-form-practica'
             >Guardar
-            </Button>
+            </button>
 
           </Box>
           <Box sx={{ mb: 2 }}>
 
-            <Button
+            <button
               variant='outlined' color='secondary'
+              className='btn-form-practica'
             >Cancelar
-            </Button>
+            </button>
           </Box>
         </Grid>
       </Grid>
+      <EditorHTML/>
     </Box>
   )
 }

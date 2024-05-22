@@ -8,7 +8,7 @@ import ListItemText from '@mui/material/ListItemText'
 import "../../styles/dashborad.css"
 const renderListItem = (textItem, path, iconItem, onClickItemMenu) => {
   return (
-    <ListItem key={textItem} disablePadding sx={{ display: 'block' }} className='dashboard'>
+    <ListItem key={textItem} disablePadding sx={{ display: 'block' }} >
       <ListItemButton
         sx={{
           minHeight: 48,
