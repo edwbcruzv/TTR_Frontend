@@ -1,8 +1,7 @@
 import { Button, Divider, Grid, TextField } from '@mui/material'
 import React, { useContext, useEffect } from 'react'
-import CrudUsuarioContext from '../../../context/CrudUsuarioContext'
 import CrudProfesorContext from '../../../context/CrudProfesorContext'
-import "../../../styles/forms.css"
+import '../../../styles/forms.css'
 
 export default function EditTeacher ({ username, goBack }) {
   const {
@@ -56,8 +55,8 @@ export default function EditTeacher ({ username, goBack }) {
           wrap='wrap'
         >
 
-          <div item xs={12} sm={6} className='input-box'>
-            <input
+          <Grid item xs={12} sm={6} className='input-box'>
+            <TextField
               {...register('username', {
                 required: { value: true, message: 'Es requerido' }
               })}
@@ -70,9 +69,9 @@ export default function EditTeacher ({ username, goBack }) {
               className='input-data'
               disabled
             />
-          </div>
-          <div item xs={12} sm={6} className='input-box'>
-            <input
+          </Grid>
+          <Grid item xs={12} sm={6} className='input-box'>
+            <TextField
               {...register('email', {
                 required: { value: true, message: 'Es requerido' }
               })}
@@ -85,9 +84,9 @@ export default function EditTeacher ({ username, goBack }) {
               className='input-data'
               disabled
             />
-          </div>
-          <div item xs={12} sm={12} className='input-box'>
-            <input
+          </Grid>
+          <Grid item xs={12} sm={12} className='input-box'>
+            <TextField
               {...register('nombre', {
                 required: { value: true, message: 'Es requerido' }
               })}
@@ -99,9 +98,9 @@ export default function EditTeacher ({ username, goBack }) {
               helperText={errors.nombre && errors.nombre.message}
               className='input-data'
             />
-          </div>
-          <div item xs={12} sm={6} className='input-box'>
-            <input
+          </Grid>
+          <Grid item xs={12} sm={6} className='input-box'>
+            <TextField
               {...register('apellidoPaterno', {
                 required: { value: true, message: 'Es requerido' }
               })}
@@ -115,9 +114,9 @@ export default function EditTeacher ({ username, goBack }) {
               }
               className='input-data'
             />
-          </div>
-          <div item xs={12} sm={6} className='input-box'>
-            <input
+          </Grid>
+          <Grid item xs={12} sm={6} className='input-box'>
+            <Text
               {...register('apellidoMaterno', {
                 required: { value: true, message: 'Es requerido' }
               })}
@@ -131,10 +130,10 @@ export default function EditTeacher ({ username, goBack }) {
               }
               className='input-data'
             />
-          </div>
+          </Grid>
 
-          <div item xs={12} sm={6} className='input-box'>
-            <input
+          <TextField item xs={12} sm={6} className='input-box'>
+            <TextField
               {...register('cedula')}
               id='cedula'
               label='Cedula'
@@ -142,14 +141,14 @@ export default function EditTeacher ({ username, goBack }) {
               variant='outlined'
               className='input-data'
             />
-          </div>
+          </TextField>
 
-          <div item xs={12} sm={12} className='input-box'>
-            <button variant='outlined' color='primary' type='submit' className='btn-reload'>
+          <Grid item xs={12} sm={12} className='input-box'>
+            <Button variant='outlined' color='primary' type='submit' className='btn-reload'>
               Actualizar
-            </button>
+            </Button>
 
-          </div>
+          </Grid>
         </Grid>
 
       </form>

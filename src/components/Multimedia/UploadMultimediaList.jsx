@@ -95,10 +95,10 @@ export default function UploadMultimediaList ({ name, setValue, uploadedFilesIds
 
   return (
     <div>
-      <button component='label' variant='contained' startIcon={<CloudUploadIcon />} className='btn-form-practica'>
+      <Button component='label' variant='contained' startIcon={<CloudUploadIcon />}>
         Subir Archivo
         <VisuallyHiddenInput type='file' multiple onChange={handleFileChange} />
-      </button>
+      </Button>
 
       {files !== null && files.length > 0 && (
         <div>

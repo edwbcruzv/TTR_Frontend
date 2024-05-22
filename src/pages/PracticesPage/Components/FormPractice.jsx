@@ -78,27 +78,24 @@ export default function FormPractice () {
         <Grid item xs={5}>
           <Box sx={{ mb: 2 }}>
 
-            <button
+            <Button
               variant='contained'
               color='primary'
               onClick={handleSubmit(onSubmit)}
               sx={{ mt: 1, mr: 1 }}
-              className='btn-form-practica'
             >Guardar
-            </button>
+            </Button>
 
           </Box>
           <Box sx={{ mb: 2 }}>
 
-            <button
+            <Button
               variant='outlined' color='secondary'
-              className='btn-form-practica'
             >Cancelar
-            </button>
+            </Button>
           </Box>
         </Grid>
       </Grid>
-      <EditorHTML />
     </Box>
   )
 }

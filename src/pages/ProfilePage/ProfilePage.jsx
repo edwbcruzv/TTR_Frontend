@@ -14,7 +14,7 @@ import { CrudProfesorProvider } from '../../context/CrudProfesorContext'
 import EditStudent from './Components/EditStudent'
 import EditTeacher from './Components/EditTeacher'
 import { useLocation, useNavigate } from 'react-router-dom'
-import "../../styles/header.css"
+
 export default function ProfilePage () {
   const navigate = useNavigate()
   const goBack = () => {
@@ -35,21 +35,20 @@ export default function ProfilePage () {
         spacing={2}
       >
 
-        <nav position='static' color='primary' className='nav'>
+        <AppBar position='static' color='primary'>
           <Toolbar>
-            <IconButton edge='start' color='inherit' aria-label='menu'>
-              <button
+            <IconButton edge='start' color='inherit' onClick={goBack}>
+              <Button
                 color='secondary'
                 startIcon={<ArrowBackIcon />}
-                onClick={goBack}
-                className='btn-back'
+
               >
                 Regresar
-              </button>
+              </Button>
             </IconButton>
             <Typography variant='h6' />
           </Toolbar>
-        </nav>
+        </AppBar>
         {
           rolView === ROL_ADMIN &&
             <CrudUsuarioProvider>

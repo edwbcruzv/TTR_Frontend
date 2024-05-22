@@ -1,7 +1,36 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { Card, CardContent, Typography, Grid, List, ListItem, Box, Button } from '@mui/material'
+import CrudPracticaContext from '../../../context/CrudPracticaContext'
 
 export default function CardPractice ({ practica }) {
+  const {
+    loading,
+    response,
+    error,
+
+    register,
+    handleSubmit,
+    watch,
+    reset,
+    setValue,
+    getValues,
+    errors,
+
+    openModalPracticaForm,
+    handleOpenModalPracticaForm,
+    handleCloseModalPracticaForm,
+
+    openModalPracticaView,
+    handleOpenModalPracticaView,
+    handleCloseModalPracticaView,
+
+    getAllPracticas,
+    getPractica,
+    getAllPracticasByProfesorUsername,
+    createPractica,
+    updatePractica,
+    deletePractica
+  } = useContext(CrudPracticaContext)
   return (
     <Card sx={{ width: 350, height: 400 }}>
       <CardContent>
@@ -41,8 +70,8 @@ export default function CardPractice ({ practica }) {
         </Box>
         <Box sx={{ marginTop: 2 }}>
           <Button variant='contained' color='success' sx={{ marginRight: 1 }}>Ver</Button>
-          <Button variant='contained' color='error'>Eliminar</Button>
-          <Button variant='contained' color='warning' sx={{ marginLeft: 1 }}>Editar</Button>
+          <Button variant='contained' color='error' onClick={() => deletePractica(practica.id)}>Eliminar</Button>
+          <Button variant='contained' color='warning' onClick={() => getPractica(practica.id)} sx={{ marginLeft: 1 }}>Editar</Button>
         </Box>
       </CardContent>
     </Card>

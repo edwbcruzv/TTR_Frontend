@@ -2,7 +2,7 @@ import { createContext, useContext, useState } from 'react'
 import { helperAXIOS } from '../helpers/helperAXIOS'
 import { useForm } from 'react-hook-form'
 import SessionContext from './SessionContext'
-import { URI_BACKEND } from '../utils/environments'
+import { ROL_ADMIN, ROL_TEACHER, URI_BACKEND } from '../utils/environments'
 import Swal from 'sweetalert2'
 
 const CrudPracticaContext = createContext()
@@ -25,6 +25,7 @@ function CrudPracticaProvider ({ children }) {
    */
   const [loading, setLoading] = useState(false)
   const [response, setResponse] = useState(null)
+  const [responseAll, setResponseAll] = useState(null)
   const [error, setError] = useState(null)
   const {
     register, // el form lo usa para los inputs
@@ -70,21 +71,22 @@ function CrudPracticaProvider ({ children }) {
   async function getAllPracticas () {
     setLoading(true)
     const res = await get(URI_BACKEND('practica/getAll'), token)
+    setLoading(false)
     if (res.status === 200) {
-      setResponse(res.data)
+      setResponseAll(res.data)
     } else {
       // console.log(res.error)
       setError(res)
     }
-
-    setLoading(false)
   }
 
   async function getPractica (id) {
     setLoading(true)
     const res = await get(URI_BACKEND(`practica/${id}`), token)
     if (res.status === 200) {
-      setResponse(res.data)
+      reset(res.data)
+      console.log(res.data)
+      handleOpenModalPracticaForm()
     } else {
       // console.log(res.error)
       setError(res)
@@ -95,14 +97,13 @@ function CrudPracticaProvider ({ children }) {
   async function getAllPracticasByProfesorUsername (username) {
     setLoading(true)
     const res = await get(URI_BACKEND(`practica/getAllByProfesorUsername/${username}`), token)
+    setLoading(false)
     if (res.status === 200) {
-      setResponse(res.data)
-      console.log(res.data)
+      setResponseAll(res.data)
     } else {
-      console.log(res.error)
+      // console.log(res.error)
       setError(res)
     }
-    setLoading(false)
     // return res
   }
 
@@ -127,6 +128,11 @@ function CrudPracticaProvider ({ children }) {
           text: `Error: ${res.statusText} (${res.status})`,
           icon: 'error'
         })
+      }
+      if (rol === ROL_TEACHER) {
+        getAllPracticasByProfesorUsername(usernameSession)
+      } else if (rol === ROL_ADMIN) {
+        getAllPracticas()
       }
     } catch (err) {
       Swal.fire({
@@ -158,6 +164,12 @@ function CrudPracticaProvider ({ children }) {
           text: `Error: ${res.statusText} (${res.status})`,
           icon: 'error'
         })
+      }
+
+      if (rol === ROL_TEACHER) {
+        getAllPracticasByProfesorUsername(usernameSession)
+      } else if (rol === ROL_ADMIN) {
+        getAllPracticas()
       }
     } catch (err) {
       Swal.fire({
@@ -201,7 +213,11 @@ function CrudPracticaProvider ({ children }) {
           })
           setError(res)
         }
-        // llamada a los all
+        if (rol === ROL_TEACHER) {
+          getAllPracticasByProfesorUsername(usernameSession)
+        } else if (rol === ROL_ADMIN) {
+          getAllPracticas()
+        }
       }
     } catch (err) {
       Swal.fire({
@@ -218,6 +234,7 @@ function CrudPracticaProvider ({ children }) {
   const data = {
     loading,
     response,
+    responseAll,
     error,
 
     register,

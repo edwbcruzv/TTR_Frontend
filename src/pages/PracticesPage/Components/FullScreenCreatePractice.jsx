@@ -10,7 +10,7 @@ import { Grid } from '@mui/material'
 import { forwardRef, useContext } from 'react'
 import CrudPracticaContext from '../../../context/CrudPracticaContext'
 import FormPractice from './FormPractice'
-import "../../../styles/dashborad.css"
+import '../../../styles/dashborad.css'
 
 const Transition = forwardRef(function Transition (props, ref) {
   return <Slide direction='up' ref={ref} {...props} />
@@ -64,22 +64,22 @@ export default function FullScreenCreatePractice () {
         onClose={handleCloseModalPracticaForm}
         TransitionComponent={Transition}
       >
-        <nav sx={{ position: 'relative' }} className='nav'>
-          <Toolbar>
-            <IconButton
-              edge='start'
-              color='inherit'
-              onClick={handleCloseModalPracticaForm}
-              aria-label='close'
-            >
-              <CloseIcon />
-            </IconButton>
-            <Typography sx={{ ml: 2, flex: 1 }} variant='h6' component='div'>
-              Crear Practica
-            </Typography>
 
-          </Toolbar>
-        </nav>
+        <Toolbar>
+          <IconButton
+            edge='start'
+            color='inherit'
+            onClick={handleCloseModalPracticaForm}
+            aria-label='close'
+          >
+            <CloseIcon />
+          </IconButton>
+          <Typography sx={{ ml: 2, flex: 1 }} variant='h6' component='div'>
+            Crear Practica
+          </Typography>
+
+        </Toolbar>
+
         <FormPractice />
       </Dialog>
     </>

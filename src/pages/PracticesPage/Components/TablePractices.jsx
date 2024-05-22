@@ -1,5 +1,5 @@
 import { Grid, Skeleton } from '@mui/material'
-import React, { useContext, useEffect } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import CardPractice from './CardPractice'
 import SessionContext from '../../../context/SessionContext'
 import CrudPracticaContext from '../../../context/CrudPracticaContext'
@@ -9,7 +9,7 @@ export default function TablePractices () {
   const { token, rol, usernameSession, nombreSession, email, isValidSession, validatingSession, deleteSession } = useContext(SessionContext)
   const {
     loading,
-    response,
+    responseAll,
     error,
 
     register,
@@ -35,12 +35,14 @@ export default function TablePractices () {
     updatePractica,
     deletePractica
   } = useContext(CrudPracticaContext)
+
   useEffect(() => {
     if (rol === ROL_TEACHER) {
       getAllPracticasByProfesorUsername(usernameSession)
-      console.log('Response: ', response)
+      // console.log('Response: ', response)
     } else if (rol === ROL_ADMIN) {
       getAllPracticas()
+      // console.log('Response: ', response)
     }
   }, [])
 
@@ -55,7 +57,7 @@ export default function TablePractices () {
       wrap='wrap'
     >
 
-      {response && response.map((practica, index) => <Grid key={index} item xs={12} sm={6} md={4} lg={3}><CardPractice key={index} practica={practica} /></Grid>)}
+      {responseAll && responseAll.map((practica, index) => <Grid key={index} item xs={12} sm={6} md={4} lg={3}><CardPractice key={index} practica={practica} /></Grid>)}
       {loading && [0, 1, 2, 3, 4, 5, 6, 7, 8].map((elem, index) => <Grid key={index} item xs={12} sm={6} md={4} lg={3} sx={{ pt: 0.5, maxWidth: 345 }}>
         <Skeleton variant='rectangular' width={305} height={140} />
         <Skeleton />
