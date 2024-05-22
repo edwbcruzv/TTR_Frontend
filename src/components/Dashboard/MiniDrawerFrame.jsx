@@ -30,7 +30,11 @@ import Diversity3OutlinedIcon from '@mui/icons-material/Diversity3Outlined'
 import PendingActionsOutlinedIcon from '@mui/icons-material/PendingActionsOutlined'
 import AssignmentLateOutlinedIcon from '@mui/icons-material/AssignmentLateOutlined'
 import SessionContext from '../../context/SessionContext'
+import "../../styles/dashborad.css"
 
+const style_drawer = {
+  backgroundColor : '#9d5ceb'
+}
 const itemsHeader = [
   { textItem: 'Inicio', path: '', iconItem: <HomeIcon /> }
 ]
@@ -238,14 +242,14 @@ export default function MiniDrawerFrame ({ children }) {
     >
       <MenuItem onClick={handleProfile}>Perfil</MenuItem>
       <MenuItem onClick={() => onClickItemMenu('account')}>Cuenta</MenuItem>
-      <MenuItem onClick={() => deleteSession()}>Logout</MenuItem>
+      <MenuItem onClick={() => deleteSession()}>Salir</MenuItem>
     </Menu>
   )
 
   return (
     <Box sx={{ display: 'flex' }}>
       <CssBaseline />
-      <AppBar position='fixed' open={open}>
+      <nav position='fixed' open={open} className='barra'>
         <Toolbar>
           <IconButton
             color='inherit'
@@ -333,18 +337,18 @@ export default function MiniDrawerFrame ({ children }) {
             </IconButton>
           </Box>
         </Toolbar>
-      </AppBar>
+      </nav>
 
       {renderMenu}
 
-      <Drawer variant='permanent' open={open}>
-        <DrawerHeader>
-          <IconButton onClick={handleDrawerClose}>
+      <Drawer variant='permanent' open={open} >
+        <DrawerHeader className='Drawer' >
+          <IconButton onClick={handleDrawerClose} >
             {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
           </IconButton>
         </DrawerHeader>
 
-        <Divider />
+        <Divider/>
         <ListItemFrame items={itemsHeader} onClickItemMenu={onClickItemMenu} />
         <Divider />
         <ListItemFrame items={itemsBody} onClickItemMenu={onClickItemMenu} />
@@ -352,7 +356,7 @@ export default function MiniDrawerFrame ({ children }) {
         <ListItemFrame items={itemsFooter} onClickItemMenu={onClickItemMenu} />
       </Drawer>
       <Box component='main' sx={{ flexGrow: 1, p: 3 }}>
-        <DrawerHeader />
+        <DrawerHeader  />
         {children}
       </Box>
     </Box>

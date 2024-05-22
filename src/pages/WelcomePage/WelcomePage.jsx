@@ -16,7 +16,7 @@ const style = {
   transform: 'translate(-50%, -50%)',
   bgcolor: '#1c2630',
   border: '2px solid #000',
-
+  height: 'auto',
   p: 4
 }
 

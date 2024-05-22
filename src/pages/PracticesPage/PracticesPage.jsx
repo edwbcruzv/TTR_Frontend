@@ -4,6 +4,7 @@ import { CrudPracticaProvider } from '../../context/CrudPracticaContext'
 import { Divider } from '@mui/material'
 import FullScreenCreatePractice from './Components/FullScreenCreatePractice'
 import TablePractices from './Components/TablePractices'
+import EditorHTML from './Components/EditorHTML'
 
 export default function PracticesPage () {
   return (
@@ -15,6 +16,7 @@ export default function PracticesPage () {
         <TablePractices />
 
       </CrudPracticaProvider>
+      {/* <EditorHTML /> */}
     </MiniDrawerFrame>
   )
 }

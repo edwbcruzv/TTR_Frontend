@@ -1,0 +1,36 @@
+.barra{
+      background-color: #9d5ceb;
+      width: 100%;
+      position: fixed;
+      z-index: 999;
+      color: aliceblue;
+}
+.dashboard{
+      background-color: #29313c;
+}
+.list-item-button{
+      color: #9d5ceb;
+}
+.Drawer{
+      background-color: #9d5ceb;
+}
+.btn-form-practica{
+      background-color: #9d5ceb;
+      color: aliceblue;
+      width: 100px;
+      height: 50px;
+      border-radius: 10%;
+      font-family: 'Roboto';
+      font-size: 1rem;
+}
+.nav{
+      background-color: #9d5ceb;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: fixed;
+      z-index: 999999;
+      width: 100%;
+      padding: 10px;
+      color: #fff;
+  }

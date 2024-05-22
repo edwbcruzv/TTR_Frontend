@@ -3,6 +3,6 @@ import MiniDrawerFrame from '../../components/Dashboard/MiniDrawerFrame'
 
 export default function HomeTeacherPage () {
   return (
-    <MiniDrawerFrame>HomeTeacherPage</MiniDrawerFrame>
+    <MiniDrawerFrame>Bienvendio a su perfil profesor  </MiniDrawerFrame>
   )
 }

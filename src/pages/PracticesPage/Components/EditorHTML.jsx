@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react'
 import Tribute from 'tributejs'
 import { Editor, createEmptyValue } from 'react-rte'
+import "../../../styles/editor.css"
 
 export default function EditorHTML () {
   const [editorValue, setEditorValue] = useState(createEmptyValue())
@@ -204,9 +205,9 @@ export default function EditorHTML () {
           </p>
         </div>
       )}
-      <div>
+      <div className='boton-html-container'>
         {menuItems.map((item, index) => (
-          <button
+          <button className='boton-html'
             key={index}
             onClick={() => handleTagSelection(item.tag)}
             style={{ marginRight: '5px' }}
@@ -223,6 +224,7 @@ export default function EditorHTML () {
           value={html}
           onChange={(e) => setHtml(e.target.value)}
           style={{ width: '100%', height: '200px' }}
+          className='textarea'
         />
         <h2>Resultado HTML:</h2>
         <div

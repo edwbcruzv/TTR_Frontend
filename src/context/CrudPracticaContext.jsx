@@ -217,6 +217,8 @@ function CrudPracticaProvider ({ children }) {
 
   const data = {
     loading,
+    response,
+    error,
 
     register,
     handleSubmit,

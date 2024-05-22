@@ -1,0 +1,18 @@
+@import url('https://fonts.googleapis.com/css2?family=Lato&family=Madimi+One&family=Montserrat&family=Open+Sans&family=Poetsen+One&family=Poppins&family=Protest+Strike&family=Roboto:wght@400;500&display=swap');
+.boton-html-container{
+      margin-bottom: 10px;
+}
+.boton-html{
+      background-color: #9d5ceb;
+      font-family: 'Roboto';
+      border-radius: 10px;
+      color: aliceblue;
+      border: #9d5ceb 1px solid;
+      font-size: 1rem;
+      padding: 10px;
+      margin: 3px;
+}
+.textarea{
+      font-family: 'Arial';
+      font-size: 0.9rem;
+}
