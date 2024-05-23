@@ -55,7 +55,7 @@ export default function EditStudent ({ username, goBack }) {
           wrap='wrap'
         >
 
-          <Grid item xs={12} sm={6} className='input-box'>
+          <Grid item xs={12} sm={6}>
             <TextField
               {...register('username', {
                 required: { value: true, message: 'Es requerido' }
@@ -66,11 +66,10 @@ export default function EditStudent ({ username, goBack }) {
               variant='outlined'
               error={errors.username}
               helperText={errors.username && errors.username.message}
-              className='input-data'
               disabled
             />
           </Grid>
-          <Grid item xs={12} sm={6} className='input-box'>
+          <Grid item xs={12} sm={6}>
             <TextField
               {...register('email', {
                 required: { value: true, message: 'Es requerido' }
@@ -81,11 +80,11 @@ export default function EditStudent ({ username, goBack }) {
               variant='outlined'
               error={errors.email}
               helperText={errors.email && errors.email.message}
-              className='input-data'
+
               disabled
             />
           </Grid>
-          <Grid item xs={12} sm={12} className='input-box'>
+          <Grid item xs={12} sm={12}>
             <TextField
               {...register('nombre', {
                 required: { value: true, message: 'Es requerido' }
@@ -96,10 +95,10 @@ export default function EditStudent ({ username, goBack }) {
               variant='outlined'
               error={errors.nombre}
               helperText={errors.nombre && errors.nombre.message}
-              className='input-data'
+
             />
           </Grid>
-          <Grid item xs={12} sm={6} className='input-box'>
+          <Grid item xs={12} sm={6}>
             <TextField
               {...register('apellidoPaterno', {
                 required: { value: true, message: 'Es requerido' }
@@ -112,10 +111,10 @@ export default function EditStudent ({ username, goBack }) {
               helperText={
                 errors.apellidoPaterno && errors.apellidoPaterno.message
               }
-              className='input-data'
+
             />
           </Grid>
-          <Grid item xs={12} sm={6} className='input-box'>
+          <Grid item xs={12} sm={6}>
             <TextField
               {...register('apellidoMaterno', {
                 required: { value: true, message: 'Es requerido' }
@@ -128,12 +127,12 @@ export default function EditStudent ({ username, goBack }) {
               helperText={
                 errors.apellidoMaterno && errors.apellidoMaterno.message
               }
-              className='input-data'
+
             />
           </Grid>
 
-          <Grid item xs={12} sm={12} className='input-box'>
-            <Button variant='outlined' color='primary' type='submit' className='btn-register'>
+          <Grid item xs={12} sm={12}>
+            <Button variant='outlined' color='primary' type='submit'>
               Actualizar
             </Button>
 

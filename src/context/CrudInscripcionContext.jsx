@@ -111,7 +111,7 @@ function CrudInscripcionProvider ({ children }) {
     if (res.status === 200) {
       setLoading(false)
       Swal.fire({
-        position: 'top-end',
+
         icon: 'success',
         title: 'Te has unido al grupo correctamente',
         showConfirmButton: false,

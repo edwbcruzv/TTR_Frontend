@@ -1,7 +1,7 @@
 import { Button, Divider, Grid, TextField } from '@mui/material'
 import React, { useContext, useEffect } from 'react'
 import CrudProfesorContext from '../../../context/CrudProfesorContext'
-import '../../../styles/forms.css'
+// import '../../../styles/forms.css'
 
 export default function EditTeacher ({ username, goBack }) {
   const {
@@ -44,7 +44,7 @@ export default function EditTeacher ({ username, goBack }) {
       wrap='wrap'
     >
 
-      <form component='form' onSubmit={handleSubmit(onSubmit)} className='form-reload'>
+      <form component='form' onSubmit={handleSubmit(onSubmit)}>
         <Grid
           container
           spacing={2}
@@ -55,7 +55,7 @@ export default function EditTeacher ({ username, goBack }) {
           wrap='wrap'
         >
 
-          <Grid item xs={12} sm={6} className='input-box'>
+          <Grid item xs={12} sm={6}>
             <TextField
               {...register('username', {
                 required: { value: true, message: 'Es requerido' }
@@ -66,11 +66,10 @@ export default function EditTeacher ({ username, goBack }) {
               variant='outlined'
               error={errors.username}
               helperText={errors.username && errors.username.message}
-              className='input-data'
               disabled
             />
           </Grid>
-          <Grid item xs={12} sm={6} className='input-box'>
+          <Grid item xs={12} sm={6}>
             <TextField
               {...register('email', {
                 required: { value: true, message: 'Es requerido' }
@@ -81,11 +80,11 @@ export default function EditTeacher ({ username, goBack }) {
               variant='outlined'
               error={errors.email}
               helperText={errors.email && errors.email.message}
-              className='input-data'
+
               disabled
             />
           </Grid>
-          <Grid item xs={12} sm={12} className='input-box'>
+          <Grid item xs={12} sm={12}>
             <TextField
               {...register('nombre', {
                 required: { value: true, message: 'Es requerido' }
@@ -96,10 +95,10 @@ export default function EditTeacher ({ username, goBack }) {
               variant='outlined'
               error={errors.nombre}
               helperText={errors.nombre && errors.nombre.message}
-              className='input-data'
+
             />
           </Grid>
-          <Grid item xs={12} sm={6} className='input-box'>
+          <Grid item xs={12} sm={6}>
             <TextField
               {...register('apellidoPaterno', {
                 required: { value: true, message: 'Es requerido' }
@@ -112,11 +111,11 @@ export default function EditTeacher ({ username, goBack }) {
               helperText={
                 errors.apellidoPaterno && errors.apellidoPaterno.message
               }
-              className='input-data'
+
             />
           </Grid>
-          <Grid item xs={12} sm={6} className='input-box'>
-            <Text
+          <Grid item xs={12} sm={6}>
+            <TextField
               {...register('apellidoMaterno', {
                 required: { value: true, message: 'Es requerido' }
               })}
@@ -128,23 +127,23 @@ export default function EditTeacher ({ username, goBack }) {
               helperText={
                 errors.apellidoMaterno && errors.apellidoMaterno.message
               }
-              className='input-data'
+
             />
           </Grid>
 
-          <TextField item xs={12} sm={6} className='input-box'>
+          <Grid item xs={12} sm={6}>
             <TextField
               {...register('cedula')}
               id='cedula'
               label='Cedula'
               type='text'
               variant='outlined'
-              className='input-data'
-            />
-          </TextField>
 
-          <Grid item xs={12} sm={12} className='input-box'>
-            <Button variant='outlined' color='primary' type='submit' className='btn-reload'>
+            />
+          </Grid>
+
+          <Grid item xs={12} sm={12}>
+            <Button variant='outlined' color='primary' type='submit'>
               Actualizar
             </Button>
 

@@ -189,6 +189,7 @@ export default function MiniDrawerFrame ({ children }) {
 
   const handleProfile = () => {
     // Navegar a la página de destino con argumentos
+    console.log('ejecutandoo')
     navigate('/profile', { state: { usernameView: usernameSession, rolView: rol } })
   }
 

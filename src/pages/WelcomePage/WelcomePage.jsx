@@ -14,10 +14,13 @@ const style = {
   top: '50%',
   left: '50%',
   transform: 'translate(-50%, -50%)',
-  bgcolor: '#1c2630',
+  width: 400,
+  bgcolor: 'background.paper',
   border: '2px solid #000',
-  height: 'auto',
-  p: 4
+  boxShadow: 24,
+  pt: 2,
+  px: 4,
+  pb: 3
 }
 
 export default function WelcomePage () {
@@ -63,9 +66,9 @@ export default function WelcomePage () {
               <FormRegister />
             </Box>
           </Modal>
-          <Fondoinicio />
-          <MetodoCasos />
-          <Caso />
+          {/* <Fondoinicio /> */}
+          {/* <MetodoCasos /> */}
+          {/* <Caso /> */}
         </Grid>
 
         <Footer />

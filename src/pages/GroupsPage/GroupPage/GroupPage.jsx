@@ -5,6 +5,7 @@ import { Divider } from '@mui/material'
 import FullScreenTeamCreate from './Components/FullScreenTeamCreate'
 import TableTeams from './Components/TableTeams'
 import { useParams } from 'react-router-dom'
+import FullScreenAsignationPractice from './Components/FullScreenAsignations/FullScreenAsignationPractice'
 
 export default function GroupPage () {
   const { id } = useParams()
@@ -12,6 +13,8 @@ export default function GroupPage () {
     <MiniDrawerFrame>
       <CrudEquipoProvider>
         <FullScreenTeamCreate grupoId={id} />
+
+        <FullScreenAsignationPractice grupoId={id} />
         <br />
         <Divider />
         <br />

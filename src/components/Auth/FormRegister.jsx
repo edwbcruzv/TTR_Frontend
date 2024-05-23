@@ -5,11 +5,11 @@ import RadioGroup from '@mui/material/RadioGroup'
 import FormControlLabel from '@mui/material/FormControlLabel'
 import FormControl from '@mui/material/FormControl'
 import { TextField, Button, Box, Alert, AlertTitle, CircularProgress } from '@mui/material'
-import '../../styles/forms.css'
+// import '../../styles/forms.css'
 import { AuthContext } from '../../context/AuthContext'
 import { ROL_ADMIN, ROL_STUDENT, ROL_TEACHER } from '../../utils/environments'
 import SessionContext from '../../context/SessionContext'
-import "../../styles/forms.css"
+// import "../../styles/forms.css"
 
 function FormRegister () {
   const [valueRbtn, setValueRbtn] = useState(null)
@@ -48,7 +48,7 @@ function FormRegister () {
     console.log(data)
     registerUser(data)
   }
-  const style_label = ()=>{
+  const style_label = () => {
 
   }
   return (
@@ -63,15 +63,15 @@ function FormRegister () {
     >
       <Grid item>
         <h2>Registrate</h2>
-        <FormControl className='form-control'>
-        <h3>¿Qué perfil ocuparás en la aplicación?</h3>
+        <FormControl>
+          <h3>¿Qué perfil ocuparás en la aplicación?</h3>
           <RadioGroup
             row
             aria-labelledby='demo-row-radio-buttons-group-label'
             name='row-radio-buttons-group'
             value={valueRbtn}
             onChange={handleChangeRadioBtn}
-            className='text-radio'
+
           >
             {isValidSession && rol === ROL_ADMIN && (
               <FormControlLabel
@@ -79,7 +79,7 @@ function FormRegister () {
                 value={ROL_ADMIN}
                 control={<Radio />}
                 label='Administrador'
-                className='text-radio'
+
               />
             )}
             {rol === ROL_TEACHER || (
@@ -108,7 +108,7 @@ function FormRegister () {
 
       </Grid>
 
-      <form component='form' onSubmit={handleSubmit(onSubmit)} className='form-register'>
+      <form component='form' onSubmit={handleSubmit(onSubmit)}>
         <Grid
           container
           spacing={1}
@@ -119,8 +119,8 @@ function FormRegister () {
           wrap='wrap'
         >
           <h4>Llena todos los campos para poder registrarte</h4>
-          <div item xs={12} sm={6} className='input-box'>
-            <input
+          <Grid item xs={12} sm={6}>
+            <TextField
               {...register('username', {
                 required: { value: true, message: 'Es requerido' }
               })}
@@ -130,12 +130,12 @@ function FormRegister () {
               variant='outlined'
               error={errors.username}
               helperText={errors.username && errors.username.message}
-              className='input-data'
+
               placeholder='Nombre de usuario'
             />
-          </div>
-          <div item xs={12} sm={6} className='input-box'>
-            <input
+          </Grid>
+          <Grid item xs={12} sm={6}>
+            <TextField
               {...register('email', {
                 required: { value: true, message: 'Es requerido' }
               })}
@@ -145,12 +145,12 @@ function FormRegister () {
               variant='outlined'
               error={errors.email}
               helperText={errors.email && errors.email.message}
-              className='input-data'
+
               placeholder='Correo electronico'
             />
-          </div>
-          <div item xs={12} sm={12} className='input-box'>
-            <input
+          </Grid>
+          <Grid item xs={12} sm={12}>
+            <TextField
               {...register('nombre', {
                 required: { value: true, message: 'Es requerido' }
               })}
@@ -160,12 +160,12 @@ function FormRegister () {
               variant='outlined'
               error={errors.nombre}
               helperText={errors.nombre && errors.nombre.message}
-              className='input-data'
+
               placeholder='Nombre'
             />
-          </div>
-          <div item xs={12} sm={6} className='input-box'>
-            <input
+          </Grid>
+          <Grid item xs={12} sm={6}>
+            <TextField
               {...register('apellidoPaterno', {
                 required: { value: true, message: 'Es requerido' }
               })}
@@ -177,12 +177,12 @@ function FormRegister () {
               helperText={
                 errors.apellidoPaterno && errors.apellidoPaterno.message
               }
-              className='input-data'
+
               placeholder='Apellido Paterno'
             />
-          </div>
-          <div item xs={12} sm={6} className='input-box'>
-            <input
+          </Grid>
+          <Grid item xs={12} sm={6}>
+            <TextField
               {...register('apellidoMaterno', {
                 required: { value: true, message: 'Es requerido' }
               })}
@@ -194,13 +194,13 @@ function FormRegister () {
               helperText={
                 errors.apellidoMaterno && errors.apellidoMaterno.message
               }
-              className='input-data'
+
               placeholder='Apellido materno'
             />
-          </div>
+          </Grid>
 
-          <div item xs={12} sm={6} className='input-box'>
-            <input
+          <Grid item xs={12} sm={6}>
+            <TextField
               {...register('password', {
                 required: { value: true, message: 'Es requerido' },
                 minLength: {
@@ -214,13 +214,13 @@ function FormRegister () {
               variant='outlined'
               error={errors.password}
               helperText={errors.password && errors.password.message}
-              className='input-data'
+
               placeholder='Contraseña'
             />
-          </div>
+          </Grid>
 
-          <div item xs={12} sm={6} className='input-box'>
-            <input
+          <Grid item xs={12} sm={6}>
+            <TextField
               {...register('confirm_password', {
                 required: { value: true, message: 'Es requerido' },
                 validate: (value) =>
@@ -235,48 +235,48 @@ function FormRegister () {
               helperText={
                     errors.confirm_password && errors.confirm_password.message
                   }
-              className='input-data'
+
               placeholder='Confirma contraseña'
             />
-          </div>
+          </Grid>
 
           {valueRbtn === ROL_TEACHER && (
             <>
-              <div item xs={12} sm={6} className='input-box'>
-                <input
+              <Grid item xs={12} sm={6}>
+                <TextField
                   {...register('cedula')}
                   id='cedula'
                   label='Cedula'
                   type='text'
                   variant='outlined'
-                  className='input-data'
+                  className='TextField-data'
                   placeholder='Cedula'
                 />
-              </div>
+              </Grid>
 
             </>
           )}
 
           {valueRbtn === ROL_STUDENT && (
             <>
-              <div item xs={12} sm={6} className='input-box'>
-                <input
+              <Grid item xs={12} sm={6}>
+                <TextField
                   {...register('boleta')}
                   id='boleta'
                   label='Boleta'
                   type='text'
                   variant='outlined'
-                  className='input-data'
+                  className='TextField-data'
                   placeholder='Boleta'
                 />
-              </div>
+              </Grid>
 
               {/* <Grid item><TextField {...register()} id='email' label="Email" type='text' variant='outlined' /></Grid> */}
             </>
           )}
 
           {valueRbtn && (
-            <Grid item xs={12} sm={12} className='input-box'>
+            <Grid item xs={12} sm={12} className='TextField-box'>
               <button variant='outlined' color='primary' type='submit' className='btn-register'>
                 Crear
               </button>

@@ -1,23 +1,27 @@
 import React from 'react'
 import {
-  Typography
+  Button,
+  Typography, AppBar, Toolbar
 } from '@mui/material'
-import '../../styles/header.css'
+// import '../../styles/header.css'
 
 const NavBarHome = ({ handleOpenLogin, handleOpenRegister }) => {
   // const navigate = useNavigate()
   return (
-    <header className='nav'>
-      <Typography variant='h6' sx={{ flexGrow: 1 }}>
-        Bienvenido
-      </Typography>
-      <button onClick={handleOpenLogin} color='inherit' className='btn-home'>
-        Iniciar sesión
-      </button>
-      <button onClick={handleOpenRegister} color='inherit' className='btn-home'>
-        Registrarse
-      </button>
-    </header>
+
+    <AppBar position='fixed' color='primary'>
+      <Toolbar>
+        <Typography variant='h6' sx={{ flexGrow: 1 }}>
+          Bienvenido
+        </Typography>
+        <Button onClick={handleOpenLogin} color='inherit'>
+          Iniciar sesión
+        </Button>
+        <Button onClick={handleOpenRegister} color='inherit'>
+          Registrarse
+        </Button>
+      </Toolbar>
+    </AppBar>
   )
 }
 

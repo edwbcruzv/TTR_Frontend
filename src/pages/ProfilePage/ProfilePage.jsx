@@ -38,11 +38,8 @@ export default function ProfilePage () {
         <AppBar position='static' color='primary'>
           <Toolbar>
             <IconButton edge='start' color='inherit' onClick={goBack}>
-              <Button
-                color='secondary'
-                startIcon={<ArrowBackIcon />}
 
-              >
+              <Button variant='contained' color='info' startIcon={<ArrowBackIcon />}>
                 Regresar
               </Button>
             </IconButton>

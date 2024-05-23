@@ -65,11 +65,10 @@ export default function CardPractice ({ practica }) {
         </Typography>
 
         <Box sx={{ marginTop: 2 }}>
-          <Button variant='contained' color='primary' sx={{ marginRight: 1 }}>Rúbrica</Button>
-          <Button variant='contained' color='secondary'>Asignaciones</Button>
+          <Button variant='contained' color='success'>Ver</Button>
+
         </Box>
         <Box sx={{ marginTop: 2 }}>
-          <Button variant='contained' color='success' sx={{ marginRight: 1 }}>Ver</Button>
           <Button variant='contained' color='error' onClick={() => deletePractica(practica.id)}>Eliminar</Button>
           <Button variant='contained' color='warning' onClick={() => getPractica(practica.id)} sx={{ marginLeft: 1 }}>Editar</Button>
         </Box>

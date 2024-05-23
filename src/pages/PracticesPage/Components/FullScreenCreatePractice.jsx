@@ -64,21 +64,23 @@ export default function FullScreenCreatePractice () {
         onClose={handleCloseModalPracticaForm}
         TransitionComponent={Transition}
       >
+        <AppBar sx={{ position: 'relative' }}>
 
-        <Toolbar>
-          <IconButton
-            edge='start'
-            color='inherit'
-            onClick={handleCloseModalPracticaForm}
-            aria-label='close'
-          >
-            <CloseIcon />
-          </IconButton>
-          <Typography sx={{ ml: 2, flex: 1 }} variant='h6' component='div'>
-            Crear Practica
-          </Typography>
+          <Toolbar>
+            <IconButton
+              edge='start'
+              color='inherit'
+              onClick={handleCloseModalPracticaForm}
+              aria-label='close'
+            >
+              <CloseIcon />
+            </IconButton>
+            <Typography sx={{ ml: 2, flex: 1 }} variant='h6' component='div'>
+              Crear Practica
+            </Typography>
 
-        </Toolbar>
+          </Toolbar>
+        </AppBar>
 
         <FormPractice />
       </Dialog>

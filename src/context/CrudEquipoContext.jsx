@@ -114,7 +114,7 @@ function CrudEquipoProvider ({ children }) {
     const res = await post(URI_BACKEND('equipo'), data, token)
     if (res.status === 200) {
       Swal.fire({
-        position: 'top-end',
+
         icon: 'success',
         title: 'Equipo creado correctamente',
         showConfirmButton: false,

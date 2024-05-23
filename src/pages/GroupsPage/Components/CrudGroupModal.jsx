@@ -34,7 +34,7 @@ export default function CrudGroupModal () {
 
   return (
     <>
-      {rol === ROL_ADMIN && <Button onClick={handleOpenModalForm}>Nuevo Grupo</Button>}
+      <Button onClick={handleOpenModalForm}>Nuevo Grupo</Button>
       <Modal
         open={openModalForm}
         onClose={handleCloseModalForm}
