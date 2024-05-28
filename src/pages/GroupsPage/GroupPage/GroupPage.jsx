@@ -6,6 +6,7 @@ import FullScreenTeamCreate from './Components/FullScreenTeamCreate'
 import TableTeams from './Components/TableTeams'
 import { useParams } from 'react-router-dom'
 import FullScreenAsignationPractice from './Components/FullScreenAsignations/FullScreenAsignationPractice'
+import { CrudPracticaProvider } from '../../../context/CrudPracticaContext'
 
 export default function GroupPage () {
   const { id } = useParams()
@@ -13,8 +14,9 @@ export default function GroupPage () {
     <MiniDrawerFrame>
       <CrudEquipoProvider>
         <FullScreenTeamCreate grupoId={id} />
-
-        <FullScreenAsignationPractice grupoId={id} />
+        <CrudPracticaProvider>
+          <FullScreenAsignationPractice grupoId={id} />
+        </CrudPracticaProvider>
         <br />
         <Divider />
         <br />

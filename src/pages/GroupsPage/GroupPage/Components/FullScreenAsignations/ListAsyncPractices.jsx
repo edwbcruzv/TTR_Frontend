@@ -1,8 +1,12 @@
-import * as React from 'react'
 import TextField from '@mui/material/TextField'
 import Autocomplete from '@mui/material/Autocomplete'
 import CircularProgress from '@mui/material/CircularProgress'
-import { Button, FormControl, FormControlLabel, FormLabel, Grid, Radio, RadioGroup } from '@mui/material'
+import { Box, Button, FormControl, FormControlLabel, FormLabel, Grid, Radio, RadioGroup } from '@mui/material'
+import { useContext, useEffect, useState } from 'react'
+import useAxios from '../../../../../hooks/useAxios'
+import { URI_BACKEND } from '../../../../../utils/environments'
+import SessionContext from '../../../../../context/SessionContext'
+import CrudPracticaContext from '../../../../../context/CrudPracticaContext'
 
 function sleep (duration) {
   return new Promise((resolve) => {
@@ -12,140 +16,145 @@ function sleep (duration) {
   })
 }
 
-export default function ListAsyncPractices () {
-  const [open, setOpen] = React.useState(false)
-  const [options, setOptions] = React.useState([])
-  const loading = open && options.length === 0
+export default function ListAsyncPractices ({ grupoId }) {
+  const { token, rol, usernameSession, nombre, email, isValid, deleteSession } = useContext(SessionContext)
 
-  React.useEffect(() => {
-    let active = true
+  const {
+    loading,
+    response,
+    responseAll,
+    error,
 
-    if (!loading) {
-      return undefined
-    }
+    register,
+    handleSubmit,
+    watch,
+    reset,
+    setValue,
+    getValues,
+    errors,
 
-    (async () => {
-      await sleep(1e3) // For demo purposes.
+    openModalPracticaForm,
+    handleOpenModalPracticaForm,
+    handleCloseModalPracticaForm,
 
-      if (active) {
-        setOptions([...topFilms])
+    openModalPracticaView,
+    handleOpenModalPracticaView,
+    handleCloseModalPracticaView,
+
+    getAllPracticas,
+    getPractica,
+    getAllPracticasByProfesorUsername,
+    createPractica,
+    updatePractica,
+    deletePractica,
+    asignarPractica
+  } = useContext(CrudPracticaContext)
+
+  const [practicas, setPracticas] = useState([])
+  function onSubmit (data) {
+    data.grupoId = grupoId
+    console.log(data)
+    asignarPractica(data)
+  }
+
+  const [open, setOpen] = useState(false)
+  const [options, setOptions] = useState([])
+
+  useEffect(() => {
+    function fAsync () {
+      let listAux = []
+      getAllPracticasByProfesorUsername(usernameSession)
+
+      console.log('responseAll: ', responseAll)
+      if (!loading && responseAll) {
+        // console.log(Data)
+        listAux = responseAll.map(item => ({
+          title: item.titulo,
+          practiceId: item.id
+        }))
+        console.log(listAux)
+        setOptions(listAux)
       }
-    })()
-
-    return () => {
-      active = false
     }
-  }, [loading])
 
-  React.useEffect(() => {
-    if (!open) {
-      setOptions([])
+    if (open) {
+      console.log('abierto')
+      fAsync()
     }
-  }, [open])
+  }, [open, loading])
 
   return (
-    <Grid>
+    <Box component='form' onSubmit={handleSubmit(onSubmit)}>
 
-      <Autocomplete
-        id='asynchronous-demo'
-        sx={{ width: 300 }}
-        open={open}
-        onOpen={() => {
-          setOpen(true)
-        }}
-        onClose={() => {
-          setOpen(false)
-        }}
-        isOptionEqualToValue={(option, value) => option.title === value.title}
-        getOptionLabel={(option) => option.title}
-        options={options}
-        loading={loading}
-        renderInput={(params) => (
-          <TextField
-            {...params}
-            label='Asynchronous'
-            InputProps={{
-              ...params.InputProps,
-              endAdornment: (
-                <>
-                  {loading ? <CircularProgress color='inherit' size={20} /> : null}
-                  {params.InputProps.endAdornment}
-                </>
-              )
+      <Grid
+        container
+        direction='row'
+        justifyContent='center'
+        alignItems='flex-start'
+        spacing={2}
+      >
+        <Grid item>
+
+          <Autocomplete
+            id='asynchronous-demo'
+            sx={{ width: 300 }}
+            open={open}
+            onOpen={() => {
+              setOpen(true)
             }}
+            onClose={() => {
+              setOpen(false)
+            }}
+            onChange={(e, value) => setValue('practicaId', value.practiceId)}
+            isOptionEqualToValue={(option, value) => option.title === value.title}
+            getOptionLabel={(option) => option.title}
+            options={options}
+            loading={loading}
+            renderInput={(params) => (
+              <TextField
+                {...params}
+                {...register('practica', { required: { value: true, message: 'Es requerido' } })}
+                label='Seleccione la practica'
+                variant='outlined'
+                error={errors.practica}
+                helperText={(errors.practica) && errors.practica.message}
+                InputProps={{
+                  ...params.InputProps,
+                  endAdornment: (
+                    <>
+                      {loading ? <CircularProgress color='inherit' size={20} /> : null}
+                      {params.InputProps.endAdornment}
+                    </>
+                  )
+                }}
+              />
+            )}
           />
-        )}
-      />
+        </Grid>
+        <Grid item>
 
-      <FormControl>
-        <FormLabel id='demo-row-radio-buttons-group-label'>Seleccione</FormLabel>
-        <RadioGroup
-          row
-          aria-labelledby='demo-row-radio-buttons-group-label'
-          name='row-radio-buttons-group'
-        >
-          <FormControlLabel value='female' control={<Radio />} label='Todos los equipos' />
-          <FormControlLabel value='male' control={<Radio />} label='Individual' />
-          {/* <FormControlLabel
+          <FormControl>
+            <FormLabel id='demo-row-radio-buttons-group-label'>Seleccione</FormLabel>
+            <RadioGroup
+              row
+              aria-labelledby='demo-row-radio-buttons-group-label'
+              name='row-radio-buttons-group'
+            >
+              <FormControlLabel {...register('option')} value='1' control={<Radio />} label='Todos los equipos' />
+              <FormControlLabel {...register('option')} value='0' control={<Radio />} label='Individual' />
+              {/* <FormControlLabel
             value='disabled'
             disabled
             control={<Radio />}
             label='other'
           /> */}
-        </RadioGroup>
-      </FormControl>
-      <Button variant='outlined'>Agregar practica</Button>
-    </Grid>
+            </RadioGroup>
+          </FormControl>
+        </Grid>
+        <Grid item>
+          <Button variant='outlined' type='submit'>Asignar practica</Button>
+        </Grid>
+      </Grid>
+    </Box>
   )
 }
-
-// Top films as rated by IMDb users. http://www.imdb.com/chart/top
-const topFilms = [
-  { title: 'The Shawshank Redemption', year: 1994 },
-  { title: 'The Godfather', year: 1972 },
-  { title: 'The Godfather: Part II', year: 1974 },
-  { title: 'The Dark Knight', year: 2008 },
-  { title: '12 Angry Men', year: 1957 },
-  { title: "Schindler's List", year: 1993 },
-  { title: 'Pulp Fiction', year: 1994 },
-  {
-    title: 'The Lord of the Rings: The Return of the King',
-    year: 2003
-  },
-  { title: 'The Good, the Bad and the Ugly', year: 1966 },
-  { title: 'Fight Club', year: 1999 },
-  {
-    title: 'The Lord of the Rings: The Fellowship of the Ring',
-    year: 2001
-  },
-  {
-    title: 'Star Wars: Episode V - The Empire Strikes Back',
-    year: 1980
-  },
-  { title: 'Forrest Gump', year: 1994 },
-  { title: 'Inception', year: 2010 },
-  {
-    title: 'The Lord of the Rings: The Two Towers',
-    year: 2002
-  },
-  { title: "One Flew Over the Cuckoo's Nest", year: 1975 },
-  { title: 'Goodfellas', year: 1990 },
-  { title: 'The Matrix', year: 1999 },
-  { title: 'Seven Samurai', year: 1954 },
-  {
-    title: 'Star Wars: Episode IV - A New Hope',
-    year: 1977
-  },
-  { title: 'City of God', year: 2002 },
-  { title: 'Se7en', year: 1995 },
-  { title: 'The Silence of the Lambs', year: 1991 },
-  { title: "It's a Wonderful Life", year: 1946 },
-  { title: 'Life Is Beautiful', year: 1997 },
-  { title: 'The Usual Suspects', year: 1995 },
-  { title: 'Léon: The Professional', year: 1994 },
-  { title: 'Spirited Away', year: 2001 },
-  { title: 'Saving Private Ryan', year: 1998 },
-  { title: 'Once Upon a Time in the West', year: 1968 },
-  { title: 'American History X', year: 1998 },
-  { title: 'Interstellar', year: 2014 }
-]

@@ -61,7 +61,7 @@ export default function CardPractice ({ practica }) {
           Comentarios: {practica.comentarios || 'No hay comentarios'}
         </Typography>
         <Typography variant='body2' component='div' sx={{ marginTop: 2 }}>
-          Rúbrica: {practica.rubrica || 'No disponible'}
+          Rúbrica:
         </Typography>
 
         <Box sx={{ marginTop: 2 }}>

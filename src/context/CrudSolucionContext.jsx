@@ -11,10 +11,9 @@ const initialForm = {
   practicaId: null,
   strHtml: null,
   strCss: null,
+  strJs: null,
   estudianteUsername: null,
   equipoId: null,
-  recursosMultimedia: [],
-  comentarios: null,
   fechaUltimaEdicion: null,
   fechaLimiteEntrega: null,
   rubricaCalificada: null

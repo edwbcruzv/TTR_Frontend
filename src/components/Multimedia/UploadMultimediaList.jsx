@@ -27,13 +27,14 @@ export default function UploadMultimediaList ({ name, setValue, uploadedFilesIds
   const { get, post, put, patch, del } = helperAXIOS()
 
   useEffect(() => {
-    console.log(uploadedFilesIds)
+    // console.log(uploadedFilesIds)
 
     return () => {
       setValue(name, uploadedFilesIds)
       console.log('bye')
+      setUploadedFilesIds([])
     }
-  }, [uploadedFilesIds])
+  }, []) // estaba setUploadedFilesIds dentro
 
   const handleFileChange = (event) => {
     const newFiles = Array.from(event.target.files)

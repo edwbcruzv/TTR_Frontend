@@ -10,31 +10,53 @@ import Slide from '@mui/material/Slide'
 import { Grid } from '@mui/material'
 import ListAsyncPractices from './ListAsyncPractices'
 import AccordionPractices from './AccordionPractices'
+import CrudPracticaContext from '../../../../../context/CrudPracticaContext'
 
 const Transition = React.forwardRef(function Transition (props, ref) {
   return <Slide direction='up' ref={ref} {...props} />
 })
 
-export default function FullScreenAsignationPractice () {
-  const [open, setOpen] = React.useState(false)
+export default function FullScreenAsignationPractice ({ grupoId }) {
+  const {
+    loading,
+    response,
+    responseAll,
+    error,
 
-  const handleClickOpen = () => {
-    setOpen(true)
-  }
+    register,
+    handleSubmit,
+    watch,
+    reset,
+    setValue,
+    getValues,
+    errors,
 
-  const handleClose = () => {
-    setOpen(false)
-  }
+    openModalPracticaForm,
+    handleOpenModalPracticaForm,
+    handleCloseModalPracticaForm,
+
+    openModalAsignarPractica,
+    handleOpenModalAsignarPractica,
+    handleCloseModalAsignarPractica,
+
+    getAllPracticas,
+    getPractica,
+    getAllPracticasByProfesorUsername,
+    createPractica,
+    updatePractica,
+    deletePractica,
+    asignarPractica
+  } = React.useContext(CrudPracticaContext)
 
   return (
     <>
-      <Button variant='outlined' onClick={handleClickOpen}>
-        Open full-screen dialog
+      <Button variant='outlined' onClick={handleOpenModalAsignarPractica}>
+        Asignacion de practicas
       </Button>
       <Dialog
         fullScreen
-        open={open}
-        onClose={handleClose}
+        open={openModalAsignarPractica}
+        onClose={handleCloseModalAsignarPractica}
         TransitionComponent={Transition}
       >
         <AppBar sx={{ position: 'relative' }}>
@@ -42,7 +64,7 @@ export default function FullScreenAsignationPractice () {
             <IconButton
               edge='start'
               color='inherit'
-              onClick={handleClose}
+              onClick={handleCloseModalAsignarPractica}
               aria-label='close'
             >
               <CloseIcon />
@@ -50,8 +72,8 @@ export default function FullScreenAsignationPractice () {
             <Typography sx={{ ml: 2, flex: 1 }} variant='h6' component='div'>
               Sound
             </Typography>
-            <Button autoFocus color='inherit' onClick={handleClose}>
-              save
+            <Button autoFocus color='inherit' onClick={handleCloseModalAsignarPractica}>
+              salir
             </Button>
           </Toolbar>
         </AppBar>
@@ -64,7 +86,7 @@ export default function FullScreenAsignationPractice () {
           spacing={2}
         >
           <br />
-          <Grid item> <ListAsyncPractices /> </Grid>
+          <Grid item> <ListAsyncPractices grupoId={grupoId} /> </Grid>
           <Grid item> <AccordionPractices /> </Grid>
 
         </Grid>

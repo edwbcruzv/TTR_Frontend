@@ -69,7 +69,7 @@ export default function CardGroup ({ group }) {
         </Typography>
       </CardContent>
       <CardActions>
-        <Button size='small' onClick={handleGroup}>Equipos</Button>
+        <Button size='small' onClick={handleGroup}>Administrar</Button>
         <Button size='small' onClick={handleOpen}>Alumnos</Button>
         <Button size='small' onClick={handleCopyCode}>
           Copiar Código

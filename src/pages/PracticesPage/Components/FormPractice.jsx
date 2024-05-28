@@ -1,12 +1,13 @@
 import { Box, Grid, TextField, Button } from '@mui/material'
-import React, { useContext, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import CrudPracticaContext from '../../../context/CrudPracticaContext'
 import EditorHTML from './EditorHTML'
 import UploadMultimediaList from '../../../components/Multimedia/UploadMultimediaList'
-import RubricForm from './RubricaForm'
+
 import SessionContext from '../../../context/SessionContext'
 import Swal from 'sweetalert2'
 import '../../../styles/dashborad.css'
+import RubricForm from './RubricForm'
 
 export default function FormPractice () {
   const { token, rol, usernameSession, nombreSession, email, isValidSession, validatingSession, deleteSession } = useContext(SessionContext)
@@ -52,6 +53,14 @@ export default function FormPractice () {
       updatePractica(data)
     }
   }
+
+  useEffect(() => {
+    return () => {
+      console.log('limpiando')
+      setUploadedFilesIds([])
+    }
+  }, [])
+
   return (
     <Box sx={{ maxWidth: 'auto', padding: '30px' }}>
       <Grid
@@ -73,7 +82,7 @@ export default function FormPractice () {
         </Grid>
         <Grid item xs={10}><TextField fullWidth multiline rows={5} {...register('comentarios', { required: { value: true, message: 'Es requerido' } })} id='comentarios' label='Comentarios' type='text' variant='outlined' error={errors.comentarios} helperText={(errors.comentarios) && errors.comentarios.message} /></Grid>
         <Grid item xs={10}>
-          <RubricForm />
+          <RubricForm nameRubrica='rubrica' setValue={setValue} rubrica={watch('rubrica')} />
         </Grid>
         <Grid item xs={5}>
           <Box sx={{ mb: 2 }}>

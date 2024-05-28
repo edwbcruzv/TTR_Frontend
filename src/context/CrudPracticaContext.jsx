@@ -55,11 +55,11 @@ function CrudPracticaProvider ({ children }) {
   /**
     * ModalView
     */
-  const [openModalPracticaView, setOpenModalPracticaView] = useState(false)
-  const handleOpenModalPracticaView = () => {
+  const [openModalAsignarPractica, setOpenModalPracticaView] = useState(false)
+  const handleOpenModalAsignarPractica = () => {
     setOpenModalPracticaView(true)
   }
-  const handleCloseModalPracticaView = () => {
+  const handleCloseModalAsignarPractica = () => {
     console.log('cerrando')
     setOpenModalPracticaView(false)
   }
@@ -70,6 +70,7 @@ function CrudPracticaProvider ({ children }) {
 
   async function getAllPracticas () {
     setLoading(true)
+    setResponseAll(null)
     const res = await get(URI_BACKEND('practica/getAll'), token)
     setLoading(false)
     if (res.status === 200) {
@@ -137,6 +138,44 @@ function CrudPracticaProvider ({ children }) {
     } catch (err) {
       Swal.fire({
         title: 'Error al crear la practica',
+        text: `Error: ${err} (${err})`,
+        icon: 'error'
+      })
+    }
+    setLoading(false)
+    // return res
+  }
+
+  async function asignarPractica (data) {
+    setLoading(true)
+    const res = await post(URI_BACKEND('practica/asignar'), data, token)
+
+    try {
+      if (res.status === 200) {
+        setResponse(res.data)
+        Swal.fire({
+          title: '¡Practica asignada!',
+          text: 'Se asigno la practica con exito ',
+          icon: 'success'
+        })
+        handleCloseModalAsignarPractica()
+        // llamada a los all
+      } else {
+        setError(res)
+        Swal.fire({
+          title: 'Error al asignar la practica',
+          text: `Error: ${res.statusText} (${res.status})`,
+          icon: 'error'
+        })
+      }
+      // if (rol === ROL_TEACHER) {
+      //   getAllPracticasByProfesorUsername(usernameSession)
+      // } else if (rol === ROL_ADMIN) {
+      //   getAllPracticas()
+      // }
+    } catch (err) {
+      Swal.fire({
+        title: 'Error al asignar la practica',
         text: `Error: ${err} (${err})`,
         icon: 'error'
       })
@@ -249,16 +288,17 @@ function CrudPracticaProvider ({ children }) {
     handleOpenModalPracticaForm,
     handleCloseModalPracticaForm,
 
-    openModalPracticaView,
-    handleOpenModalPracticaView,
-    handleCloseModalPracticaView,
+    openModalAsignarPractica,
+    handleOpenModalAsignarPractica,
+    handleCloseModalAsignarPractica,
 
     getAllPracticas,
     getPractica,
     getAllPracticasByProfesorUsername,
     createPractica,
     updatePractica,
-    deletePractica
+    deletePractica,
+    asignarPractica
   }
   return (
     <CrudPracticaContext.Provider value={data}>
