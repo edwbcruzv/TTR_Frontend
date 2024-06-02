@@ -7,7 +7,7 @@ const StudentProtectedRoute = () => {
   const { token, rol, usernameSession, nombreSession, email, isValidSession, validatingSession, deleteSession } = useContext(SessionContext)
   // console.log(token, rol, usernameSession, nombreSession, email, isValidSession, validatingSession)
   if (isValidSession && rol === ROL_STUDENT) {
-    console.log('Paso StudentProtected: ' + rol)
+    // console.log('Paso StudentProtected: ' + rol)
   } else {
     // deleteSession()
     return <Navigate to='/' replace />

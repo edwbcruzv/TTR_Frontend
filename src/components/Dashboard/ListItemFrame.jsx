@@ -5,10 +5,10 @@ import ListItem from '@mui/material/ListItem'
 import ListItemButton from '@mui/material/ListItemButton'
 import ListItemIcon from '@mui/material/ListItemIcon'
 import ListItemText from '@mui/material/ListItemText'
-import "../../styles/dashborad.css"
+import '../../styles/dashborad.css'
 const renderListItem = (textItem, path, iconItem, onClickItemMenu) => {
   return (
-    <ListItem key={textItem} disablePadding sx={{ display: 'block' }} >
+    <ListItem key={textItem} disablePadding sx={{ display: 'block' }}>
       <ListItemButton
         sx={{
           minHeight: 48,
@@ -16,7 +16,7 @@ const renderListItem = (textItem, path, iconItem, onClickItemMenu) => {
           px: 2.5
         }}
         onClick={() => onClickItemMenu(path)}
-        
+
       >
         <Tooltip title={textItem} placement='right'>
 
@@ -29,7 +29,7 @@ const renderListItem = (textItem, path, iconItem, onClickItemMenu) => {
             className='list-item-button'
           >
             {iconItem}
-            
+
           </ListItemIcon>
         </Tooltip>
         <ListItemText primary={textItem} sx={{ opacity: open ? 1 : 0 }} onClick={() => onClickItemMenu(path)} />

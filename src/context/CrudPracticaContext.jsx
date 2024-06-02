@@ -47,7 +47,7 @@ function CrudPracticaProvider ({ children }) {
     setOpenModalPracticaForm(true)
   }
   const handleCloseModalPracticaForm = () => {
-    console.log('cerrando')
+    // console.log('cerrando')
     setOpenModalPracticaForm(false)
     reset(initialForm)
   }
@@ -60,7 +60,7 @@ function CrudPracticaProvider ({ children }) {
     setOpenModalPracticaView(true)
   }
   const handleCloseModalAsignarPractica = () => {
-    console.log('cerrando')
+    // console.log('cerrando')
     setOpenModalPracticaView(false)
   }
 
@@ -86,7 +86,7 @@ function CrudPracticaProvider ({ children }) {
     const res = await get(URI_BACKEND(`practica/${id}`), token)
     if (res.status === 200) {
       reset(res.data)
-      console.log(res.data)
+      // console.log(res.data)
       handleOpenModalPracticaForm()
     } else {
       // console.log(res.error)
@@ -237,7 +237,7 @@ function CrudPracticaProvider ({ children }) {
 
       if (result.isConfirmed) {
         const res = await del(URI_BACKEND(`practica/${id}`), token)
-        console.log(res)
+        // console.log(res)
         if (!res.err) {
           Swal.fire({
             title: '¡Eliminar!',

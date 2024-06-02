@@ -16,6 +16,9 @@ import AccountCircle from '@mui/icons-material/AccountCircle'
 import Menu from '@mui/material/Menu'
 import MenuItem from '@mui/material/MenuItem'
 import MoreIcon from '@mui/icons-material/MoreVert'
+import ArrowBackIcon from '@mui/icons-material/ArrowBack'
+import Brightness4Icon from '@mui/icons-material/Brightness4'
+import Brightness7Icon from '@mui/icons-material/Brightness7'
 import { useNavigate } from 'react-router-dom'
 import ListItemFrame from './ListItemFrame'
 import { ROL_ADMIN, ROL_STUDENT, ROL_TEACHER } from '../../utils/environments'
@@ -30,7 +33,6 @@ import Diversity3OutlinedIcon from '@mui/icons-material/Diversity3Outlined'
 import PendingActionsOutlinedIcon from '@mui/icons-material/PendingActionsOutlined'
 import AssignmentLateOutlinedIcon from '@mui/icons-material/AssignmentLateOutlined'
 import SessionContext from '../../context/SessionContext'
-// import '../../styles/dashborad.css'
 
 const style_drawer = {
   backgroundColor: '#9d5ceb'
@@ -71,7 +73,6 @@ const DrawerHeader = styled('div')(({ theme }) => ({
   alignItems: 'center',
   justifyContent: 'flex-end',
   padding: theme.spacing(0, 1),
-  // necessary for content to be below app bar
   ...theme.mixins.toolbar
 }))
 
@@ -140,7 +141,6 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   color: 'inherit',
   '& .MuiInputBase-input': {
     padding: theme.spacing(1, 1, 1, 0),
-    // vertical padding + font size from searchIcon
     paddingLeft: `calc(1em + ${theme.spacing(4)})`,
     transition: theme.transitions.create('width'),
     width: '100%',
@@ -154,7 +154,7 @@ export default function MiniDrawerFrame ({ children }) {
   const theme = useTheme()
   const [open, setOpen] = useState(false)
   const itemsBody = []
-  const { token, rol, usernameSession, nombreSession, email, isValidSession, validatingSession, deleteSession } = useContext(SessionContext)
+  const { token, rol, usernameSession, nombreSession, email, isValidSession, validatingSession, deleteSession, darkMode, toggleDarkMode } = useContext(SessionContext)
 
   switch (rol) {
     case ROL_ADMIN:
@@ -178,7 +178,6 @@ export default function MiniDrawerFrame ({ children }) {
       )
       break
     default:
-
       break
   }
 
@@ -188,8 +187,6 @@ export default function MiniDrawerFrame ({ children }) {
   }
 
   const handleProfile = () => {
-    // Navegar a la página de destino con argumentos
-    console.log('ejecutandoo')
     navigate('/profile', { state: { usernameView: usernameSession, rolView: rol } })
   }
 
@@ -199,6 +196,10 @@ export default function MiniDrawerFrame ({ children }) {
 
   const handleDrawerClose = () => {
     setOpen(false)
+  }
+
+  const handleGoBack = () => {
+    navigate(-1)
   }
 
   const [anchorEl, setAnchorEl] = useState(null)
@@ -264,20 +265,28 @@ export default function MiniDrawerFrame ({ children }) {
           >
             <MenuIcon />
           </IconButton>
-          <Typography variant='h6' noWrap component='div'>
+          <IconButton
+            color='inherit'
+            aria-label='go back'
+            onClick={handleGoBack}
+            edge='start'
+            sx={{
+              marginRight: 2
+            }}
+          >
+            <ArrowBackIcon />
+          </IconButton>
+
+          <Typography variant='h6' noWrap component='div' sx={{ flexGrow: 1, textAlign: 'center' }}>
             {nombreSession}
           </Typography>
-          {/* <Search>
-            <SearchIconWrapper>
-              <SearchIcon />
-            </SearchIconWrapper>
-            <StyledInputBase
-              placeholder="Search…"
-              inputProps={{ 'aria-label': 'search' }}
-            />
-          </Search> */}
-          <Box sx={{ flexGrow: 1 }} />
-
+          <IconButton
+            color='inherit'
+            aria-label='toggle dark mode'
+            onClick={() => toggleDarkMode()}
+          >
+            {darkMode ? <Brightness7Icon /> : <Brightness4Icon />}
+          </IconButton>
           <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
             {rol === ROL_TEACHER && <>
               <IconButton
@@ -299,20 +308,6 @@ export default function MiniDrawerFrame ({ children }) {
                 <AddIcon />
               </IconButton>
                                     </>}
-            {/* <IconButton size="large" aria-label="show 4 new mails" color="inherit">
-              <Badge badgeContent={4} color="error">
-                <MailIcon />
-              </Badge>
-            </IconButton>
-            <IconButton
-              size="large"
-              aria-label="show 17 new notifications"
-              color="inherit"
-            >
-              <Badge badgeContent={17} color="error">
-                <NotificationsIcon />
-              </Badge>
-            </IconButton> */}
             <IconButton
               size='large'
               edge='end'
@@ -329,7 +324,6 @@ export default function MiniDrawerFrame ({ children }) {
             <IconButton
               size='large'
               aria-label='show more'
-              // aria-controls={mobileMenuId}
               aria-haspopup='true'
               onClick={handleMobileMenuOpen}
               color='inherit'
@@ -342,13 +336,17 @@ export default function MiniDrawerFrame ({ children }) {
 
       {renderMenu}
 
-      <Drawer variant='permanent' open={open}>
+      <Drawer
+        variant='permanent'
+        open={open}
+        onMouseEnter={handleDrawerOpen}
+        onMouseLeave={handleDrawerClose}
+      >
         <DrawerHeader className='Drawer'>
           <IconButton onClick={handleDrawerClose}>
             {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
           </IconButton>
         </DrawerHeader>
-
         <Divider />
         <ListItemFrame items={itemsHeader} onClickItemMenu={onClickItemMenu} />
         <Divider />
@@ -356,6 +354,7 @@ export default function MiniDrawerFrame ({ children }) {
         <Divider />
         <ListItemFrame items={itemsFooter} onClickItemMenu={onClickItemMenu} />
       </Drawer>
+
       <Box component='main' sx={{ flexGrow: 1, p: 3 }}>
         <DrawerHeader />
         {children}

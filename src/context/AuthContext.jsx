@@ -38,7 +38,7 @@ const AuthProvider = ({ children }) => {
     setOpenModalForm(true)
   }
   const handleCloseModalForm = () => {
-    console.log('cerrando')
+    // console.log('cerrando')
     setOpenModalForm(false)
     reset(initialForm)
   }
@@ -58,7 +58,7 @@ const AuthProvider = ({ children }) => {
       handleCloseModalForm()
       window.location.reload()
     } else {
-      console.log(res)
+      // console.log(res)
       setError(res)
     }
     setLoading(false)
@@ -91,7 +91,7 @@ const AuthProvider = ({ children }) => {
       window.localStorage.setItem('session', JSON.stringify(res.data))
       window.location.reload()
     } else {
-      console.log(res)
+      // console.log(res)
       setError(res)
     }
     setLoading(false)
@@ -108,7 +108,7 @@ const AuthProvider = ({ children }) => {
       setResponse(res)
       // handleCloseModalForm()
     } else {
-      console.log(res)
+      // console.log(res)
       setError(res.error)
     }
     setLoading(false)

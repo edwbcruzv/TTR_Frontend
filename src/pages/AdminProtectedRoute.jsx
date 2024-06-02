@@ -7,7 +7,7 @@ const AdminProtectedRoute = () => {
   const { token, rol, usernameSession, nombreSession, email, isValidSession, validatingSession, deleteSession } = useContext(SessionContext)
   // console.log(token, rol, usernameSession, nombreSession, email, isValidSession, validatingSession)
   if (isValidSession && rol === ROL_ADMIN) {
-    console.log('Paso AdminProtected: ' + rol)
+    // console.log('Paso AdminProtected: ' + rol)
   } else {
     // deleteSession()
     return <Navigate to='/' replace />

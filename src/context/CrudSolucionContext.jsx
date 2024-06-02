@@ -3,20 +3,14 @@ import { helperAXIOS } from '../helpers/helperAXIOS'
 import { useForm } from 'react-hook-form'
 import SessionContext from './SessionContext'
 import { URI_BACKEND } from '../utils/environments'
+import Swal from 'sweetalert2'
 
 const CrudSolucionContext = createContext()
 
 const initialForm = {
   id: null,
   practicaId: null,
-  strHtml: null,
-  strCss: null,
-  strJs: null,
-  estudianteUsername: null,
-  equipoId: null,
-  fechaUltimaEdicion: null,
-  fechaLimiteEntrega: null,
-  rubricaCalificada: null
+  equipoId: null
 }
 
 function CrudSolucionProvider ({ children }) {
@@ -26,6 +20,9 @@ function CrudSolucionProvider ({ children }) {
    * formulario
    */
   const [loading, setLoading] = useState(false)
+  const [response, setResponse] = useState(null)
+  const [responseAll, setResponseAll] = useState(null)
+  const [error, setError] = useState(null)
   const {
     register, // el form lo usa para los inputs
     handleSubmit, // hace el envio
@@ -69,54 +66,189 @@ function CrudSolucionProvider ({ children }) {
 
   async function getAllSoluciones () {
     setLoading(true)
+    setResponseAll(null)
     const res = await get(URI_BACKEND('solucion/getAll'), token)
-
     setLoading(false)
-    return res
+    if (res.status === 200) {
+      setResponseAll(res.data)
+    } else {
+      // console.log(res.error)
+      setError(res)
+    }
   }
 
   async function getSolucion (id) {
     setLoading(true)
     const res = await get(URI_BACKEND(`solucion/${id}`), token)
-
+    if (res.status === 200) {
+      reset(res.data)
+      // console.log(res.data)
+      setResponseAll(res.data)
+      // handleOpenModalPracticaForm()
+    } else {
+      // console.log(res.error)
+      setError(res)
+    }
     setLoading(false)
-    return res
   }
 
-  async function getAllSolucionesByGrupoId (grupoId) {
+  async function getAllSolucionesByEquipoId (equipoId) {
     setLoading(true)
-    const res = await get(URI_BACKEND(`solucion/getAllByGrupoId/${grupoId}`), token)
-
+    setResponseAll(null)
+    const res = await get(URI_BACKEND(`solucion/getAllByEquipoId/${equipoId}`), token)
+    if (res.status === 200) {
+      // console.log(res.data)
+      setResponseAll(res.data)
+      // handleOpenModalPracticaForm()
+    } else {
+      // console.log(res.error)
+      setError(res)
+    }
     setLoading(false)
-    return res
+  }
+
+  async function getAllSolucionesByEstudianteUsername (username) {
+    setLoading(true)
+    setResponseAll(null)
+    const res = await get(URI_BACKEND(`solucion/getAllByEstudianteUsername/${username}`), token)
+    if (res.status === 200) {
+      // console.log(res.data)
+      setResponseAll(res.data)
+      // handleOpenModalPracticaForm()
+    } else {
+      // console.log(res.error)
+      setError(res)
+    }
+    setLoading(false)
+  }
+
+  async function getAllSolucionesByProfesorUsernameAndGrupoIdByEquipos (profesorUsername, grupoId) {
+    setLoading(true)
+    setResponseAll(null)
+    const res = await get(URI_BACKEND(`solucion/getAllByProfesorUsernameAndGrupoIdByEquipos/${profesorUsername}/${grupoId}"`), token)
+    if (res.status === 200) {
+      console.log(res.data)
+      setResponseAll(res.data)
+      // handleOpenModalPracticaForm()
+    } else {
+      // console.log(res.error)
+      setError(res)
+    }
+    setLoading(false)
+  }
+
+  async function getAllSolucionesByProfesorUsernameAndGrupoIdByIndividual (profesorUsername, grupoId) {
+    setLoading(true)
+    setResponseAll(null)
+    const res = await get(URI_BACKEND(`solucion/getAllByProfesorUsernameAndGrupoIdByIndividual/${profesorUsername}/${grupoId}"`), token)
+    if (res.status === 200) {
+      reset(res.data)
+      console.log(res.data)
+      // handleOpenModalPracticaForm()
+    } else {
+      // console.log(res.error)
+      setError(res)
+    }
+    setLoading(false)
   }
 
   async function createSolucion (data) {
     setLoading(true)
-    const res = await post(URI_BACKEND('solucion'), data, token)
-
+    // const res = await post(URI_BACKEND('solucion'), data, token)
+    // CANCELADO
     setLoading(false)
-    return res
   }
 
   async function updateSolucion (data) {
     setLoading(true)
     const res = await patch(URI_BACKEND('solucion'), data, token)
+    try {
+      if (res.status === 200) {
+        setResponse(res.data)
+        Swal.fire({
+          title: '¡Practica actualizada!',
+          text: 'Se actualizo la practica. ',
+          icon: 'success'
+        })
+        // handleCloseModalPracticaForm()
+      } else {
+        setError(res)
+        Swal.fire({
+          title: 'Error al actualizar la practica',
+          text: `Error: ${res.statusText} (${res.status})`,
+          icon: 'error'
+        })
+      }
 
+      // if (rol === ROL_TEACHER) {
+      //   getAllPracticasByProfesorUsername(usernameSession)
+      // } else if (rol === ROL_ADMIN) {
+      //   getAllPracticas()
+      // }
+    } catch (err) {
+      Swal.fire({
+        title: 'Error al actualizar la practica',
+        text: `Error: ${err} (${err})`,
+        icon: 'error'
+      })
+    }
     setLoading(false)
-    return res
   }
 
   async function deleteSolucion (id) {
     setLoading(true)
-    const res = await del(URI_BACKEND(`solucion/${id}`), token)
+    setError(null)
+    try {
+      const result = await Swal.fire({
+        title: '¿Esta seguro que desea esta practica',
+        text: 'Esta decisión es irreversible y eliminara las soluciones hechas por sus alumnos.',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Si,¡Eliminar!'
+      })
 
-    setLoading(false)
-    return res
+      if (result.isConfirmed) {
+        const res = await del(URI_BACKEND(`solucion/${id}`), token)
+        console.log(res)
+        if (!res.err) {
+          Swal.fire({
+            title: '¡Eliminar!',
+            text: 'La practica a sido eliminado ',
+            icon: 'success'
+          })
+        } else {
+          Swal.fire({
+            title: 'Error al eliminar',
+            text: `Error: ${res.statusText} (${res.status})`,
+            icon: 'error'
+          })
+          setError(res)
+        }
+        // if (rol === ROL_TEACHER) {
+        //   getAllPracticasByProfesorUsername(usernameSession)
+        // } else if (rol === ROL_ADMIN) {
+        //   getAllPracticas()
+        // }
+      }
+    } catch (err) {
+      Swal.fire({
+        title: 'Error al eliminar, intentelo mas tarde',
+        text: `Error: ${err}`,
+        icon: 'error'
+      })
+      setError(err)
+    } finally {
+      setLoading(false)
+    }
   }
 
   const data = {
     loading,
+    response,
+    responseAll,
+    error,
 
     register,
     handleSubmit,
@@ -136,7 +268,10 @@ function CrudSolucionProvider ({ children }) {
 
     getAllSoluciones,
     getSolucion,
-    getAllSolucionesByGrupoId,
+    getAllSolucionesByEquipoId,
+    getAllSolucionesByEstudianteUsername,
+    getAllSolucionesByProfesorUsernameAndGrupoIdByEquipos,
+    getAllSolucionesByProfesorUsernameAndGrupoIdByIndividual,
     createSolucion,
     updateSolucion,
     deleteSolucion

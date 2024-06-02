@@ -7,7 +7,7 @@ import NotFoundPage from './pages/NotFoundPage/NotFoundPage'
 import RecoveryPage from './pages/RecoveryPage/RecoveryPage'
 import PracticesPage from './pages/PracticesPage/PracticesPage'
 import WelcomePage from './pages/WelcomePage/WelcomePage'
-import { SessionProvider } from './context/SessionContext'
+import SessionContext, { SessionProvider } from './context/SessionContext'
 import AdminProtectedRoute from './pages/AdminProtectedRoute'
 import TeacherProtectedRoute from './pages/TeacherProtectedRoute'
 import StudentProtectedRoute from './pages/StudentProtectedRoute'
@@ -17,16 +17,85 @@ import HomeStudentPage from './pages/HomeStudentPage/HomeStudentPage'
 import PublicProtectedRoute from './pages/PublicProtectedRoute'
 import GroupPage from './pages/GroupsPage/GroupPage/GroupPage'
 import InscriptionPage from './pages/InscriptionPage/InscriptionPage'
-import PracticePage from './pages/PracticesPage/PracticePage/PracticePage'
 import UsersProtectedRoute from './pages/UsersProtectedRoute'
 import AccountPage from './pages/AccountPage/AccountPage'
 import ProfilePage from './pages/ProfilePage/ProfilePage'
+import SolutionPage from './pages/SolutionPage/SolutionPage'
+import { ThemeProvider } from 'styled-components'
+import { createTheme } from '@mui/material'
+import { useContext } from 'react'
+import { ROL_ADMIN, ROL_STUDENT, ROL_TEACHER } from './utils/environments'
 
 const App = (props) => {
+  const { rol, darkMode } = useContext(SessionContext)
+  const getTheme = (mode) => {
+    const commonSettings = {
+      typography: {
+        fontFamily: 'Arial, sans-serif'
+      }
+    }
+
+    switch (rol) {
+      case ROL_ADMIN:
+        return createTheme({
+          ...commonSettings,
+          palette: {
+            mode,
+            primary: {
+              main: mode === 'dark' ? '#0d47a1' : '#3f51b5'
+            },
+            secondary: {
+              main: mode === 'dark' ? '#ff4081' : '#f50057'
+            }
+          }
+        })
+      case ROL_TEACHER:
+        return createTheme({
+          ...commonSettings,
+          palette: {
+            mode,
+            primary: {
+              main: mode === 'dark' ? '#4caf50' : '#8bc34a'
+            },
+            secondary: {
+              main: mode === 'dark' ? '#ff9800' : '#ffc107'
+            }
+          }
+        })
+      case ROL_STUDENT:
+        return createTheme({
+          ...commonSettings,
+          palette: {
+            mode,
+            primary: {
+              main: mode === 'dark' ? '#f44336' : '#ff5722'
+            },
+            secondary: {
+              main: mode === 'dark' ? '#2196f3' : '#03a9f4'
+            }
+          }
+        })
+      default:
+        return createTheme({
+          ...commonSettings,
+          palette: {
+            mode,
+            primary: {
+              main: mode === 'dark' ? '#673ab7' : '#9c27b0'
+            },
+            secondary: {
+              main: mode === 'dark' ? '#03a9f4' : '#00bcd4'
+            }
+          }
+        })
+    }
+  }
+
+  const theme = getTheme(darkMode ? 'dark' : 'light')
   return (
     <>
+      <ThemeProvider theme={theme}>
 
-      <SessionProvider>
         <BrowserRouter>
           {/* Dentro de Routes se declaran las rutas y el componente al que va a direcciones, los componentes deben te derminar en Page.jsx */}
           <Routes>
@@ -39,25 +108,24 @@ const App = (props) => {
               <Route index element={<HomeAdminPage />} />
               <Route path='users' element={<UsersPage />} />
               <Route path='groups' element={<GroupsPage />} />
-              <Route path='group/:id' element={<GroupPage />} />
+              <Route path='group' element={<GroupPage />} />
               <Route path='practices' element={<PracticesPage />} />
-              <Route path='practice/:id' element={<PracticePage />} />
             </Route>
 
             <Route path='/teacher' element={<TeacherProtectedRoute />}>
               <Route index element={<HomeTeacherPage />} />
               <Route path='practices' element={<PracticesPage />} />
-              <Route path='practice/:id' element={<PracticePage />} />
               <Route path='groups' element={<GroupsPage />} />
-              <Route path='group/:id' element={<GroupPage />} />
+              <Route path='group' element={<GroupPage />} />
+              <Route path='solutions' element={<SolutionPage />} />
             </Route>
 
             <Route path='/student' element={<StudentProtectedRoute />}>
               <Route index element={<HomeStudentPage />} />
               <Route path='practices' element={<PracticesPage />} />
-              <Route path='practice/:id' element={<PracticePage />} />
               <Route path='teams' element={<TeamsPage />} />
               <Route path='inscriptions' element={<InscriptionPage />} />
+              <Route path='solutions' element={<SolutionPage />} />
 
             </Route>
 
@@ -71,7 +139,8 @@ const App = (props) => {
             <Route path='*' element={<NotFoundPage />} />
           </Routes>
         </BrowserRouter>
-      </SessionProvider>
+
+      </ThemeProvider>
     </>
   )
 }

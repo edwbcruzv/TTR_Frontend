@@ -47,7 +47,7 @@ export default function ChangePasswordPage () {
               wrap='wrap'
             >
 
-              <Divider />
+              <Divider style={{ margin: '16px 0' }} />
               <Grid item xs={12} sm={6} className='input-box'>
                 <TextField
                   {...register('password', {

@@ -55,7 +55,7 @@ function CrudInscripcionProvider ({ children }) {
     setOpenModalForm(true)
   }
   const handleCloseModalForm = () => {
-    console.log('cerrando')
+    // console.log('cerrando')
     setOpenModalForm(false)
     reset(initialForm)
   }
@@ -163,7 +163,7 @@ function CrudInscripcionProvider ({ children }) {
 
       if (result.isConfirmed) {
         const res = await del(URI_BACKEND(`inscripcion/grupo/${grupoId}/estudiante/${username}`), token)
-        console.log(res)
+        // console.log(res)
         if (!res.err) {
           Swal.fire({
             title: '¡Eliminar!',

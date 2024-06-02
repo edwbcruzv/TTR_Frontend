@@ -4,23 +4,24 @@ import { CrudEquipoProvider } from '../../../context/CrudEquipoContext'
 import { Divider } from '@mui/material'
 import FullScreenTeamCreate from './Components/FullScreenTeamCreate'
 import TableTeams from './Components/TableTeams'
-import { useParams } from 'react-router-dom'
+import { useLocation } from 'react-router-dom'
 import FullScreenAsignationPractice from './Components/FullScreenAsignations/FullScreenAsignationPractice'
 import { CrudPracticaProvider } from '../../../context/CrudPracticaContext'
 
 export default function GroupPage () {
-  const { id } = useParams()
+  const location = useLocation()
+  const { groupId } = location.state || {}
   return (
     <MiniDrawerFrame>
       <CrudEquipoProvider>
-        <FullScreenTeamCreate grupoId={id} />
+        <FullScreenTeamCreate grupoId={groupId} />
         <CrudPracticaProvider>
-          <FullScreenAsignationPractice grupoId={id} />
+          <FullScreenAsignationPractice grupoId={groupId} />
         </CrudPracticaProvider>
         <br />
         <Divider />
         <br />
-        <TableTeams grupoId={id} />
+        <TableTeams grupoId={groupId} />
       </CrudEquipoProvider>
 
     </MiniDrawerFrame>

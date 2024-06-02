@@ -112,7 +112,7 @@ function CrudEstudianteProvider ({ children }) {
 
       if (result.isConfirmed) {
         const res = await patch(URI_BACKEND('estudiante'), data, token)
-        console.log(res)
+        // console.log(res)
         if (!res.err) {
           Swal.fire({
             title: '¡Guardado!',
@@ -156,7 +156,7 @@ function CrudEstudianteProvider ({ children }) {
 
       if (result.isConfirmed) {
         const res = await del(URI_BACKEND(`estudiante/${username}`), token)
-        console.log(res)
+        // console.log(res)
         if (!res.err) {
           Swal.fire({
             title: '¡Eliminar!',

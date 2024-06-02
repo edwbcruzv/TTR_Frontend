@@ -102,7 +102,7 @@ function CrudEquipoProvider ({ children }) {
 
       setRight(right)
     } else {
-      console.log(res.error)
+      // console.log(res.error)
       setError(res)
     }
     setLoading(false)
@@ -110,7 +110,7 @@ function CrudEquipoProvider ({ children }) {
 
   async function createEquipo (data) {
     setLoading(true)
-    console.log(data)
+    // console.log(data)
     const res = await post(URI_BACKEND('equipo'), data, token)
     if (res.status === 200) {
       Swal.fire({
@@ -125,7 +125,7 @@ function CrudEquipoProvider ({ children }) {
       handleCloseModalForm()
       await getAllEquipoByGrupoId(data.grupoId)
     } else {
-      console.log(res)
+      // console.log(res)
       Swal.fire({
         title: 'Error al crear equipo',
         text: 'Verificar',
@@ -167,7 +167,7 @@ function CrudEquipoProvider ({ children }) {
 
       if (result.isConfirmed) {
         const res = await del(URI_BACKEND(`equipo/${id}`), token)
-        console.log(res)
+        // console.log(res)
         if (!res.err) {
           Swal.fire({
             title: '¡Eliminar!',

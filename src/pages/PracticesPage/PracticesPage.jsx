@@ -17,8 +17,8 @@ export default function PracticesPage () {
 
         <CrudPracticaProvider>
           {rol === ROL_TEACHER && <FullScreenCreatePractice />}
-          <br />
-          <Divider />
+
+          <Divider style={{ margin: '16px 0' }} />
           {rol === ROL_TEACHER && <TablePractices />}
 
         </CrudPracticaProvider>

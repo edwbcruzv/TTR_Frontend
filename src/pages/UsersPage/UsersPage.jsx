@@ -18,7 +18,7 @@ export default function UsersPage () {
 
               <CrudUserModal />
             </AuthProvider>
-            <Divider />
+            <Divider style={{ margin: '16px 0' }} />
             <UsersTabs />
           </CrudProfesorProvider>
         </CrudEstudianteProvider>

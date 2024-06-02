@@ -42,7 +42,7 @@ function CrudGrupoProvider ({ children }) {
     setOpenModalForm(true)
   }
   const handleCloseModalForm = () => {
-    console.log('cerrando')
+    // console.log('cerrando')
     setOpenModalForm(false)
     reset(initialForm)
   }

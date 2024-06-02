@@ -36,20 +36,23 @@ const TableInscriptions = () => {
   return (
     <Grid
       container
-      spacing={2}
-      direction='row'
+      spacing={{ xs: 1, sm: 2, md: 3, lg: 4 }}
       justifyContent='flex-start'
-      alignItems='flex-start'
-      alignContent='stretch'
-      wrap='wrap'
     >
-      {response && response.map((inscripcion, index) => <Grid key={index} item xs={12} sm={6} md={4} lg={3}><CardInscription key={index} inscription={inscripcion} /></Grid>)}
-      {loading && [0, 1, 2, 3, 4, 5, 6, 7, 8].map((elem, index) => <Grid key={index} item xs={12} sm={6} md={4} lg={3} sx={{ pt: 0.5, maxWidth: 345 }}>
-        <Skeleton variant='rectangular' width={305} height={140} />
-        <Skeleton />
-        <Skeleton width='60%' />
-      </Grid>)}
-
+      {(response && response.length > 0) &&
+        response.map((inscripcion, index) => (
+          <Grid key={index} item xs={12} sm={6} md={4} lg={3}>
+            <CardInscription key={index} inscription={inscripcion} />
+          </Grid>
+        ))}
+      {(loading && !response) &&
+        Array.from(Array(9).keys()).map((index) => (
+          <Grid key={index} item xs={12} sm={6} md={4} lg={3} sx={{ pt: 0.5 }}>
+            <Skeleton variant='rectangular' width='100%' height={140} />
+            <Skeleton />
+            <Skeleton width='60%' />
+          </Grid>
+        ))}
     </Grid>
   )
 }

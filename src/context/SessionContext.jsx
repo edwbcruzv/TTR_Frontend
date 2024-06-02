@@ -13,9 +13,13 @@ const SessionProvider = ({ children }) => {
   const [email, setEmail] = useState(session.email)
   const [isValidSession, setIsValidSession] = useState(session.isValidSession)
   const [validatingSession, setValidatingSession] = useState(null)
+  const [darkMode, setDarkMode] = useState(false)
 
   const isEmptyObject = (obj) => {
     return Object.keys(obj).length === 0
+  }
+  const toggleDarkMode = () => {
+    setDarkMode((prevMode) => !prevMode) // Cambiar entre modo oscuro y claro
   }
 
   useEffect(() => {
@@ -25,7 +29,7 @@ const SessionProvider = ({ children }) => {
       const decodeJWT = jwtDecode(token)
       const tokenExpired = Date.now() > (decodeJWT.exp * 1000) // Convertir la fecha de expiración a milisegundos
       if (tokenExpired) {
-        console.log('La sesion ha expirado.')
+        // console.log('La sesion ha expirado.')
         deleteSession()
         // window.localStorage.removeItem('session')
         Swal.fire({
@@ -34,7 +38,7 @@ const SessionProvider = ({ children }) => {
           icon: 'info'
         })
       } else {
-        console.log('Sesion aun valida.')
+        // console.log('Sesion aun valida.')
       }
     } catch (error) {
       // console.error('Error al decodificar el token:', error.message)
@@ -46,7 +50,7 @@ const SessionProvider = ({ children }) => {
 
   function deleteSession () {
     window.localStorage.removeItem('session')
-    console.log('Sesion cerrada.')
+    // console.log('Sesion cerrada.')
     setRol(null)
     setToken(null)
     setUsernameSession(null)
@@ -55,7 +59,7 @@ const SessionProvider = ({ children }) => {
     setIsValidSession(false)
   }
 
-  const values = { token, rol, usernameSession, nombreSession, email, isValidSession, validatingSession, deleteSession }
+  const values = { token, rol, usernameSession, nombreSession, email, isValidSession, validatingSession, deleteSession, darkMode, toggleDarkMode }
 
   return (
     <SessionContext.Provider value={values}>{children}</SessionContext.Provider>

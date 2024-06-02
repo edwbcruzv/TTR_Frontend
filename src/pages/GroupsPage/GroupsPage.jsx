@@ -16,9 +16,9 @@ export default function GroupsPage () {
       <CrudGrupoProvider>
         {rol === ROL_ADMIN && <>
           <CrudGroupModal />
-          <Divider />
+          <Divider style={{ margin: '16px 0' }} />
                               </>}
-        <br />
+
         <CrudInscripcionProvider>
           <TableGroups />
         </CrudInscripcionProvider>
