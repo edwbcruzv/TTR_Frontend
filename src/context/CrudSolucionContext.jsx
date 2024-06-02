@@ -10,7 +10,16 @@ const CrudSolucionContext = createContext()
 const initialForm = {
   id: null,
   practicaId: null,
-  equipoId: null
+  strHtml: null,
+  strCss: null,
+  strJs: null,
+  conclusion: null,
+  estudianteUsername: null,
+  equipoId: null,
+  fechaUltimaEdicion: null,
+  fechaLimiteEntrega: null,
+  rubricaCalificada: null,
+  calificacion: null
 }
 
 function CrudSolucionProvider ({ children }) {
@@ -43,7 +52,7 @@ function CrudSolucionProvider ({ children }) {
     setOpenModalSolucionForm(true)
   }
   const handleCloseModalSolucionForm = () => {
-    console.log('cerrando')
+    // console.log('cerrando')
     setOpenModalSolucionForm(false)
     reset(initialForm)
   }
@@ -56,7 +65,7 @@ function CrudSolucionProvider ({ children }) {
     setOpenModalSolucionView(true)
   }
   const handleCloseModalSolucionView = () => {
-    console.log('cerrando')
+    // console.log('cerrando')
     setOpenModalSolucionView(false)
   }
 
@@ -127,7 +136,7 @@ function CrudSolucionProvider ({ children }) {
     setResponseAll(null)
     const res = await get(URI_BACKEND(`solucion/getAllByProfesorUsernameAndGrupoIdByEquipos/${profesorUsername}/${grupoId}"`), token)
     if (res.status === 200) {
-      console.log(res.data)
+      // console.log(res.data)
       setResponseAll(res.data)
       // handleOpenModalPracticaForm()
     } else {
@@ -143,7 +152,7 @@ function CrudSolucionProvider ({ children }) {
     const res = await get(URI_BACKEND(`solucion/getAllByProfesorUsernameAndGrupoIdByIndividual/${profesorUsername}/${grupoId}"`), token)
     if (res.status === 200) {
       reset(res.data)
-      console.log(res.data)
+      // console.log(res.data)
       // handleOpenModalPracticaForm()
     } else {
       // console.log(res.error)
@@ -211,7 +220,7 @@ function CrudSolucionProvider ({ children }) {
 
       if (result.isConfirmed) {
         const res = await del(URI_BACKEND(`solucion/${id}`), token)
-        console.log(res)
+        // console.log(res)
         if (!res.err) {
           Swal.fire({
             title: '¡Eliminar!',

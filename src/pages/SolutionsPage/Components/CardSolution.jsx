@@ -8,10 +8,16 @@ import Grid from '@mui/material/Grid'
 import Chip from '@mui/material/Chip'
 import Tooltip from '@mui/material/Tooltip'
 import { format } from 'date-fns'
+import { useNavigate } from 'react-router-dom'
+import { ROL_STUDENT, ROL_TEACHER } from '../../../utils/environments'
+import SessionContext from '../../../context/SessionContext'
 
 export default function CardSolution ({ solucion }) {
+  const { token, rol, usernameSession } = React.useContext(SessionContext)
+  const navigate = useNavigate()
   const {
     id,
+    practicaId,
     practicaTitulo,
     practicaDescripcion,
     estudianteNombre,
@@ -22,11 +28,11 @@ export default function CardSolution ({ solucion }) {
   } = solucion
 
   const handleView = () => {
-    console.log(`/solution/view/${id}`)
-  }
-
-  const handleCalificar = () => {
-    console.log(`/solution/calificar/${id}`)
+    if (rol === ROL_TEACHER) {
+      navigate('/teacher/solution', { state: { solutionId: id, practiceId: practicaId } })
+    } else if (rol === ROL_STUDENT) {
+      navigate('/student/solution', { state: { solutionId: id, practiceId: practicaId } })
+    }
   }
 
   const getStatusChip = () => {
@@ -88,7 +94,7 @@ export default function CardSolution ({ solucion }) {
           </Button>
         </Tooltip>
         <Tooltip title='Calificar'>
-          <Button onClick={handleCalificar} size='small' variant='outlined' color='secondary'>
+          <Button onClick={handleView} size='small' variant='outlined' color='secondary'>
             Calificar
           </Button>
         </Tooltip>

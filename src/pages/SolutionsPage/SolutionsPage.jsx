@@ -6,7 +6,7 @@ import { CrudSolucionProvider } from '../../context/CrudSolucionContext'
 import TableSolutions from './Components/TableSolutions'
 import { Divider } from '@mui/material'
 
-export default function SolutionPage () {
+export default function SolutionsPage () {
   const { token, rol, usernameSession, nombreSession, email, isValidSession, validatingSession, deleteSession } = useContext(SessionContext)
   const location = useLocation()
   const { teamId } = location.state || null

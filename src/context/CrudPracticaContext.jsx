@@ -95,6 +95,19 @@ function CrudPracticaProvider ({ children }) {
     setLoading(false)
   }
 
+  async function viewPractica (id) {
+    setLoading(true)
+    const res = await get(URI_BACKEND(`practica/${id}`), token)
+    if (res.status === 200) {
+      reset(res.data)
+      // console.log(res.data)
+    } else {
+      // console.log(res.error)
+      setError(res)
+    }
+    setLoading(false)
+  }
+
   async function getAllPracticasByProfesorUsername (username) {
     setLoading(true)
     const res = await get(URI_BACKEND(`practica/getAllByProfesorUsername/${username}`), token)
@@ -294,6 +307,7 @@ function CrudPracticaProvider ({ children }) {
 
     getAllPracticas,
     getPractica,
+    viewPractica,
     getAllPracticasByProfesorUsername,
     createPractica,
     updatePractica,

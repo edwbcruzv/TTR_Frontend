@@ -20,11 +20,12 @@ import InscriptionPage from './pages/InscriptionPage/InscriptionPage'
 import UsersProtectedRoute from './pages/UsersProtectedRoute'
 import AccountPage from './pages/AccountPage/AccountPage'
 import ProfilePage from './pages/ProfilePage/ProfilePage'
-import SolutionPage from './pages/SolutionPage/SolutionPage'
 import { ThemeProvider } from 'styled-components'
 import { createTheme } from '@mui/material'
 import { useContext } from 'react'
 import { ROL_ADMIN, ROL_STUDENT, ROL_TEACHER } from './utils/environments'
+import { SolutionsPage } from './pages/SolutionsPage'
+import SolutionPage from './pages/SolutionsPage/SolutionPage/SolutionPage'
 
 const App = (props) => {
   const { rol, darkMode } = useContext(SessionContext)
@@ -117,7 +118,8 @@ const App = (props) => {
               <Route path='practices' element={<PracticesPage />} />
               <Route path='groups' element={<GroupsPage />} />
               <Route path='group' element={<GroupPage />} />
-              <Route path='solutions' element={<SolutionPage />} />
+              <Route path='solutions' element={<SolutionsPage />} />
+              <Route path='solution' element={<SolutionPage />} />
             </Route>
 
             <Route path='/student' element={<StudentProtectedRoute />}>
@@ -125,7 +127,8 @@ const App = (props) => {
               <Route path='practices' element={<PracticesPage />} />
               <Route path='teams' element={<TeamsPage />} />
               <Route path='inscriptions' element={<InscriptionPage />} />
-              <Route path='solutions' element={<SolutionPage />} />
+              <Route path='solutions' element={<SolutionsPage />} />
+              <Route path='solution' element={<SolutionPage />} />
 
             </Route>
 

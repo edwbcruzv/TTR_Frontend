@@ -38,7 +38,7 @@ export const helperAXIOS = () => {
         return response
       }
     } catch (error) {
-      console.log(error)
+      // console.log(error)
       if (error.response) {
         // La solicitud fue hecha, pero el servidor respondió con un código de estado que no está en el rango de 2xx
         return {
