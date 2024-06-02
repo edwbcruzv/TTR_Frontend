@@ -1,11 +1,8 @@
 import { Box, Grid, TextField, Button } from '@mui/material'
 import React, { useContext, useEffect, useState } from 'react'
 import CrudPracticaContext from '../../../context/CrudPracticaContext'
-import EditorHTML from './EditorHTML'
 import UploadMultimediaList from '../../../components/Multimedia/UploadMultimediaList'
-
 import SessionContext from '../../../context/SessionContext'
-import Swal from 'sweetalert2'
 import '../../../styles/dashborad.css'
 import RubricForm from './RubricForm'
 
@@ -78,7 +75,7 @@ export default function FormPractice () {
         <Grid item xs={10}>
 
           <UploadMultimediaList name='recursosMultimedia' setValue={setValue} uploadedFilesIds={uploadedFilesIds} setUploadedFilesIds={setUploadedFilesIds} />
-          {/* <EditorHTML /> */}
+
         </Grid>
         <Grid item xs={10}><TextField fullWidth multiline rows={5} {...register('comentarios', { required: { value: true, message: 'Es requerido' } })} id='comentarios' label='Comentarios' type='text' variant='outlined' error={errors.comentarios} helperText={(errors.comentarios) && errors.comentarios.message} /></Grid>
         <Grid item xs={10}>

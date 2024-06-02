@@ -15,9 +15,12 @@ export default function SolutionPage () {
       <CrudPracticaProvider>
         <PracticeView practiceId={practiceId} />
       </CrudPracticaProvider>
+
       <CrudSolucionProvider>
+
         <SolutionForm solutionId={solutionId} />
       </CrudSolucionProvider>
+
     </>
 
   )

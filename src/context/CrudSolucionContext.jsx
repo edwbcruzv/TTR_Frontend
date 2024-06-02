@@ -4,6 +4,7 @@ import { useForm } from 'react-hook-form'
 import SessionContext from './SessionContext'
 import { URI_BACKEND } from '../utils/environments'
 import Swal from 'sweetalert2'
+import { DataConst } from './DataProvide'
 
 const CrudSolucionContext = createContext()
 
@@ -91,8 +92,9 @@ function CrudSolucionProvider ({ children }) {
     const res = await get(URI_BACKEND(`solucion/${id}`), token)
     if (res.status === 200) {
       reset(res.data)
-      // console.log(res.data)
-      setResponseAll(res.data)
+
+      console.log(res.data)
+      setResponse(res.data)
       // handleOpenModalPracticaForm()
     } else {
       // console.log(res.error)

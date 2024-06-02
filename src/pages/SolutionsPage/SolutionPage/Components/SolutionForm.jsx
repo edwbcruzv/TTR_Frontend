@@ -1,6 +1,8 @@
 import React, { useContext, useEffect } from 'react'
 import CrudSolucionContext from '../../../../context/CrudSolucionContext'
 import { Box, Grid, TextField } from '@mui/material'
+import Home from '../../../../components/Editor/Home'
+import { DataConst } from '../../../../context/DataProvide'
 
 export default function SolutionForm ({ solutionId }) {
   const {
@@ -52,6 +54,10 @@ export default function SolutionForm ({ solutionId }) {
         alignContent='stretch'
         wrap='wrap'
       />
+
+      <Grid item>
+        <Home />
+      </Grid>
 
       <Grid item xs={10}><TextField fullWidth multiline rows={5} {...register('conclusion', { required: { value: true, message: 'Es requerido' } })} id='descripcion' label='Introduccion' type='text' variant='outlined' error={errors.descripcion} helperText={(errors.descripcion) && errors.descripcion.message} /></Grid>
 

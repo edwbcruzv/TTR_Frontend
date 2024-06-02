@@ -1,0 +1,28 @@
+.CodeMirror {
+  height: 340px !important;
+  color: #fff;
+  font-size: 1.4rem;
+}
+
+.CodeMirror-gutters {
+  background: #1d1e22 !important;
+}
+
+.CodeMirror-scroll {
+  background: #1d1e22;
+}
+
+
+.Editor{
+  height: 10vh !important;
+}
+@media screen and (min-width:300px) and (max-width:1000px) {
+  .Container {
+
+    flex-direction: column;
+  }
+
+  .codemirror-wrapper {
+    min-height: 10vh;
+  }
+}
