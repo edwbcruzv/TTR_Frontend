@@ -7,9 +7,8 @@ import { useContext } from 'react'
 import CrudInscripcionContext from '../../../context/CrudInscripcionContext'
 import { Box } from '@mui/material'
 
-
 const style_boton = {
-  backgroundColor : '#9d5ceb'
+  backgroundColor: '#9d5ceb'
 }
 export default function InscriptionPopover () {
   const [anchorEl, setAnchorEl] = React.useState(null)

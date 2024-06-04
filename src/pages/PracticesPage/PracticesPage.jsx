@@ -5,9 +5,10 @@ import { Divider } from '@mui/material'
 import FullScreenCreatePractice from './Components/FullScreenCreatePractice'
 import TablePractices from './Components/TablePractices'
 
-import { ROL_TEACHER } from '../../utils/environments'
+import { ROL_STUDENT, ROL_TEACHER } from '../../utils/environments'
 import SessionContext from '../../context/SessionContext'
 import { CrudSolucionProvider } from '../../context/CrudSolucionContext'
+import TableSolutions from '../SolutionsPage/Components/TableSolutions'
 
 export default function PracticesPage () {
   const { token, rol, usernameSession, nombre, email, isValid, deleteSession } = useContext(SessionContext)
@@ -20,6 +21,8 @@ export default function PracticesPage () {
 
           <Divider style={{ margin: '16px 0' }} />
           {rol === ROL_TEACHER && <TablePractices />}
+
+          {rol === ROL_STUDENT && <TableSolutions />}
 
         </CrudPracticaProvider>
       </CrudSolucionProvider>

@@ -3,7 +3,7 @@ import { Container, Typography, Table, TableBody, TableCell, TableHead, TableRow
 
 const RubricView = ({ rubricData }) => {
   const criteria = JSON.parse(rubricData)
-
+  console.log(criteria)
   return (
     <Container>
       <Typography variant='h5' gutterBottom>
@@ -19,7 +19,7 @@ const RubricView = ({ rubricData }) => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {criteria.map((criterion, index) => (
+          {criteria && criteria.map((criterion, index) => (
             <TableRow key={index}>
               <TableCell>{criterion.name}</TableCell>
               <TableCell>{criterion.percentage}</TableCell>

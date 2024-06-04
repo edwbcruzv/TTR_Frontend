@@ -93,7 +93,7 @@ function CrudSolucionProvider ({ children }) {
     if (res.status === 200) {
       reset(res.data)
 
-      console.log(res.data)
+      // console.log(res.data)
       setResponse(res.data)
       // handleOpenModalPracticaForm()
     } else {
