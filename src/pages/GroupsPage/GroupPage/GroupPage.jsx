@@ -1,7 +1,7 @@
 import React from 'react'
 import MiniDrawerFrame from '../../../components/Dashboard/MiniDrawerFrame'
 import { CrudEquipoProvider } from '../../../context/CrudEquipoContext'
-import { Divider } from '@mui/material'
+import { Box, Divider } from '@mui/material'
 import FullScreenTeamCreate from './Components/FullScreenTeamCreate'
 import TableTeams from './Components/TableTeams'
 import { useLocation } from 'react-router-dom'
@@ -14,10 +14,13 @@ export default function GroupPage () {
   return (
     <MiniDrawerFrame>
       <CrudEquipoProvider>
-        <FullScreenTeamCreate grupoId={groupId} />
-        <CrudPracticaProvider>
-          <FullScreenAsignationPractice grupoId={groupId} />
-        </CrudPracticaProvider>
+        <Box sx={{ display: 'flex', justifyContent: 'flex-start', alignItems: 'center' }}>
+
+          <FullScreenTeamCreate grupoId={groupId} />
+          <CrudPracticaProvider>
+            <FullScreenAsignationPractice grupoId={groupId} />
+          </CrudPracticaProvider>
+        </Box>
         <br />
         <Divider />
         <br />

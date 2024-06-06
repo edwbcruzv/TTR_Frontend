@@ -9,12 +9,18 @@ import Caso from '../../components/componentsLuis/Caso'
 import Footer from '../../components/componentsLuis/Footer'
 import NavBarHome from '../../components/navbars/NavBarHome'
 
-const style = {
+const modalStyle = {
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center'
+}
+
+const paperStyle = {
   position: 'absolute',
   top: '50%',
   left: '50%',
   transform: 'translate(-50%, -50%)',
-  width: 400,
+  width: 600,
   bgcolor: 'background.paper',
   border: '2px solid #000',
   boxShadow: 24,
@@ -31,6 +37,7 @@ export default function WelcomePage () {
   const [openRegister, setOpenRegister] = React.useState(false)
   const handleOpenRegister = () => setOpenRegister(true)
   const handleCloseRegister = () => setOpenRegister(false)
+
   return (
     <>
       <NavBarHome
@@ -49,8 +56,9 @@ export default function WelcomePage () {
             onClose={handleCloseLogin}
             aria-labelledby='modal-modal-title'
             aria-describedby='modal-modal-description'
+            style={modalStyle}
           >
-            <Box sx={style}>
+            <Box sx={paperStyle}>
               <FormLogin />
             </Box>
           </Modal>
@@ -60,9 +68,9 @@ export default function WelcomePage () {
             onClose={handleCloseRegister}
             aria-labelledby='modal-modal-title'
             aria-describedby='modal-modal-description'
+            style={modalStyle}
           >
-
-            <Box sx={style}>
+            <Box sx={paperStyle}>
               <FormRegister />
             </Box>
           </Modal>

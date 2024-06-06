@@ -88,6 +88,7 @@ function CrudPracticaProvider ({ children }) {
       reset(res.data)
       // console.log(res.data)
       handleOpenModalPracticaForm()
+      setResponse(res.data)
     } else {
       // console.log(res.error)
       setError(res)
@@ -100,7 +101,7 @@ function CrudPracticaProvider ({ children }) {
     const res = await get(URI_BACKEND(`practica/${id}`), token)
     if (res.status === 200) {
       reset(res.data)
-      // console.log(res.data)
+      console.log(res.data)
     } else {
       // console.log(res.error)
       setError(res)

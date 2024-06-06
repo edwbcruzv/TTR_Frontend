@@ -7,7 +7,7 @@ const RubricView = ({ rubricData }) => {
   return (
     <Container>
       <Typography variant='h5' gutterBottom>
-        Vista del Alumno - Rúbrica
+        Evaluación
       </Typography>
       <Table>
         <TableHead>

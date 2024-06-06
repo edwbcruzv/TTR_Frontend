@@ -288,7 +288,7 @@ export default function MiniDrawerFrame ({ children }) {
             {darkMode ? <Brightness7Icon /> : <Brightness4Icon />}
           </IconButton>
           <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
-            {rol === ROL_TEACHER && <>
+            {/* {rol === ROL_TEACHER && <>
               <IconButton
                 size='large'
                 aria-label='Nuevo Caso'
@@ -307,7 +307,7 @@ export default function MiniDrawerFrame ({ children }) {
               >
                 <AddIcon />
               </IconButton>
-                                    </>}
+                                    </>} */}
             <IconButton
               size='large'
               edge='end'

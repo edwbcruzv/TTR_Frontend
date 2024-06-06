@@ -5,11 +5,12 @@ import {
   Button,
   CircularProgress,
   Grid,
-  TextField
+  TextField,
+  Typography,
+  Box
 } from '@mui/material'
-
-import '../../styles/forms.css'
 import { AuthContext } from '../../context/AuthContext'
+import '../../styles/forms.css'
 
 const FormLogin = () => {
   const {
@@ -35,78 +36,98 @@ const FormLogin = () => {
   } = useContext(AuthContext)
 
   useEffect(() => {
-    console.log('Responsennnnn: ', response)
+    console.log('Response: ', response)
   }, [response])
 
   function onSubmit (data) {
-    console.log(data)
+    // console.log(data)
     login(data)
   }
 
   return (
-    <form
-      component='form'
-      onSubmit={handleSubmit(onSubmit)}
-
+    <Box
+      sx={{
+        display: 'flex',
+        justifyContent: 'center'
+      }}
     >
-      <Grid
-        container
-        spacing={1}
-        direction='column'
-        justifyContent='center'
-        alignItems='center'
-        alignContent='center'
-        wrap='wrap'
+      <Box
+        component='form'
+        onSubmit={handleSubmit(onSubmit)}
+        sx={{
+          width: 500,
+          padding: 3,
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          backgroundColor: 'background.paper'
+        }}
       >
-        <h2>Inicia sesión</h2>
-        <Grid>
-          <TextField
-            {...register('username', {
-              required: { value: true, message: 'Es requerido' }
-            })}
-            id='username'
-            label='Username'
-            type='text'
-            error={errors.username}
-            helperText={errors.username && errors.username.message}
-
-            placeholder='Nombre de usuario'
-          />
-          <i class='fa-solid fa-user' />
+        <Typography variant='h5' component='h2' gutterBottom>
+          Inicia sesión
+        </Typography>
+        <Grid container spacing={2} direction='column'>
+          <Grid item>
+            <TextField
+              {...register('username', {
+                required: { value: true, message: 'Es requerido' }
+              })}
+              id='username'
+              label='Nombre de usuario'
+              type='text'
+              fullWidth
+              error={!!errors.username}
+              helperText={errors.username && errors.username.message}
+            />
+          </Grid>
+          <Grid item>
+            <TextField
+              {...register('password', {
+                required: { value: true, message: 'Es requerido' }
+              })}
+              id='password'
+              label='Contraseña'
+              type='password'
+              fullWidth
+              error={!!errors.password}
+              helperText={errors.password && errors.password.message}
+            />
+          </Grid>
+          <Grid item>
+            <Button
+              variant='contained'
+              color='primary'
+              type='submit'
+              fullWidth
+            >
+              Acceder
+            </Button>
+          </Grid>
+          {loading && (
+            <Grid item>
+              <CircularProgress color='inherit' />
+            </Grid>
+          )}
+          <Grid item>
+            <Button
+              className='btn-recover'
+              onClick={() => recoveryByEmail()}
+              fullWidth
+            >
+              ¿Haz olvidado tu contraseña?. Da clic aquí
+            </Button>
+          </Grid>
+          {error && (
+            <Grid item>
+              <Alert severity='error'>
+                <AlertTitle>Error</AlertTitle>
+                Mensaje: <strong>{error.statusText}</strong>
+              </Alert>
+            </Grid>
+          )}
         </Grid>
-        <Grid>
-          <TextField
-            {...register('password', {
-              required: { value: true, message: 'Es requerido' }
-            })}
-            id='password'
-            label='Contraseña'
-            type='password'
-            error={errors.password}
-            helperText={errors.password && errors.password.message}
-
-            placeholder='Contraseña'
-          />
-          <i class='fa-solid fa-lock' />
-        </Grid>
-        <Button
-          variant='outlined'
-          color='primary'
-          type='submit'
-        >
-          Acceder
-        </Button>
-        {!loading || <CircularProgress color='inherit' />}
-        <Button className='btn-recover'>¿Haz olvidado tu contraseña?. Da clic aquí</Button>
-        {error && (
-          <Alert severity='error'>
-            <AlertTitle>Error</AlertTitle>
-            Mensaje: <strong>{response.error}</strong>
-          </Alert>
-        )}
-
-      </Grid>
-    </form>
+      </Box>
+    </Box>
   )
 }
 

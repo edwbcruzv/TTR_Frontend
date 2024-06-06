@@ -8,25 +8,11 @@ function TableTeams ({ grupoId }) {
     response,
     error,
     loading,
-
-    register,
-    handleSubmit,
-    watch,
-    reset,
-    setValue,
-    getValues,
-    errors,
-
-    getEquipo,
-    getAllEquipoByGrupoId,
-    createEquipo,
-    updateEquipo,
-    deleteEquipo
+    getAllEquipoByGrupoId
   } = useContext(CrudEquipoContext)
 
   useEffect(() => {
     getAllEquipoByGrupoId(grupoId)
-    // console.log('Response: ', response)
   }, [])
 
   return (
@@ -39,13 +25,21 @@ function TableTeams ({ grupoId }) {
       alignContent='stretch'
       wrap='wrap'
     >
-      {response && response.map((equipo, index) => <Grid key={index} item xs={12} sm={6} md={4} lg={3}><CardTeam team={equipo} /></Grid>)}
-      {loading && [, 1, 2, 3, 4, 5, 6, 7, 8].map((index) => <Grid key={index} item xs={12} sm={6} md={4} lg={3} sx={{ pt: 0.5, maxWidth: 345 }}>
-        <Skeleton variant='rectangular' width={305} height={140} />
-        <Skeleton />
-        <Skeleton width='60%' />
-      </Grid>)}
-
+      {response &&
+        response.map((equipo, index) => (
+          <Grid key={index} item xs={12} sm={6} md={4} lg={3}>
+            <CardTeam team={equipo} />
+          </Grid>
+        ))}
+      {loading &&
+        [...Array(8)].map((_, index) => (
+          <Grid key={index} item xs={12} sm={6} md={4} lg={3} sx={{ pt: 0.5, maxWidth: 345 }}>
+            <Skeleton variant='rectangular' width={305} height={140} />
+            <Skeleton />
+            <Skeleton width='60%' />
+          </Grid>
+        ))}
+      {error && <p>Error al cargar los equipos.</p>}
     </Grid>
   )
 }

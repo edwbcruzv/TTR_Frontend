@@ -5,32 +5,19 @@ import CardContent from '@mui/material/CardContent'
 import Button from '@mui/material/Button'
 import Typography from '@mui/material/Typography'
 import Grid from '@mui/material/Grid'
-import IconButton from '@mui/material/IconButton'
 import Snackbar from '@mui/material/Snackbar'
 import Tooltip from '@mui/material/Tooltip'
 import { useContext } from 'react'
 import { useNavigate } from 'react-router-dom'
-import EditIcon from '@mui/icons-material/Edit'
-import DeleteIcon from '@mui/icons-material/Delete'
-import VisibilityIcon from '@mui/icons-material/Visibility'
 import SessionContext from '../../../../context/SessionContext'
 import CrudEquipoContext from '../../../../context/CrudEquipoContext'
 import { ROL_STUDENT, ROL_TEACHER } from '../../../../utils/environments'
 
 export default function CardTeam ({ team }) {
   const { rol } = useContext(SessionContext)
-  const {
-    estudiantesUsernames, // lista
-    grupoId,
-    id,
-    nombre,
-    solucionesIds // lista
-  } = team
+  const { id, nombre, estudiantesUsernames, solucionesIds, grupoId } = team
 
-  const {
-    getEquipo,
-    deleteEquipo
-  } = useContext(CrudEquipoContext)
+  const { getEquipo, deleteEquipo } = useContext(CrudEquipoContext)
 
   const navigate = useNavigate()
   const [snackbarOpen, setSnackbarOpen] = React.useState(false)
@@ -61,7 +48,7 @@ export default function CardTeam ({ team }) {
   }
 
   return (
-    <Card sx={{ maxWidth: 345, m: 2, borderRadius: 2 }}>
+    <Card sx={{ maxWidth: 400, m: 2, borderRadius: 2 }}>
       <CardContent>
         <Grid container justifyContent='space-between' alignItems='center'>
           <Grid item>
@@ -80,21 +67,9 @@ export default function CardTeam ({ team }) {
         </Typography>
       </CardContent>
       <CardActions>
-        <Tooltip title='Editar Equipo'>
-          <IconButton onClick={handleEdit} aria-label='edit team' color='primary'>
-            <EditIcon />
-          </IconButton>
-        </Tooltip>
-        <Tooltip title='Eliminar Equipo'>
-          <IconButton onClick={handleDelete} aria-label='delete team' color='secondary'>
-            <DeleteIcon />
-          </IconButton>
-        </Tooltip>
-        <Tooltip title='Ver Prácticas'>
-          <IconButton onClick={handleClick} aria-label='view solutions' color='default'>
-            <VisibilityIcon />
-          </IconButton>
-        </Tooltip>
+        <Button onClick={handleEdit} color='primary'>Editar Equipo</Button>
+        <Button onClick={handleClick} color='secondary'>Ver Prácticas</Button>
+        <Button onClick={handleDelete} color='warning'>Eliminar Equipo</Button>
       </CardActions>
       <Snackbar
         open={snackbarOpen}

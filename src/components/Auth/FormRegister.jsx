@@ -5,11 +5,9 @@ import RadioGroup from '@mui/material/RadioGroup'
 import FormControlLabel from '@mui/material/FormControlLabel'
 import FormControl from '@mui/material/FormControl'
 import { TextField, Button, Box, Alert, AlertTitle, CircularProgress } from '@mui/material'
-// import '../../styles/forms.css'
 import { AuthContext } from '../../context/AuthContext'
 import { ROL_ADMIN, ROL_STUDENT, ROL_TEACHER } from '../../utils/environments'
 import SessionContext from '../../context/SessionContext'
-// import "../../styles/forms.css"
 
 function FormRegister () {
   const [valueRbtn, setValueRbtn] = useState(null)
@@ -48,21 +46,19 @@ function FormRegister () {
     console.log(data)
     registerUser(data)
   }
-  const style_label = () => {
 
-  }
   return (
     <Grid
       container
-      spacing={1}
+      spacing={2}
       direction='column'
       justifyContent='center'
       alignItems='center'
-      alignContent='center'
       wrap='wrap'
+      sx={{ textAlign: 'center' }}
     >
-      <Grid item>
-        <h2>Registrate</h2>
+      <Grid item xs={12}>
+        <h2>Regístrate</h2>
         <FormControl>
           <h3>¿Qué perfil ocuparás en la aplicación?</h3>
           <RadioGroup
@@ -71,7 +67,6 @@ function FormRegister () {
             name='row-radio-buttons-group'
             value={valueRbtn}
             onChange={handleChangeRadioBtn}
-
           >
             {isValidSession && rol === ROL_ADMIN && (
               <FormControlLabel
@@ -79,7 +74,6 @@ function FormRegister () {
                 value={ROL_ADMIN}
                 control={<Radio />}
                 label='Administrador'
-
               />
             )}
             {rol === ROL_TEACHER || (
@@ -90,35 +84,37 @@ function FormRegister () {
                 label='Profesor'
               />
             )}
-
             <FormControlLabel
               {...register('rol')}
               value={ROL_STUDENT}
               control={<Radio />}
               label='Estudiante'
             />
-            {/* <FormControlLabel
-          value="disabled"
-          disabled
-          control={<Radio />}
-          label="other"
-        /> */}
           </RadioGroup>
         </FormControl>
-
       </Grid>
 
-      <form component='form' onSubmit={handleSubmit(onSubmit)}>
+      <Box
+        component='form'
+        onSubmit={handleSubmit(onSubmit)}
+        sx={{
+
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          backgroundColor: 'background.paper'
+        }}
+      >
+
         <Grid
           container
-          spacing={1}
+          spacing={2}
           direction='row'
           justifyContent='center'
-          alignItems='flex-start'
-          alignContent='center'
+          alignItems='center'
           wrap='wrap'
+          sx={{ width: '100%' }}
         >
-          <h4>Llena todos los campos para poder registrarte</h4>
           <Grid item xs={12} sm={6}>
             <TextField
               {...register('username', {
@@ -130,8 +126,9 @@ function FormRegister () {
               variant='outlined'
               error={errors.username}
               helperText={errors.username && errors.username.message}
-
               placeholder='Nombre de usuario'
+              fullWidth
+              sx={{ mb: 2 }}
             />
           </Grid>
           <Grid item xs={12} sm={6}>
@@ -145,8 +142,9 @@ function FormRegister () {
               variant='outlined'
               error={errors.email}
               helperText={errors.email && errors.email.message}
-
-              placeholder='Correo electronico'
+              placeholder='Correo electrónico'
+              fullWidth
+              sx={{ mb: 2 }}
             />
           </Grid>
           <Grid item xs={12} sm={12}>
@@ -160,8 +158,9 @@ function FormRegister () {
               variant='outlined'
               error={errors.nombre}
               helperText={errors.nombre && errors.nombre.message}
-
               placeholder='Nombre'
+              fullWidth
+              sx={{ mb: 2 }}
             />
           </Grid>
           <Grid item xs={12} sm={6}>
@@ -174,11 +173,10 @@ function FormRegister () {
               type='text'
               variant='outlined'
               error={errors.apellidoPaterno}
-              helperText={
-                errors.apellidoPaterno && errors.apellidoPaterno.message
-              }
-
+              helperText={errors.apellidoPaterno && errors.apellidoPaterno.message}
               placeholder='Apellido Paterno'
+              fullWidth
+              sx={{ mb: 2 }}
             />
           </Grid>
           <Grid item xs={12} sm={6}>
@@ -191,22 +189,17 @@ function FormRegister () {
               type='text'
               variant='outlined'
               error={errors.apellidoMaterno}
-              helperText={
-                errors.apellidoMaterno && errors.apellidoMaterno.message
-              }
-
-              placeholder='Apellido materno'
+              helperText={errors.apellidoMaterno && errors.apellidoMaterno.message}
+              placeholder='Apellido Materno'
+              fullWidth
+              sx={{ mb: 2 }}
             />
           </Grid>
-
           <Grid item xs={12} sm={6}>
             <TextField
               {...register('password', {
                 required: { value: true, message: 'Es requerido' },
-                minLength: {
-                  value: 8,
-                  message: 'Debe ser mayor de 8 caracteres'
-                }
+                minLength: { value: 8, message: 'Debe tener al menos 8 caracteres' }
               })}
               id='password'
               label='Contraseña'
@@ -214,76 +207,82 @@ function FormRegister () {
               variant='outlined'
               error={errors.password}
               helperText={errors.password && errors.password.message}
-
               placeholder='Contraseña'
+              fullWidth
+              sx={{ mb: 2 }}
             />
           </Grid>
-
           <Grid item xs={12} sm={6}>
             <TextField
               {...register('confirm_password', {
                 required: { value: true, message: 'Es requerido' },
                 validate: (value) =>
-                  value === watch('password') ||
-                      'las contraseñas no son los mismos'
+                  value === watch('password') || 'Las contraseñas no coinciden'
               })}
               id='confirm_password'
               label='Confirmar Contraseña'
               type='password'
               variant='outlined'
               error={errors.confirm_password}
-              helperText={
-                    errors.confirm_password && errors.confirm_password.message
-                  }
-
-              placeholder='Confirma contraseña'
+              helperText={errors.confirm_password && errors.confirm_password
+                .message}
+              placeholder='Confirmar Contraseña'
+              fullWidth
+              sx={{ mb: 2 }}
             />
           </Grid>
 
           {valueRbtn === ROL_TEACHER && (
-            <>
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  {...register('cedula')}
-                  id='cedula'
-                  label='Cedula'
-                  type='text'
-                  variant='outlined'
-                  className='TextField-data'
-                  placeholder='Cedula'
-                />
-              </Grid>
-
-            </>
+            <Grid item xs={12} sm={6}>
+              <TextField
+                {...register('cedula')}
+                id='cedula'
+                label='Cédula'
+                type='text'
+                variant='outlined'
+                className='TextField-data'
+                placeholder='Cédula'
+                fullWidth
+                sx={{ mb: 2 }}
+              />
+            </Grid>
           )}
 
           {valueRbtn === ROL_STUDENT && (
-            <>
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  {...register('boleta')}
-                  id='boleta'
-                  label='Boleta'
-                  type='text'
-                  variant='outlined'
-                  className='TextField-data'
-                  placeholder='Boleta'
-                />
-              </Grid>
-
-              {/* <Grid item><TextField {...register()} id='email' label="Email" type='text' variant='outlined' /></Grid> */}
-            </>
+            <Grid item xs={12} sm={6}>
+              <TextField
+                {...register('boleta')}
+                id='boleta'
+                label='Boleta'
+                type='text'
+                variant='outlined'
+                className='TextField-data'
+                placeholder='Boleta'
+                fullWidth
+                sx={{ mb: 2 }}
+              />
+            </Grid>
           )}
 
           {valueRbtn && (
-            <Grid item xs={12} sm={12} className='TextField-box'>
-              <button variant='outlined' color='primary' type='submit' className='btn-register'>
+            <Grid item xs={12} sm={12} sx={{ textAlign: 'center' }}>
+              <Button
+                variant='outlined'
+                color='primary'
+                type='submit'
+                className='btn-register'
+              >
                 Crear
-              </button>
+              </Button>
             </Grid>
           )}
         </Grid>
-        {loading && <Grid item xs={12} sm={12}> <CircularProgress color='inherit' /> </Grid>}
+
+        {loading && (
+          <Grid item xs={12} sm={12}>
+            <CircularProgress color='inherit' />
+          </Grid>
+        )}
 
         {error && (
           <Grid item xs={12} sm={12}>
@@ -293,7 +292,7 @@ function FormRegister () {
             </Alert>
           </Grid>
         )}
-      </form>
+      </Box>
     </Grid>
   )
 }

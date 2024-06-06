@@ -58,7 +58,7 @@ const AuthProvider = ({ children }) => {
       handleCloseModalForm()
       window.location.reload()
     } else {
-      // console.log(res)
+      console.log(res)
       setError(res)
     }
     setLoading(false)

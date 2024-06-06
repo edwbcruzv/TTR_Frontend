@@ -7,8 +7,6 @@ import PracticeView from './Components/PracticeView'
 import AppBar from '@mui/material/AppBar'
 import Toolbar from '@mui/material/Toolbar'
 import IconButton from '@mui/material/IconButton'
-import Typography from '@mui/material/Typography'
-
 import ArrowBackIcon from '@mui/icons-material/ArrowBack'
 import DataProvide from '../../../context/DataProvide'
 
@@ -19,41 +17,37 @@ export default function SolutionPage () {
   const navigate = useNavigate()
 
   const handleGoBack = () => {
-    navigate(-1)
+    navigate('/')
   }
 
   return (
     <>
       <AppBar position='sticky' color='primary'>
         <Toolbar>
-
           <IconButton
             color='inherit'
             aria-label='go back'
             onClick={handleGoBack}
             edge='start'
-            sx={{
-              marginRight: 2
-            }}
+            sx={{ marginRight: 2 }}
           >
             <ArrowBackIcon />
           </IconButton>
 
-          <Typography variant='h6' />
         </Toolbar>
       </AppBar>
       <CrudPracticaProvider>
+
         <PracticeView practiceId={practiceId} />
+
       </CrudPracticaProvider>
       <DataProvide>
-
         <CrudSolucionProvider>
 
           <SolutionForm solutionId={solutionId} />
+
         </CrudSolucionProvider>
       </DataProvide>
-
     </>
-
   )
 }
