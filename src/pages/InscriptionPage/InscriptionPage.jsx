@@ -11,9 +11,7 @@ export default function InscriptionPage () {
     <MiniDrawerFrame>
       <CrudInscripcionProvider>
         <InscriptionPopover />
-
         <Divider style={{ margin: '16px 0' }} />
-
         <TableInscriptions />
       </CrudInscripcionProvider>
     </MiniDrawerFrame>

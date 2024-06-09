@@ -18,7 +18,6 @@ import PublicProtectedRoute from './pages/PublicProtectedRoute'
 import GroupPage from './pages/GroupsPage/GroupPage/GroupPage'
 import InscriptionPage from './pages/InscriptionPage/InscriptionPage'
 import UsersProtectedRoute from './pages/UsersProtectedRoute'
-import AccountPage from './pages/AccountPage/AccountPage'
 import ProfilePage from './pages/ProfilePage/ProfilePage'
 import { ThemeProvider } from 'styled-components'
 import { createTheme } from '@mui/material'
@@ -26,6 +25,7 @@ import { useContext } from 'react'
 import { ROL_ADMIN, ROL_STUDENT, ROL_TEACHER } from './utils/environments'
 import { SolutionsPage } from './pages/SolutionsPage'
 import SolutionPage from './pages/SolutionsPage/SolutionPage/SolutionPage'
+import IndividualsPage from './pages/IndividualsPage/IndividualsPage'
 
 const App = (props) => {
   const { rol, darkMode } = useContext(SessionContext)
@@ -109,7 +109,8 @@ const App = (props) => {
               <Route index element={<HomeAdminPage />} />
               <Route path='users' element={<UsersPage />} />
               <Route path='groups' element={<GroupsPage />} />
-              <Route path='group' element={<GroupPage />} />
+              {/* por ahora el administrador no podra administrar el grupo  */}
+              {/* <Route path='group' element={<GroupPage />} /> */}
               <Route path='practices' element={<PracticesPage />} />
             </Route>
 
@@ -124,10 +125,10 @@ const App = (props) => {
 
             <Route path='/student' element={<StudentProtectedRoute />}>
               <Route index element={<HomeStudentPage />} />
-              <Route path='practices' element={<PracticesPage />} />
+              {/* <Route path='practices' element={<PracticesPage />} /> */}
               <Route path='teams' element={<TeamsPage />} />
               <Route path='inscriptions' element={<InscriptionPage />} />
-              <Route path='solutions' element={<SolutionsPage />} />
+              <Route path='individuals' element={<IndividualsPage />} />
               <Route path='solution' element={<SolutionPage />} />
 
             </Route>
@@ -135,7 +136,6 @@ const App = (props) => {
             <Route path='/' element={<UsersProtectedRoute />}>
               <Route path='config' element={<ConfigPage />} />
               <Route path='profile' element={<ProfilePage />} />
-              <Route path='account' element={<AccountPage />} />
 
             </Route>
 

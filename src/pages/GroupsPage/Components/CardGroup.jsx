@@ -15,8 +15,30 @@ import ModalViewStudents from './ModalViewStudents'
 import { ROL_ADMIN, ROL_TEACHER } from '../../../utils/environments'
 import SessionContext from '../../../context/SessionContext'
 import copy from 'clipboard-copy'
+import CrudGrupoContext from '../../../context/CrudGrupoContext'
 
 export default function CardGroup ({ group }) {
+  const {
+    response,
+    error,
+    loading,
+    register,
+    handleSubmit,
+    watch,
+    reset,
+    setValue,
+    getValues,
+    errors,
+    openModalForm,
+    handleOpenModalForm,
+    handleCloseModalForm,
+    getAllGrupos,
+    getGrupo,
+    getAllGruposByProfesorUsername,
+    createGrupo,
+    updateGrupo,
+    deleteGrupo
+  } = React.useContext(CrudGrupoContext)
   const { rol } = React.useContext(SessionContext)
   const {
     id,
@@ -32,7 +54,7 @@ export default function CardGroup ({ group }) {
 
   const handleGroup = () => {
     const route = rol === ROL_TEACHER ? '/teacher/group' : '/admin/group'
-    navigate(route, { state: { groupId: id } })
+    navigate(route, { state: { groupId: id, groupLabel: clave + ' - ' + nombre } })
   }
 
   const [open, setOpen] = React.useState(false)
@@ -51,13 +73,13 @@ export default function CardGroup ({ group }) {
   const numEstudiantes = estudiantesUsernames ? estudiantesUsernames.length : 0
 
   return (
-    <Card sx={{ maxWidth: 345, m: 2, borderRadius: 2 }}>
+    <Card sx={{ maxWidth: 350, m: 2, borderRadius: 2 }}>
       <CrudInscripcionProvider>
         <ModalViewStudents groupId={id} open={open} setOpen={setOpen} />
       </CrudInscripcionProvider>
       <CardContent>
-        <Grid container justifyContent='space-between' alignItems='center'>
-          <Grid item xs={8}>
+        <Grid container spacing={2}>
+          <Grid item xs={12} sm={8}>
             <Typography gutterBottom variant='h5' component='div' sx={{ fontWeight: 'bold', color: 'primary.main' }}>
               {clave}
             </Typography>
@@ -65,30 +87,51 @@ export default function CardGroup ({ group }) {
               {nombre}
             </Typography>
           </Grid>
-          <Grid item xs={4} container justifyContent='flex-end'>
+          <Grid item xs={12} sm={4} container justifyContent='flex-end'>
             <Tooltip title='Copiar Código'>
               <IconButton size='small' onClick={handleCopyCode} aria-label='copy code'>
                 <ContentCopyIcon fontSize='small' />
               </IconButton>
             </Tooltip>
           </Grid>
+          <Grid item xs={12}>
+            <Typography variant='body1' color='text.secondary'>
+              Código: {codigo}
+            </Typography>
+            <Typography variant='body2' color='text.secondary'>
+              Profesor: {profesorNombre}
+            </Typography>
+            <Typography variant='body2' color='text.secondary'>
+              Equipos: {numEquipos}
+            </Typography>
+            <Typography variant='body2' color='text.secondary'>
+              Estudiantes: {numEstudiantes}
+            </Typography>
+          </Grid>
         </Grid>
-        <Typography variant='body1' color='text.secondary'>
-          Código: {codigo}
-        </Typography>
-        <Typography variant='body2' color='text.secondary'>
-          Profesor: {profesorNombre}
-        </Typography>
-        <Typography variant='body2' color='text.secondary'>
-          Equipos: {numEquipos}
-        </Typography>
-        <Typography variant='body2' color='text.secondary'>
-          Estudiantes: {numEstudiantes}
-        </Typography>
       </CardContent>
       <CardActions>
-        <Button size='small' onClick={handleGroup} variant='contained' color='primary'>Administrar</Button>
-        <Button size='small' onClick={handleOpen} variant='outlined' color='secondary'>Alumnos</Button>
+        <Grid container spacing={2}>
+          {rol === ROL_TEACHER && (
+            <Grid item xs={12} sm={12}>
+              <Button onClick={handleGroup} variant='contained' color='primary'>
+                Administrar
+              </Button>
+            </Grid>
+          )}
+          <Grid item xs={12} sm={12}>
+            <Button onClick={handleOpen} variant='outlined' color='secondary'>
+              Alumnos Inscritos
+            </Button>
+          </Grid>
+          {rol === ROL_ADMIN && (
+            <Grid item xs={12} sm={12}>
+              <Button onClick={() => deleteGrupo(id)} variant='contained' color='warning'>
+                Eliminar
+              </Button>
+            </Grid>
+          )}
+        </Grid>
       </CardActions>
       <Snackbar
         open={snackbarOpen}

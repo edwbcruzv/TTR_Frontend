@@ -26,16 +26,6 @@ export default function UploadMultimediaList ({ name, setValue, uploadedFilesIds
   const [error, setError] = useState([])
   const { get, post, put, patch, del } = helperAXIOS()
 
-  useEffect(() => {
-    // console.log(uploadedFilesIds)
-
-    return () => {
-      setValue(name, uploadedFilesIds)
-      console.log('bye')
-      setUploadedFilesIds([])
-    }
-  }, []) // estaba setUploadedFilesIds dentro
-
   const handleFileChange = (event) => {
     const newFiles = Array.from(event.target.files)
     if (files.length + uploadedFilesIds.length + newFiles.length > 4) {
@@ -103,7 +93,7 @@ export default function UploadMultimediaList ({ name, setValue, uploadedFilesIds
 
       {files !== null && files.length > 0 && (
         <div>
-          <h3>Archivos Pendientes</h3>
+          <h3>Archivos Pendientes (No olvide darle clicl en <span>Cargar</span>, si no, no se guardaran sus archivos)</h3>
           <ul>
             {files.map((file, index) => (
               <li

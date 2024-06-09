@@ -1,8 +1,7 @@
-import { createContext, useState } from 'react'
+import { createContext, useContext, useState } from 'react'
 import { helperAXIOS } from '../helpers/helperAXIOS'
 import { URI_BACKEND } from '../utils/environments'
 import { useForm } from 'react-hook-form'
-import { useStepContext } from '@mui/material'
 import SessionContext from './SessionContext'
 import Swal from 'sweetalert2'
 
@@ -20,7 +19,7 @@ const initialForm = {
 }
 
 function CrudProfesorProvider ({ children }) {
-  const { token, rol, usernameSession, nombreSession, email, isValidSession, validatingSession, deleteSession } = useStepContext(SessionContext)
+  const { token, rol, usernameSession, nombreSession, email, isValidSession, validatingSession, deleteSession } = useContext(SessionContext)
 
   /**
    * formulario

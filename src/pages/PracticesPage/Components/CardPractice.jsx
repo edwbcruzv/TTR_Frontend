@@ -1,8 +1,11 @@
 import React, { useContext } from 'react'
 import { Card, CardContent, Typography, Box, Button } from '@mui/material'
 import CrudPracticaContext from '../../../context/CrudPracticaContext'
+import SessionContext from '../../../context/SessionContext'
+import { ROL_TEACHER } from '../../../utils/environments'
 
 export default function CardPractice ({ practica }) {
+  const { rol, usernameSession } = useContext(SessionContext)
   const {
     deletePractica,
     getPractica
@@ -39,7 +42,7 @@ export default function CardPractice ({ practica }) {
       </CardContent>
       <Box sx={{ display: 'flex', justifyContent: 'space-between', p: 2 }}>
 
-        <Button variant='contained' color='warning' onClick={() => getPractica(practica.id)} sx={{ ml: 1 }}>Editar</Button>
+        {rol === ROL_TEACHER && <Button variant='contained' color='warning' onClick={() => getPractica(practica.id)} sx={{ ml: 1 }}>Editar</Button>}
         <Box>
           <Button variant='contained' color='error' onClick={() => deletePractica(practica.id)} sx={{ ml: 1 }}>Eliminar</Button>
         </Box>

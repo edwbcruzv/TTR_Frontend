@@ -1,4 +1,4 @@
-import { Grid, Skeleton } from '@mui/material'
+import { Grid, Skeleton, Alert, AlertTitle } from '@mui/material'
 import React, { useContext, useEffect } from 'react'
 import CardPractice from './CardPractice'
 import SessionContext from '../../../context/SessionContext'
@@ -10,7 +10,6 @@ export default function TablePractices () {
   const {
     loading,
     responseAll,
-
     getAllPracticas,
     getAllPracticasByProfesorUsername
   } = useContext(CrudPracticaContext)
@@ -33,18 +32,28 @@ export default function TablePractices () {
       alignContent='stretch'
       wrap='wrap'
     >
-      {responseAll && responseAll.map((practica, index) => (
-        <Grid key={index} item xs={12} sm={6} md={4} lg={3}>
-          <CardPractice key={index} practica={practica} />
-        </Grid>
-      ))}
-      {loading && Array.from(new Array(8)).map((_, index) => (
-        <Grid key={index} item xs={12} sm={6} md={4} lg={3}>
-          <Skeleton variant='rectangular' width='100%' height={140} />
-          <Skeleton />
-          <Skeleton width='60%' />
-        </Grid>
-      ))}
+      {responseAll && responseAll.length > 0
+        ? responseAll.map((practica, index) => (
+          <Grid key={index} item xs={12} sm={6} md={4} lg={3}>
+            <CardPractice practica={practica} />
+          </Grid>
+        ))
+
+        : loading
+          ? Array.from(new Array(12)).map((_, index) => (
+            <Grid key={index} item xs={12} sm={6} md={4} lg={3}>
+              <Skeleton variant='rectangular' width='100%' height={140} />
+              <Skeleton />
+              <Skeleton width='60%' />
+            </Grid>
+          ))
+
+          : <Grid item xs={12}>
+            <Alert severity='info'>
+              <AlertTitle>No hay prácticas registradas</AlertTitle>
+              {rol === ROL_ADMIN ? <>Los profesores aun no suben sus practicas.</> : <>¡Agrega prácticas para verlas aquí!</>}
+            </Alert>
+          </Grid>}
     </Grid>
   )
 }

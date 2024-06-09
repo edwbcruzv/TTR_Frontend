@@ -61,7 +61,7 @@ function TableAdmins () {
   } = useContext(CrudUsuarioContext)
   const headersListData = ['username', 'rol', 'email', 'nombre', 'apellidoPaterno', 'apellidoMaterno', 'fechaNacimiento', 'editar', 'eliminar']
   const headersListView = ['Username', 'Rol', 'Correo electronico', 'Nombre', 'Apellido Paterno', 'Apellido Materno', 'Fecha de nacimiento', 'Editar', 'Eliminar']
-  const [dataList, setdataList] = useState(null)
+  const [dataList, setDataList] = useState(null)
 
   const navigate = useNavigate()
   const handleProfile = (username, rol) => {
@@ -70,9 +70,15 @@ function TableAdmins () {
   }
 
   useEffect(() => {
-    getAllUsuarios()
-    if (!loading && response) {
-      // console.log(response)
+    const asyncAdmins = async () => {
+      await getAllUsuarios()
+    }
+
+    asyncAdmins()
+  }, [])
+
+  useEffect(() => {
+    if (response) {
       const data = response.map((elem) => {
         const { passwordHash, ...rest } = elem
         return {
@@ -81,9 +87,9 @@ function TableAdmins () {
           eliminar: <Button onClick={() => deleteUsuario(elem.username)} color='error'>Eliminar</Button>
         }
       })
-      setdataList(data)
+      setDataList(data)
     }
-  }, [loading])
+  }, [response, deleteUsuario])
 
   return (
     <>

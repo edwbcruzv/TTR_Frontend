@@ -6,7 +6,6 @@ import TableRow from '@mui/material/TableRow'
 import Paper from '@mui/material/Paper'
 import { Box, Button, LinearProgress, Table, TableBody, TableHead } from '@mui/material'
 import { useContext, useEffect, useState } from 'react'
-import CrudUsuarioContext from '../../../context/CrudUsuarioContext'
 import CrudProfesorContext from '../../../context/CrudProfesorContext'
 import { useNavigate } from 'react-router-dom'
 
@@ -62,16 +61,23 @@ function TableTeachers () {
   } = useContext(CrudProfesorContext)
   const headersListData = ['username', 'rol', 'email', 'nombre', 'apellidoPaterno', 'apellidoMaterno', 'fechaNacimiento', 'editar', 'eliminar']
   const headersListView = ['Username', 'Rol', 'Correo electronico', 'Nombre', 'Apellido Paterno', 'Apellido Materno', 'Fecha de nacimiento', 'Editar', 'Eliminar']
-  const [dataList, setdataList] = useState(null)
+  const [dataList, setDataList] = useState(null)
   const navigate = useNavigate()
   const handleProfile = (username, rol) => {
     // Navegar a la página de destino con argumentos
     navigate('/profile', { state: { usernameView: username, rolView: rol } })
   }
+
   useEffect(() => {
-    getAllProfesores()
-    if (!loading && response) {
-      // console.log(response)
+    const fetchProfesores = async () => {
+      await getAllProfesores()
+    }
+
+    fetchProfesores()
+  }, [])
+
+  useEffect(() => {
+    if (response) {
       const data = response.map((elem) => {
         const { passwordHash, ...rest } = elem
         return {
@@ -80,9 +86,9 @@ function TableTeachers () {
           eliminar: <Button onClick={() => deleteProfesor(elem.username)} color='error'>Eliminar</Button>
         }
       })
-      setdataList(data)
+      setDataList(data)
     }
-  }, [loading])
+  }, [response, deleteProfesor])
 
   return (
     <>

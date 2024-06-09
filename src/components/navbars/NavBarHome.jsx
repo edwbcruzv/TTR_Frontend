@@ -9,7 +9,7 @@ const NavBarHome = ({ handleOpenLogin, handleOpenRegister }) => {
   // const navigate = useNavigate()
   return (
 
-    <AppBar position='fixed' color='primary'>
+    <AppBar position='sticky' color='primary'>
       <Toolbar>
         <Typography variant='h6' sx={{ flexGrow: 1 }}>
           Bienvenido

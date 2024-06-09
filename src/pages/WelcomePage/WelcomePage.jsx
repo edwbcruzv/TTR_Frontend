@@ -1,5 +1,5 @@
 import React from 'react'
-import { Box, Grid, Modal } from '@mui/material'
+import { Box, Grid, Modal, Paper } from '@mui/material'
 import FormLogin from '../../components/Auth/FormLogin'
 import AuthProvider from '../../context/AuthContext'
 import FormRegister from '../../components/Auth/FormRegister'
@@ -45,41 +45,58 @@ export default function WelcomePage () {
         handleOpenRegister={handleOpenRegister}
       />
       <AuthProvider>
+
+        <Modal
+          open={openLogin}
+          onClose={handleCloseLogin}
+          aria-labelledby='modal-modal-title'
+          aria-describedby='modal-modal-description'
+          style={modalStyle}
+        >
+          <Box sx={paperStyle}>
+            <FormLogin />
+          </Box>
+        </Modal>
+
+        <Modal
+          open={openRegister}
+          onClose={handleCloseRegister}
+          aria-labelledby='modal-modal-title'
+          aria-describedby='modal-modal-description'
+          style={modalStyle}
+        >
+          <Box sx={paperStyle}>
+            <FormRegister />
+          </Box>
+        </Modal>
         <Grid
           container
-          justify='center'
+          justifyContent='center'
           alignItems='center'
-          style={{ minHeight: '100vh' }}
+          style={{ minHeight: '100vh', padding: '20px' }}
+          spacing={4}
         >
-          <Modal
-            open={openLogin}
-            onClose={handleCloseLogin}
-            aria-labelledby='modal-modal-title'
-            aria-describedby='modal-modal-description'
-            style={modalStyle}
-          >
-            <Box sx={paperStyle}>
-              <FormLogin />
-            </Box>
-          </Modal>
-
-          <Modal
-            open={openRegister}
-            onClose={handleCloseRegister}
-            aria-labelledby='modal-modal-title'
-            aria-describedby='modal-modal-description'
-            style={modalStyle}
-          >
-            <Box sx={paperStyle}>
-              <FormRegister />
-            </Box>
-          </Modal>
-          {/* <Fondoinicio /> */}
-          {/* <MetodoCasos /> */}
-          {/* <Caso /> */}
+          <Grid item>
+            <Paper elevation={3}>
+              <Fondoinicio />
+            </Paper>
+          </Grid>
+          <Grid item>
+            <Paper elevation={3}>
+              <MetodoCasos />
+            </Paper>
+          </Grid>
+          <Grid item>
+            <Paper elevation={3}>
+              <Caso />
+            </Paper>
+          </Grid>
+          <Grid item>
+            <Paper elevation={3}>
+              <Footer />
+            </Paper>
+          </Grid>
         </Grid>
-
-        <Footer />
       </AuthProvider>
     </>
   )

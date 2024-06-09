@@ -7,15 +7,18 @@ import { useContext } from 'react'
 import CrudInscripcionContext from '../../../context/CrudInscripcionContext'
 import { Box } from '@mui/material'
 
-const style_boton = {
-  backgroundColor: '#9d5ceb'
-}
 export default function InscriptionPopover () {
-  const [anchorEl, setAnchorEl] = React.useState(null)
   const {
     response,
     error,
     loading,
+
+    anchorEl,
+    setAnchorEl,
+
+    openModalUnirse,
+    handleOpenModalUnirse,
+    handleCloseModalUnirse,
 
     register,
     handleSubmit,
@@ -50,7 +53,7 @@ export default function InscriptionPopover () {
 
   return (
     <div>
-      <Button aria-describedby={id} variant='contained' onClick={handleClick} style={style_boton}>
+      <Button aria-describedby={id} variant='contained' onClick={handleClick}>
         unirse a un grupo
       </Button>
       <Popover

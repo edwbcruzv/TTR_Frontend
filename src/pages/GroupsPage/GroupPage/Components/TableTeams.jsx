@@ -1,19 +1,14 @@
 import React, { useContext, useEffect } from 'react'
-import { Grid, Skeleton } from '@mui/material'
+import { Grid, Skeleton, Alert, AlertTitle } from '@mui/material'
 import CardTeam from './CardTeam'
 import CrudEquipoContext from '../../../../context/CrudEquipoContext'
 
 function TableTeams ({ grupoId }) {
-  const {
-    response,
-    error,
-    loading,
-    getAllEquipoByGrupoId
-  } = useContext(CrudEquipoContext)
+  const { response, error, loading, getAllEquipoByGrupoId } = useContext(CrudEquipoContext)
 
   useEffect(() => {
     getAllEquipoByGrupoId(grupoId)
-  }, [])
+  }, [grupoId])
 
   return (
     <Grid
@@ -25,21 +20,38 @@ function TableTeams ({ grupoId }) {
       alignContent='stretch'
       wrap='wrap'
     >
-      {response &&
-        response.map((equipo, index) => (
-          <Grid key={index} item xs={12} sm={6} md={4} lg={3}>
-            <CardTeam team={equipo} />
+      {response && response.length > 0
+        ? (
+            response.map((equipo, index) => (
+              <Grid key={index} item xs={12} sm={6} md={4} lg={4} xl={3}>
+                <CardTeam team={equipo} />
+              </Grid>
+            ))
+          )
+        : !loading && (
+          <Grid item xs={12}>
+            <Alert severity='info'>
+              <AlertTitle>Sin Equipos Registrados</AlertTitle>
+              No hay equipos registrados en este grupo. Recuerte enviarles el codigo a sus alumnos para que se inscriban al grupo y poder comenzar a trabajar.
+            </Alert>
           </Grid>
-        ))}
+          )}
       {loading &&
-        [...Array(8)].map((_, index) => (
-          <Grid key={index} item xs={12} sm={6} md={4} lg={3} sx={{ pt: 0.5, maxWidth: 345 }}>
-            <Skeleton variant='rectangular' width={305} height={140} />
+        [...Array(12)].map((_, index) => (
+          <Grid key={index} item xs={12} sm={6} md={4} lg={4} xl={3}>
+            <Skeleton variant='rectangular' width='100%' height={140} />
             <Skeleton />
             <Skeleton width='60%' />
           </Grid>
         ))}
-      {error && <p>Error al cargar los equipos.</p>}
+      {error && (
+        <Grid item xs={12}>
+          <Alert severity='error'>
+            <AlertTitle>Error</AlertTitle>
+            Error al cargar los equipos. Avice al administrador de este error.
+          </Alert>
+        </Grid>
+      )}
     </Grid>
   )
 }

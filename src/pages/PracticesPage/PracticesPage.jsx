@@ -17,12 +17,12 @@ export default function PracticesPage () {
       <CrudSolucionProvider>
 
         <CrudPracticaProvider>
+          {/* solo el profesor creara practicas */}
           {rol === ROL_TEACHER && <FullScreenCreatePractice />}
 
           <Divider style={{ margin: '16px 0' }} />
-          {rol === ROL_TEACHER && <TablePractices />}
-
-          {rol === ROL_STUDENT && <TableSolutions />}
+          {/* el administrador y el profesor podran ver las practicas */}
+          <TablePractices />
 
         </CrudPracticaProvider>
       </CrudSolucionProvider>

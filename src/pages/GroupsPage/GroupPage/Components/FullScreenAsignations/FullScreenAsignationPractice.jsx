@@ -50,7 +50,7 @@ export default function FullScreenAsignationPractice ({ grupoId }) {
 
   return (
     <>
-      <Button variant='outlined' onClick={handleOpenModalAsignarPractica}>
+      <Button fullWidth variant='contained' onClick={handleOpenModalAsignarPractica}>
         Asignacion de practicas
       </Button>
       <Dialog

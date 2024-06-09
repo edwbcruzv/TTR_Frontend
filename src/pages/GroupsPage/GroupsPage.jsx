@@ -14,6 +14,7 @@ export default function GroupsPage () {
   return (
     <MiniDrawerFrame>
       <CrudGrupoProvider>
+        {/* Solo el admin vera el voton del ¿creacion de grupos */}
         {rol === ROL_ADMIN && <>
           <CrudGroupModal />
           <Divider style={{ margin: '16px 0' }} />

@@ -172,9 +172,9 @@ export default function MiniDrawerFrame ({ children }) {
       break
     case ROL_STUDENT:
       itemsBody.push(
-        { textItem: 'Practicas', path: 'student/practices', iconItem: <AssignmentLateOutlinedIcon /> },
-        { textItem: 'Equipos', path: 'student/teams', iconItem: <Diversity3OutlinedIcon /> },
-        { textItem: 'Grupos', path: 'student/inscriptions', iconItem: <GroupsOutlinedIcon /> }
+        { textItem: 'Inscripciones', path: 'student/inscriptions', iconItem: <GroupsOutlinedIcon /> },
+        { textItem: 'Practicas en equipo', path: 'student/teams', iconItem: <Diversity3OutlinedIcon /> },
+        { textItem: 'Practicas individuales', path: 'student/individuals', iconItem: <AssignmentLateOutlinedIcon /> }
       )
       break
     default:
@@ -242,9 +242,11 @@ export default function MiniDrawerFrame ({ children }) {
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
-      <MenuItem onClick={handleProfile}>Perfil</MenuItem>
-      <MenuItem onClick={() => onClickItemMenu('account')}>Cuenta</MenuItem>
-      <MenuItem onClick={() => deleteSession()}>Salir</MenuItem>
+      {/* <MenuItem onClick={handleProfile}>Perfil</MenuItem>
+      <MenuItem onClick={() => onClickItemMenu('account')}>Cuenta</MenuItem> */}
+      <MenuItem onClick={() => deleteSession()} />
+      <MenuItem onClick={() => deleteSession()}>Cerrar sesión</MenuItem>
+      <MenuItem onClick={() => deleteSession()} />
     </Menu>
   )
 

@@ -23,7 +23,7 @@ export default function FormPractice () {
     updatePractica
   } = useContext(CrudPracticaContext)
 
-  const [uploadedFilesIds, setUploadedFilesIds] = useState(watch('recursosMultimedia') ? watch('recursosMultimedia') : [])
+  const [uploadedFilesIds, setUploadedFilesIds] = useState(watch('recursosMultimedia'))
 
   function onSubmit (data) {
     data.usernameProfesor = usernameSession
@@ -37,9 +37,7 @@ export default function FormPractice () {
   }
 
   useEffect(() => {
-    return () => {
-      setUploadedFilesIds([])
-    }
+    console.log(uploadedFilesIds)
   }, [])
 
   return (

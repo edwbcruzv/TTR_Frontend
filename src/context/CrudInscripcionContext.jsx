@@ -50,15 +50,7 @@ function CrudInscripcionProvider ({ children }) {
   /**
     * Modal1
     */
-  const [openModalForm, setOpenModalForm] = useState(false)
-  const handleOpenModalForm = () => {
-    setOpenModalForm(true)
-  }
-  const handleCloseModalForm = () => {
-    // console.log('cerrando')
-    setOpenModalForm(false)
-    reset(initialForm)
-  }
+  const [anchorEl, setAnchorEl] = useState(null)
 
   /**
    * Peticiones a la API
@@ -68,28 +60,26 @@ function CrudInscripcionProvider ({ children }) {
     setLoading(true)
     const res = await get(URI_BACKEND(`inscripcion/grupo/${grupoId}/estudiante/${username}`), token)
     if (res.status === 200) {
-      setLoading(false)
       // console.log(res.data)
       setResponse(res.data)
     } else {
       // console.log(res.error)
-      setLoading(false)
       setError(res)
     }
+    setLoading(false)
   }
 
   async function getAllInscripcionesByGrupoId (id) {
     setLoading(true)
     const res = await get(URI_BACKEND(`inscripcion/getAllByGrupoId/${id}`), token)
     if (res.status === 200) {
-      setLoading(false)
       // console.log(res.data)
       setResponse(res.data)
     } else {
       // console.log(res.error)
-      setLoading(false)
       setError(res)
     }
+    setLoading(false)
   }
 
   async function getAllInscripcionesByEstudianteUsername (username) {
@@ -101,15 +91,15 @@ function CrudInscripcionProvider ({ children }) {
       setResponse(res.data)
     } else {
       setError(res)
-      setLoading(false)
     }
+    setLoading(false)
   }
 
   async function createInscripcion (data) {
     setLoading(true)
     const res = await post(URI_BACKEND('inscripcion'), data, token)
+    setAnchorEl(null)
     if (res.status === 200) {
-      setLoading(false)
       Swal.fire({
 
         icon: 'success',
@@ -136,19 +126,18 @@ function CrudInscripcionProvider ({ children }) {
     setLoading(true)
     const res = await patch(URI_BACKEND('inscripcion'), data, token)
     if (res.status === 200) {
-      setLoading(false)
       // console.log(res.data)
       setResponse(res.data)
     } else {
       // console.log(res.error)
-      setLoading(false)
       setError(res)
     }
+    setLoading(false)
   }
 
   async function deleteInscripcion (grupoId, username, nombre) {
     setLoading(true)
-
+    // console.log(grupoId, username, nombre)
     setError(null)
     try {
       const result = await Swal.fire({
@@ -162,6 +151,7 @@ function CrudInscripcionProvider ({ children }) {
       })
 
       if (result.isConfirmed) {
+        // console.log(grupoId, username, nombre)
         const res = await del(URI_BACKEND(`inscripcion/grupo/${grupoId}/estudiante/${username}`), token)
         // console.log(res)
         if (!res.err) {
@@ -196,6 +186,9 @@ function CrudInscripcionProvider ({ children }) {
     response,
     error,
     loading,
+
+    anchorEl,
+    setAnchorEl,
 
     register,
     handleSubmit,

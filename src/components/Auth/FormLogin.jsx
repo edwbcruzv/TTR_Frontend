@@ -11,6 +11,7 @@ import {
 } from '@mui/material'
 import { AuthContext } from '../../context/AuthContext'
 import '../../styles/forms.css'
+import { useNavigate } from 'react-router-dom'
 
 const FormLogin = () => {
   const {
@@ -34,6 +35,8 @@ const FormLogin = () => {
     registerUser,
     recoveryByEmail
   } = useContext(AuthContext)
+
+  const navigate = useNavigate()
 
   useEffect(() => {
     console.log('Response: ', response)
@@ -111,7 +114,7 @@ const FormLogin = () => {
           <Grid item>
             <Button
               className='btn-recover'
-              onClick={() => recoveryByEmail()}
+              onClick={() => navigate('/recovery')}
               fullWidth
             >
               ¿Haz olvidado tu contraseña?. Da clic aquí

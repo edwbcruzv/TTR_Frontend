@@ -3,6 +3,7 @@ import { helperAXIOS } from '../helpers/helperAXIOS'
 import { ROL_ADMIN, ROL_TEACHER, URI_BACKEND } from '../utils/environments'
 import { useForm } from 'react-hook-form'
 import SessionContext from './SessionContext'
+import Swal from 'sweetalert2'
 
 const CrudGrupoContext = createContext()
 
@@ -125,15 +126,52 @@ function CrudGrupoProvider ({ children }) {
 
   async function deleteGrupo (id) {
     setLoading(true)
-    const res = await del(URI_BACKEND(`grupo/${id}`), token)
-    if (res.status === 200) {
-      // console.log(res)
-      setResponse(res.data)
-    } else {
-      // console.log(res.error)
-      setError(res)
+    setError(null)
+    try {
+      const result = await Swal.fire({
+        title: '¿Esta seguro que desea eliminar a este grupo?',
+        text: 'Esta decisión es irreversible',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Si,¡Eliminar!'
+      })
+
+      if (result.isConfirmed) {
+        const res = await del(URI_BACKEND(`grupo/${id}`), token)
+        // console.log(res)
+        if (!res.err) {
+          Swal.fire({
+            title: '¡Eliminar!',
+            text: 'El grupo a sido Eliminado ',
+            icon: 'success'
+          })
+        } else {
+          Swal.fire({
+            title: 'Error al eliminar',
+            text: `Error: ${res.statusText} (${res.status})`,
+            icon: 'error'
+          })
+          setError(res)
+        }
+
+        if (rol === ROL_ADMIN) {
+          await getAllGrupos()
+        } else if (rol === ROL_TEACHER) {
+          await getAllGruposByProfesorUsername(usernameSession)
+        }
+      }
+    } catch (err) {
+      Swal.fire({
+        title: 'Error al eliminar, intentelo mas tarde',
+        text: `Error: ${err}`,
+        icon: 'error'
+      })
+      setError(err)
+    } finally {
+      setLoading(false)
     }
-    setLoading(false)
   }
 
   const data = {

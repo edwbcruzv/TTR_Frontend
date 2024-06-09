@@ -1,7 +1,9 @@
-import { useState, createContext } from 'react'
+import { useState, createContext, useContext } from 'react'
 import { useForm } from 'react-hook-form'
 import { ROL_ADMIN, ROL_STUDENT, ROL_TEACHER, URI_BACKEND } from '../utils/environments'
 import { helperAXIOS } from '../helpers/helperAXIOS'
+import SessionContext from './SessionContext'
+import Swal from 'sweetalert2'
 
 const AuthContext = createContext()
 
@@ -19,6 +21,7 @@ const initialForm = {
 }
 
 const AuthProvider = ({ children }) => {
+  const { token, rol, usernameSession, nombreSession, email, isValidSession, validatingSession, deleteSession } = useContext(SessionContext)
   /**
    * formulario
    */
@@ -84,16 +87,45 @@ const AuthProvider = ({ children }) => {
         break
     }
 
-    if (res.status === 200) {
-      // console.log(res)
-      setResponse(res)
-      handleCloseModalForm()
-      window.localStorage.setItem('session', JSON.stringify(res.data))
-      window.location.reload()
-    } else {
-      // console.log(res)
-      setError(res)
+    try {
+      if (res.status === 200 && isValidSession) {
+        setResponse(res.data)
+        handleCloseModalForm()
+        Swal.fire({
+          title: '¡Usuario registrado!',
+          text: 'El usuario ya puede iniciar sesion.',
+          icon: 'success',
+          timer: 2000
+        })
+        window.location.reload()
+      } else if (res.status === 200 && !isValidSession) {
+        setResponse(res.data)
+        handleCloseModalForm()
+        Swal.fire({
+          title: '¡Se ha registrado correctamente!',
+          text: 'Redireccionando, espere .',
+          icon: 'success',
+          timer: 6000,
+          timerProgressBar: true
+        })
+        window.localStorage.setItem('session', JSON.stringify(res.data))
+        window.location.reload()
+      } else {
+        setError(res)
+        Swal.fire({
+          title: 'Error al intentar registrarse',
+          text: `Error: ${res.statusText} (${res.status})`,
+          icon: 'error'
+        })
+      }
+    } catch (err) {
+      Swal.fire({
+        title: 'Error en el sistema',
+        text: `Error: ${err} (${err})`,
+        icon: 'error'
+      })
     }
+
     setLoading(false)
     // window.location.reload();
   }

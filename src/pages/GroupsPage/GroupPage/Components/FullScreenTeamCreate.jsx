@@ -48,19 +48,13 @@ const FullScreenTeamCreate = ({ grupoId }) => {
 
   return (
     <>
-      <Grid
-        container
-        spacing={0}
-        direction='row'
-        justifyContent='space-between'
-        alignItems='center'
-        alignContent='center'
-      >
-        <Button variant='outlined' onClick={handleOpenModalForm}>
-          Crear Equipo
-        </Button>
-        {/* <HelpTooltip text='Aqui se muestran los grupos del semestre en curso.' /> */}
-      </Grid>
+
+      <Button fullWidth variant='contained' onClick={handleOpenModalForm}>
+        Crear Equipo
+      </Button>
+
+      {/* <HelpTooltip text='Aqui se muestran los grupos del semestre en curso.' /> */}
+
       <Dialog
         fullScreen
         open={openModalForm}
