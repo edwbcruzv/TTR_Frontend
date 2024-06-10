@@ -9,7 +9,7 @@ function Home () {
   return (
     <>
       <Paper elevation={3} sx={{ padding: 2, marginBottom: 2 }}>
-        <Header />
+        {/* <Header /> */}
         <Code />
       </Paper>
       <Paper elevation={3} sx={{ padding: 2, marginBottom: 2 }}>

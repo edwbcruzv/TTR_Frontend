@@ -26,7 +26,7 @@ const Head = styled(Box)`
 const Header = styled(Box)`
   display: flex;
   justify-content: space-between;
-  background: #060606;
+  background: #ffffff;
   color: #aaaebc;
   font-weight: 700;
 `
