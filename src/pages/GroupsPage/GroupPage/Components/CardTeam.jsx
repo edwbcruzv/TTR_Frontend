@@ -25,9 +25,9 @@ export default function CardTeam ({ team }) {
 
   const handleClick = () => {
     if (rol === ROL_TEACHER) {
-      navigate('/teacher/solutions', { state: { teamId: team.id } })
+      navigate('/teacher/solutions', { state: { equipo: team } })
     } else if (rol === ROL_STUDENT) {
-      navigate('/student/solutions', { state: { teamId: team.id } })
+      navigate('/student/solutions', { state: { equipo: team } })
     }
   }
 
@@ -67,9 +67,10 @@ export default function CardTeam ({ team }) {
         </Typography>
       </CardContent>
       <CardActions>
-        <Button onClick={handleEdit} color='primary'>Editar Equipo</Button>
+
+        {rol === ROL_TEACHER && <Button onClick={handleEdit} color='primary'>Editar Equipo</Button>}
         <Button onClick={handleClick} color='secondary'>Ver Prácticas</Button>
-        <Button onClick={handleDelete} color='warning'>Eliminar Equipo</Button>
+        {rol === ROL_TEACHER && <Button onClick={handleDelete} color='warning'>Eliminar Equipo</Button>}
       </CardActions>
       <Snackbar
         open={snackbarOpen}

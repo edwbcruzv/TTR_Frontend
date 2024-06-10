@@ -59,8 +59,8 @@ function TableStudents () {
     updateEstudiante,
     deleteEstudiante
   } = useContext(CrudEstudianteContext)
-  const headersListData = ['username', 'rol', 'email', 'nombre', 'apellidoPaterno', 'apellidoMaterno', 'fechaNacimiento', 'editar', 'eliminar']
-  const headersListView = ['Username', 'Rol', 'Correo electronico', 'Nombre', 'Apellido Paterno', 'Apellido Materno', 'Fecha de nacimiento', 'Editar', 'Eliminar']
+  const headersListData = ['username', 'rol', 'email', 'nombre', 'apellidoPaterno', 'apellidoMaterno', 'boleta', 'editar', 'eliminar']
+  const headersListView = ['Username', 'Rol', 'Correo electronico', 'Nombre', 'Apellido Paterno', 'Apellido Materno', 'Boleta', 'Editar', 'Eliminar']
   const [dataList, setDataList] = useState(null)
   const navigate = useNavigate()
   const handleProfile = (username, rol) => {

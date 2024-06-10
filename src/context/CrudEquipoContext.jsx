@@ -94,6 +94,19 @@ function CrudEquipoProvider ({ children }) {
     setLoading(false)
   }
 
+  async function getAllByEstudianteUsername (username) {
+    setLoading(true)
+    const res = await get(URI_BACKEND(`equipo/getAllByEstudianteUsername/${username}`), token)
+    if (res.status === 200) {
+      // console.log(res.data)
+      setResponse(res.data)
+    } else {
+      // console.log(res.error)
+      setError(res)
+    }
+    setLoading(false)
+  }
+
   async function setRightEstudiantesNotTeamByGroupId (id) {
     setLoading(true)
     const res = await get(URI_BACKEND(`estudiante/getAllByGroupId/${id}/NotTeam`), token)
@@ -220,6 +233,7 @@ function CrudEquipoProvider ({ children }) {
 
     getEquipo,
     getAllEquipoByGrupoId,
+    getAllByEstudianteUsername,
     setRightEstudiantesNotTeamByGroupId,
     createEquipo,
     updateEquipo,

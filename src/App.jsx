@@ -126,9 +126,10 @@ const App = (props) => {
             <Route path='/student' element={<StudentProtectedRoute />}>
               <Route index element={<HomeStudentPage />} />
               {/* <Route path='practices' element={<PracticesPage />} /> */}
-              <Route path='teams' element={<TeamsPage />} />
               <Route path='inscriptions' element={<InscriptionPage />} />
               <Route path='individuals' element={<IndividualsPage />} />
+              <Route path='teams' element={<TeamsPage />} />
+              <Route path='solutions' element={<SolutionsPage />} />
               <Route path='solution' element={<SolutionPage />} />
 
             </Route>

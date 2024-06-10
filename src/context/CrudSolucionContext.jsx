@@ -31,7 +31,6 @@ function CrudSolucionProvider ({ children }) {
    */
   const [loading, setLoading] = useState(false)
   const [response, setResponse] = useState(null)
-  const [responseAll, setResponseAll] = useState(null)
   const [error, setError] = useState(null)
   const {
     register, // el form lo usa para los inputs
@@ -76,14 +75,85 @@ function CrudSolucionProvider ({ children }) {
 
   async function getAllSoluciones () {
     setLoading(true)
-    setResponseAll(null)
+
     const res = await get(URI_BACKEND('solucion/getAll'), token)
     setLoading(false)
     if (res.status === 200) {
-      setResponseAll(res.data)
+      // console.log(res.data)
+      return res.data
     } else {
       // console.log(res.error)
-      setError(res)
+      return res
+    }
+  }
+
+  async function getAllEquipo () {
+    setLoading(true)
+
+    const res = await get(URI_BACKEND('solucion/getAllEquipo'), token)
+    setLoading(false)
+    if (res.status === 200) {
+      // console.log(res.data)
+      return res.data
+    } else {
+      // console.log(res.error)
+      return res
+    }
+  }
+
+  async function getAllIndividual () {
+    setLoading(true)
+
+    const res = await get(URI_BACKEND('solucion/getAllIndividual'), token)
+    setLoading(false)
+    if (res.status === 200) {
+      // console.log(res.data)
+      return res.data
+    } else {
+      // console.log(res.error)
+      return res
+    }
+  }
+
+  async function getAllIndividualByGrupoId (grupoId) {
+    setLoading(true)
+
+    const res = await get(URI_BACKEND(`solucion/getAllIndividualByGrupoId/${grupoId}`), token)
+    setLoading(false)
+    if (res.status === 200) {
+      // console.log(res.data)
+      return res.data
+    } else {
+      // console.log(res.error)
+      return res
+    }
+  }
+
+  async function getAllIndividualByEstudianteUsername (username) {
+    setLoading(true)
+
+    const res = await get(URI_BACKEND(`solucion/getAllIndividualByEstudianteUsername/${username}`), token)
+    setLoading(false)
+    if (res.status === 200) {
+      // console.log(res.data)
+      return res.data
+    } else {
+      // console.log(res.error)
+      return res
+    }
+  }
+
+  async function getAllEquipoByEquipoId (equipoId) {
+    setLoading(true)
+
+    const res = await get(URI_BACKEND(`solucion/getAllEquipoByEquipoId/${equipoId}`), token)
+    setLoading(false)
+    if (res.status === 200) {
+      // console.log(res.data)
+      return res.data
+    } else {
+      // console.log(res.error)
+      return res
     }
   }
 
@@ -95,66 +165,6 @@ function CrudSolucionProvider ({ children }) {
 
       // console.log(res.data)
       setResponse(res.data)
-      // handleOpenModalPracticaForm()
-    } else {
-      // console.log(res.error)
-      setError(res)
-    }
-    setLoading(false)
-  }
-
-  async function getAllSolucionesByEquipoId (equipoId) {
-    setLoading(true)
-    setResponseAll(null)
-    const res = await get(URI_BACKEND(`solucion/getAllByEquipoId/${equipoId}`), token)
-    if (res.status === 200) {
-      // console.log(res.data)
-      setResponseAll(res.data)
-      // handleOpenModalPracticaForm()
-    } else {
-      // console.log(res.error)
-      setError(res)
-    }
-    setLoading(false)
-  }
-
-  async function getAllSolucionesByEstudianteUsername (username) {
-    setLoading(true)
-    setResponseAll(null)
-    const res = await get(URI_BACKEND(`solucion/getAllByEstudianteUsername/${username}`), token)
-    if (res.status === 200) {
-      // console.log(res.data)
-      setResponseAll(res.data)
-      // handleOpenModalPracticaForm()
-    } else {
-      // console.log(res.error)
-      setError(res)
-    }
-    setLoading(false)
-  }
-
-  async function getAllSolucionesByProfesorUsernameAndGrupoIdByEquipos (profesorUsername, grupoId) {
-    setLoading(true)
-    setResponseAll(null)
-    const res = await get(URI_BACKEND(`solucion/getAllByProfesorUsernameAndGrupoIdByEquipos/${profesorUsername}/${grupoId}"`), token)
-    if (res.status === 200) {
-      // console.log(res.data)
-      setResponseAll(res.data)
-      // handleOpenModalPracticaForm()
-    } else {
-      // console.log(res.error)
-      setError(res)
-    }
-    setLoading(false)
-  }
-
-  async function getAllSolucionesByProfesorUsernameAndGrupoIdByIndividual (profesorUsername, grupoId) {
-    setLoading(true)
-    setResponseAll(null)
-    const res = await get(URI_BACKEND(`solucion/getAllByProfesorUsernameAndGrupoIdByIndividual/${profesorUsername}/${grupoId}"`), token)
-    if (res.status === 200) {
-      reset(res.data)
-      // console.log(res.data)
       // handleOpenModalPracticaForm()
     } else {
       // console.log(res.error)
@@ -258,7 +268,6 @@ function CrudSolucionProvider ({ children }) {
   const data = {
     loading,
     response,
-    responseAll,
     error,
 
     register,
@@ -278,11 +287,12 @@ function CrudSolucionProvider ({ children }) {
     handleCloseModalSolucionView,
 
     getAllSoluciones,
+    getAllEquipo,
+    getAllIndividual,
+    getAllIndividualByGrupoId,
+    getAllIndividualByEstudianteUsername,
+    getAllEquipoByEquipoId,
     getSolucion,
-    getAllSolucionesByEquipoId,
-    getAllSolucionesByEstudianteUsername,
-    getAllSolucionesByProfesorUsernameAndGrupoIdByEquipos,
-    getAllSolucionesByProfesorUsernameAndGrupoIdByIndividual,
     createSolucion,
     updateSolucion,
     deleteSolucion

@@ -4,20 +4,29 @@ import { useLocation } from 'react-router-dom'
 import SessionContext from '../../context/SessionContext'
 import { CrudSolucionProvider } from '../../context/CrudSolucionContext'
 import TableSolutions from './Components/TableSolutions'
-import { Divider } from '@mui/material'
+import { Divider, Typography } from '@mui/material'
+import { ROL_TEACHER } from '../../utils/environments'
 
 export default function SolutionsPage () {
   const { token, rol, usernameSession, nombreSession, email, isValidSession, validatingSession, deleteSession } = useContext(SessionContext)
   const location = useLocation()
-  const { teamId } = location.state || null
+  const { equipo } = location.state || null
+  const { id, nombre, estudiantesUsernames, solucionesIds, grupoId } = equipo
 
   return (
 
     <MiniDrawerFrame>
-      <Divider style={{ margin: '16px 0' }} />
-      <CrudSolucionProvider>
-        {teamId && <> <TableSolutions equipoId={teamId} /> </>}
 
+      <CrudSolucionProvider>
+        <Divider style={{ margin: '16px 0' }}> <Typography variant='h5' color='gray'>Practicas en equipo</Typography> </Divider>
+        {id && <> <TableSolutions equipoId={id} /> </>}
+
+        {rol === ROL_TEACHER &&
+          <>
+            <Divider style={{ margin: '16px 0' }}> <Typography variant='h5' color='gray'>Practicas individuales de los integrantes</Typography> </Divider>
+
+            <TableSolutions grupoId={grupoId} />
+          </>}
       </CrudSolucionProvider>
     </MiniDrawerFrame>
   )

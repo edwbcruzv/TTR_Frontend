@@ -1,22 +1,25 @@
-import * as React from 'react'
+import { useContext, useEffect, useState } from 'react'
 import Accordion from '@mui/material/Accordion'
 import AccordionDetails from '@mui/material/AccordionDetails'
 import AccordionSummary from '@mui/material/AccordionSummary'
 import Typography from '@mui/material/Typography'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
-import { Label } from '@mui/icons-material'
 import { Grid } from '@mui/material'
-import { DemoContainer, DemoItem } from '@mui/x-date-pickers/internals/demo'
 import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker'
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
+import SessionContext from '../../../../../context/SessionContext'
 
-export default function AccordionPractices () {
-  const [expanded, setExpanded] = React.useState(false)
-
+export default function AccordionPractices ({ grupoId }) {
+  const { token, rol, usernameSession, nombreSession, email, isValidSession, validatingSession, deleteSession } = useContext(SessionContext)
+  const [expanded, setExpanded] = useState(false)
   const handleChange = (panel) => (event, isExpanded) => {
     setExpanded(isExpanded ? panel : false)
   }
+
+  useEffect(() => {
+
+  }, [])
 
   return (
     <div>

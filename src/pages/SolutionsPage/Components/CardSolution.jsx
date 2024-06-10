@@ -88,16 +88,20 @@ export default function CardSolution ({ solucion }) {
         )}
       </CardContent>
       <CardActions>
-        <Tooltip title='Ver Detalles'>
-          <Button onClick={handleView} size='small' variant='contained' color='primary'>
-            Ver
-          </Button>
-        </Tooltip>
-        <Tooltip title='Calificar'>
-          <Button onClick={handleView} size='small' variant='outlined' color='secondary'>
-            Calificar
-          </Button>
-        </Tooltip>
+
+        {rol === ROL_STUDENT &&
+          <Tooltip title='Ver Detalles'>
+            <Button onClick={handleView} size='small' variant='contained' color='primary'>
+              Resolver
+            </Button>
+          </Tooltip>}
+
+        {rol === ROL_TEACHER &&
+          <Tooltip title='Calificar'>
+            <Button onClick={handleView} size='small' variant='outlined' color='secondary'>
+              Ver/Calificar
+            </Button>
+          </Tooltip>}
       </CardActions>
     </Card>
   )

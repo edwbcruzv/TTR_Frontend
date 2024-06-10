@@ -70,7 +70,7 @@ export default function FullScreenAsignationPractice ({ grupoId }) {
               <CloseIcon />
             </IconButton>
             <Typography sx={{ ml: 2, flex: 1 }} variant='h6' component='div'>
-              Sound
+              Asignacion de practicas
             </Typography>
             <Button autoFocus color='inherit' onClick={handleCloseModalAsignarPractica}>
               salir
@@ -87,7 +87,7 @@ export default function FullScreenAsignationPractice ({ grupoId }) {
         >
           <br />
           <Grid item> <ListAsyncPractices grupoId={grupoId} /> </Grid>
-          <Grid item> <AccordionPractices /> </Grid>
+          <Grid item>  <AccordionPractices grupoId={grupoId} /> </Grid>
 
         </Grid>
       </Dialog>

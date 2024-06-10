@@ -140,7 +140,7 @@ export default function ListAsyncPractices ({ grupoId }) {
               aria-labelledby='demo-row-radio-buttons-group-label'
               name='row-radio-buttons-group'
             >
-              <FormControlLabel {...register('option')} value='1' control={<Radio />} label='Todos los equipos' />
+              <FormControlLabel {...register('option')} value='1' control={<Radio />} label='En equipo' />
               <FormControlLabel {...register('option')} value='0' control={<Radio />} label='Individual' />
               {/* <FormControlLabel
             value='disabled'
