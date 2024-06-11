@@ -16,20 +16,22 @@ import {
   TableBody,
   TableCell,
   TableHead,
-  TableRow
+  TableRow,
+  Checkbox,
+  FormControlLabel
 } from '@mui/material'
 import { Add, Delete } from '@mui/icons-material'
 
 const RubricForm = ({ nameRubrica, setValue, rubrica }) => {
   const [criteria, setCriteria] = useState(JSON.parse(rubrica) || [
-    { name: '', percentage: '', levels: 2, scores: [{ value: 0, description: '' }, { value: 0, description: '' }] }
+    { name: '', percentage: '', levels: 2, scores: [{ description: '' }, { description: '' }], selectedLevel: -1 }
   ])
   const [submitted, setSubmitted] = useState(false)
 
   const handleAddCriterion = () => {
     setCriteria([
       ...criteria,
-      { name: '', percentage: '', levels: 2, scores: [{ value: 0, description: '' }, { value: 0, description: '' }] }
+      { name: '', percentage: '', levels: 2, scores: [{ description: '' }, { description: '' }], selectedLevel: -1 }
     ])
   }
 
@@ -45,13 +47,13 @@ const RubricForm = ({ nameRubrica, setValue, rubrica }) => {
     setCriteria(newCriteria)
   }
 
-  const handleScoreChange = (index, levelIndex, field, value) => {
+  const handleScoreChange = (index, levelIndex, value) => {
     const newCriteria = criteria.map((criterion, i) =>
       i === index
         ? {
             ...criterion,
             scores: criterion.scores.map((score, j) =>
-              j === levelIndex ? { ...score, [field]: value } : score
+              j === levelIndex ? { ...score, description: value } : score
             )
           }
         : criterion
@@ -65,17 +67,19 @@ const RubricForm = ({ nameRubrica, setValue, rubrica }) => {
         ? {
             ...criterion,
             levels: value,
-            scores: Array(value).fill({ value: 0, description: '' })
+            scores: Array(value).fill({ description: '' }),
+            selectedLevel: -1
           }
         : criterion
     )
     setCriteria(newCriteria)
   }
 
-  function resetCriteria () {
-    setCriteria([
-      { name: '', percentage: '', levels: 2, scores: [{ value: 0, description: '' }, { value: 0, description: '' }] }
-    ])
+  const handleLevelSelect = (criterionIndex, levelIndex) => {
+    const newCriteria = criteria.map((criterion, i) =>
+      i === criterionIndex ? { ...criterion, selectedLevel: levelIndex } : criterion
+    )
+    setCriteria(newCriteria)
   }
 
   const handleSubmit = () => {
@@ -85,6 +89,10 @@ const RubricForm = ({ nameRubrica, setValue, rubrica }) => {
     )
     if (totalPercentage > 100) {
       alert('La suma de los porcentajes no puede exceder el 100%')
+      return
+    }
+    if (totalPercentage < 100) {
+      alert(`La suma de los porcentajes es menor al 100%. Faltan ${100 - totalPercentage}%`)
       return
     }
     setSubmitted(true)
@@ -138,20 +146,12 @@ const RubricForm = ({ nameRubrica, setValue, rubrica }) => {
             <Grid item xs={4}>
               <Grid container spacing={1}>
                 {criterion.scores.map((score, levelIndex) => (
-                  <Grid item xs={6} key={levelIndex}>
-                    <TextField
-                      label={`Nivel ${levelIndex + 1}`}
-                      type='number'
-                      value={score.value}
-                      onChange={(e) =>
-                        handleScoreChange(index, levelIndex, 'value', e.target.value)}
-                      fullWidth
-                    />
+                  <Grid item xs={12} key={levelIndex}>
                     <TextField
                       label={`Descripción Nivel ${levelIndex + 1}`}
                       value={score.description}
                       onChange={(e) =>
-                        handleScoreChange(index, levelIndex, 'description', e.target.value)}
+                        handleScoreChange(index, levelIndex, e.target.value)}
                       fullWidth
                       multiline
                       rows={2}
@@ -187,41 +187,54 @@ const RubricForm = ({ nameRubrica, setValue, rubrica }) => {
         </Button>
       </Box>
       <Box mt={4} textAlign='center'>
-        <Button variant='contained' color='warning' onClick={resetCriteria}>
+        <Button variant='contained' color='warning' onClick={() => setCriteria([{ name: '', percentage: '', levels: 2, scores: [{ description: '' }, { description: '' }], selectedLevel: -1 }])}>
           Limpiar
         </Button>
       </Box>
-      {submitted && (
-        <Box mt={4}>
-          <Typography variant='h5'>Rúbrica Final</Typography>
-          <Table>
-            <TableHead>
-              <TableRow>
-                <TableCell>Criterio</TableCell>
-                <TableCell>Porcentaje</TableCell>
-                <TableCell>Niveles</TableCell>
-                <TableCell>Descripción</TableCell>
+      <Box mt={4}>
+        <Typography variant='h5'>Rúbrica en Progreso</Typography>
+        <Table>
+          <TableHead>
+            <TableRow>
+              <TableCell>Criterio</TableCell>
+              <TableCell>Porcentaje</TableCell>
+              <TableCell>Niveles</TableCell>
+              <TableCell>Descripción</TableCell>
+              <TableCell>Seleccionado</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {criteria.map((criterion, index) => (
+              <TableRow key={index}>
+                <TableCell>{criterion.name}</TableCell>
+                <TableCell>{criterion.percentage}</TableCell>
+                <TableCell>{criterion.levels}</TableCell>
+                <TableCell>
+                  {criterion.scores.map((score, levelIndex) => (
+                    <div key={levelIndex}>
+                      <strong>Nivel {levelIndex + 1}:</strong> {score.description}
+                    </div>
+                  ))}
+                </TableCell>
+                <TableCell>
+                  {criterion.scores.map((_, levelIndex) => (
+                    <FormControlLabel
+                      key={levelIndex}
+                      control={
+                        <Checkbox
+                          checked={criterion.selectedLevel === levelIndex}
+                          onChange={() => handleLevelSelect(index, levelIndex)}
+                        />
+                      }
+                      label={`Nivel ${levelIndex + 1}`}
+                    />
+                  ))}
+                </TableCell>
               </TableRow>
-            </TableHead>
-            <TableBody>
-              {criteria.map((criterion, index) => (
-                <TableRow key={index}>
-                  <TableCell>{criterion.name}</TableCell>
-                  <TableCell>{criterion.percentage}</TableCell>
-                  <TableCell>{criterion.levels}</TableCell>
-                  <TableCell>
-                    {criterion.scores.map((score, levelIndex) => (
-                      <div key={levelIndex}>
-                        <strong>Nivel {levelIndex + 1}:</strong> {score.value} - {score.description}
-                      </div>
-                    ))}
-                  </TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </Box>
-      )}
+            ))}
+          </TableBody>
+        </Table>
+      </Box>
     </Container>
   )
 }

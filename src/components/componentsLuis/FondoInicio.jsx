@@ -11,7 +11,7 @@ const Fondoinicio = () => {
           container
           justifyContent='center'
           alignItems='center'
-          style={{ position: 'absolute', top: '50%', transform: 'translateY(-50%)' }}
+          style={{ position: 'absolute', top: '20%', transform: 'translateY(0%)' }}
         >
           <Grid item xs={12} md={6}>
             <Box textAlign='center' color='white'>

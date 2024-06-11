@@ -87,7 +87,7 @@ export default function FullScreenAsignationPractice ({ grupoId }) {
         >
           <br />
           <Grid item> <ListAsyncPractices grupoId={grupoId} /> </Grid>
-          <Grid item>  <AccordionPractices grupoId={grupoId} /> </Grid>
+          {/* <Grid item>  <AccordionPractices grupoId={grupoId} /> </Grid> */}
 
         </Grid>
       </Dialog>

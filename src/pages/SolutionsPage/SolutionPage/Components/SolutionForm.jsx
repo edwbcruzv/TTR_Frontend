@@ -6,8 +6,12 @@ import RubricView from './RubricView'
 import CrudSolucionContext from '../../../../context/CrudSolucionContext'
 import { useNavigate } from 'react-router-dom'
 import Swal from 'sweetalert2'
+import { ROL_STUDENT, ROL_TEACHER } from '../../../../utils/environments'
+import SessionContext from '../../../../context/SessionContext'
+import RubricScoreForm from './RubricScoreForm'
 
 export default function SolutionForm ({ solutionId }) {
+  const { token, rol, usernameSession, nombreSession, email, isValidSession, validatingSession, deleteSession } = useContext(SessionContext)
   const {
     loading,
     response,
@@ -59,6 +63,7 @@ export default function SolutionForm ({ solutionId }) {
         text: 'La solución ha sido guardada exitosamente'
       })
     })
+    navigate(-2)
   }
 
   const handleExitWithoutSaving = () => {
@@ -73,7 +78,7 @@ export default function SolutionForm ({ solutionId }) {
       cancelButtonText: 'Cancelar'
     }).then((result) => {
       if (result.isConfirmed) {
-        navigate('/')
+        navigate(-2)
       }
     })
   }
@@ -101,7 +106,8 @@ export default function SolutionForm ({ solutionId }) {
 
       <Paper elevation={3} sx={{ padding: 2, marginBottom: 2 }}>
         <Grid item xs={10}>
-          {!loading && <RubricView rubricData={watch('rubricaCalificada')} />}
+          {!loading && rol === ROL_STUDENT && <RubricView rubrica={watch('rubricaCalificada')} />}
+          {!loading && rol === ROL_TEACHER && <RubricScoreForm nameRubrica='rubricaCalificada' setValue={setValue} rubrica={watch('rubricaCalificada')} />}
         </Grid>
       </Paper>
 

@@ -35,16 +35,16 @@ export default function CardInscription ({ inscription }) {
               Profesor: {profesorNombre}
             </Typography>
           </Grid>
-          <Grid item xs={12}>
+          {/* <Grid item xs={12}>
             <Typography variant='body2' color='text.secondary'>
               Calificación: {calificacion}
             </Typography>
-          </Grid>
+          </Grid> */}
         </Grid>
       </CardContent>
-      <CardActions>
+      {/* <CardActions>
         <Button size='small' onClick={handleViewPractices}>Ver Prácticas</Button>
-      </CardActions>
+      </CardActions> */}
     </Card>
   )
 }

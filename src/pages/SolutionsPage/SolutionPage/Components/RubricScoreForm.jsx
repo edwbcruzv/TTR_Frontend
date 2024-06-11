@@ -1,62 +1,123 @@
 import React, { useState } from 'react'
-import { Container, Typography, Table, TableBody, TableCell, TableHead, TableRow, TextField, Button } from '@mui/material'
+import {
+  Box,
+  Button,
+  Container,
+  Grid,
+  Typography,
+  Paper,
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableRow,
+  Checkbox,
+  FormControlLabel
+} from '@mui/material'
 
-const RubricScoreForm = ({ rubricData }) => {
-  const criteria = JSON.parse(rubricData)
-  const [grades, setGrades] = useState(criteria.map(criterion => ({ ...criterion, grade: '' })))
+const RubricScoreForm = ({ nameRubrica, setValue, rubrica }) => {
+  const [criteria, setCriteria] = useState(JSON.parse(rubrica) || [])
 
-  const handleGradeChange = (index, value) => {
-    const newGrades = grades.map((criterion, i) => i === index ? { ...criterion, grade: value } : criterion)
-    setGrades(newGrades)
+  const handleLevelSelect = (criterionIndex, levelIndex) => {
+    const newCriteria = criteria.map((criterion, i) =>
+      i === criterionIndex ? { ...criterion, selectedLevel: criterion.selectedLevel === levelIndex ? -1 : levelIndex } : criterion
+    )
+    setCriteria(newCriteria)
+  }
+
+  const calculateFinalScore = () => {
+    let totalScore = 0
+    let totalPercentage = 0
+
+    criteria.forEach(criterion => {
+      const selectedLevel = criterion.selectedLevel
+      if (selectedLevel >= 0) {
+        const maxPercentage = parseFloat(criterion.percentage)
+        const levelPercentage = maxPercentage / criterion.scores.length * (selectedLevel + 1)
+        totalPercentage += levelPercentage
+        totalScore += criterion.scores[selectedLevel].value * (levelPercentage / 100)
+      }
+    })
+    // console.log(totalScore)
+    // console.log(totalPercentage)
+    return totalPercentage
   }
 
   const handleSubmit = () => {
-    console.log(JSON.stringify(grades, null, 2))
+    setValue(nameRubrica, JSON.stringify(criteria))
+    setValue('calificacion', (calculateFinalScore().toFixed(2) / 10).toFixed(2))
+    alert('Rúbrica guardada con éxito')
   }
 
   return (
     <Container>
-      <Typography variant='h5' gutterBottom>
-        Vista del Profesor - Asignar Calificaciones
+      <Typography variant='h4' gutterBottom>
+        Evaluar Rúbrica
       </Typography>
-      <Table>
-        <TableHead>
-          <TableRow>
-            <TableCell>Criterio</TableCell>
-            <TableCell>Porcentaje</TableCell>
-            <TableCell>Niveles</TableCell>
-            <TableCell>Descripción</TableCell>
-            <TableCell>Calificación</TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {grades.map((criterion, index) => (
-            <TableRow key={index}>
-              <TableCell>{criterion.name}</TableCell>
-              <TableCell>{criterion.percentage}</TableCell>
-              <TableCell>{criterion.levels}</TableCell>
-              <TableCell>
-                {criterion.scores.map((score, levelIndex) => (
-                  <div key={levelIndex}>
-                    <strong>Nivel {levelIndex + 1}:</strong> {score.value} - {score.description}
-                  </div>
-                ))}
-              </TableCell>
-              <TableCell>
-                <TextField
-                  type='number'
-                  value={criterion.grade}
-                  onChange={(e) => handleGradeChange(index, e.target.value)}
-                  fullWidth
-                />
-              </TableCell>
+      <Box mt={4}>
+        <Typography variant='h5'>Rúbrica</Typography>
+        <Table>
+          <TableHead>
+            <TableRow>
+              <TableCell>Criterio</TableCell>
+              <TableCell>Porcentaje Fijo</TableCell>
+              <TableCell>Porcentaje por Nivel</TableCell>
+              <TableCell>Niveles</TableCell>
+              <TableCell>Seleccionado</TableCell>
             </TableRow>
-          ))}
-        </TableBody>
-      </Table>
-      <Button variant='contained' color='primary' onClick={handleSubmit} style={{ marginTop: 16 }}>
-        Guardar Calificaciones
-      </Button>
+          </TableHead>
+          <TableBody>
+            {criteria.map((criterion, index) => (
+              <TableRow key={index}>
+                <TableCell>{criterion.name}</TableCell>
+                <TableCell>{criterion.percentage}%</TableCell>
+                <TableCell>
+                  {criterion.selectedLevel >= 0
+                    ? ((criterion.selectedLevel + 1) / criterion.scores.length * criterion.percentage).toFixed(2) + '%'
+                    : '0%'}
+                </TableCell>
+                <TableCell>
+                  {criterion.scores.map((score, levelIndex) => (
+                    <div key={levelIndex}>
+                      <strong>Nivel {levelIndex + 1}:</strong> {score.description}
+                      <FormControlLabel
+                        control={
+                          <Checkbox
+                            checked={criterion.selectedLevel === levelIndex}
+                            onChange={() => handleLevelSelect(index, levelIndex)}
+                          />
+                        }
+                        label=''
+                      />
+                    </div>
+                  ))}
+                </TableCell>
+                <TableCell>
+                  {criterion.selectedLevel >= 0 ? `Nivel ${criterion.selectedLevel + 1}` : 'No seleccionado'}
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </Box>
+      <Box mt={2}>
+        <Typography variant='body1'>
+          Porcentaje Final: {calculateFinalScore().toFixed(2)}%
+        </Typography>
+      </Box>
+      <Box mt={2}>
+        <Typography variant='body1'>
+          Porcentaje Final: {(calculateFinalScore().toFixed(2) / 10).toFixed(2)}%
+        </Typography>
+        <Typography variant='body1'>
+          Calificación Final: {calculateFinalScore().toFixed(2) >= 60 ? 'Aprobado' : 'Reprobado'}
+        </Typography>
+      </Box>
+      <Box mt={4} textAlign='center'>
+        <Button variant='contained' color='secondary' onClick={handleSubmit}>
+          Guardar Rúbrica
+        </Button>
+      </Box>
     </Container>
   )
 }

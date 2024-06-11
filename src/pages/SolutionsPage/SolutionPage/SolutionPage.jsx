@@ -9,6 +9,7 @@ import Toolbar from '@mui/material/Toolbar'
 import IconButton from '@mui/material/IconButton'
 import ArrowBackIcon from '@mui/icons-material/ArrowBack'
 import DataProvide from '../../../context/DataProvide'
+import Swal from 'sweetalert2'
 
 export default function SolutionPage () {
   const location = useLocation()
@@ -17,7 +18,20 @@ export default function SolutionPage () {
   const navigate = useNavigate()
 
   const handleGoBack = () => {
-    navigate('/')
+    Swal.fire({
+      title: '¿Estás seguro?',
+      text: 'No has guardado los cambios. ¿Quieres salir sin guardar?',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Sí, salir',
+      cancelButtonText: 'Cancelar'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        navigate(-2)
+      }
+    })
   }
 
   return (
