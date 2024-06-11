@@ -57,7 +57,7 @@ export default function ConfigPage () {
           </Grid>
         </Paper>
 
-        <Paper sx={{ p: 4, mb: 4 }}>
+        {/* <Paper sx={{ p: 4, mb: 4 }}>
           <Typography variant='h6' sx={{ mb: 2 }}>
             Notificaciones
           </Typography>
@@ -87,7 +87,7 @@ export default function ConfigPage () {
               </Button>
             </Grid>
           </Grid>
-        </Paper>
+        </Paper> */}
       </Container>
     </MiniDrawerFrame>
   )

@@ -1,12 +1,35 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { AppBar, Toolbar, Typography, Container, TextField, Button } from '@mui/material'
 import Swal from 'sweetalert2'
+import { AuthContext } from '../../context/AuthContext'
 
 const RecoveryPage = () => {
   const [email, setEmail] = useState('')
   const [code, setCode] = useState('')
   const [showEmailForm, setShowEmailForm] = useState(true)
   const [showCodeForm, setShowCodeForm] = useState(false)
+
+  const {
+    response,
+    error,
+    loading,
+
+    register,
+    handleSubmit,
+    watch,
+    reset,
+    setValue,
+    getValues,
+    errors,
+
+    openModalForm,
+    handleOpenModalForm,
+    handleCloseModalForm,
+
+    login,
+    registerUser,
+    recoveryByEmail
+  } = useContext(AuthContext)
 
   const handleEmailSubmit = (e) => {
     e.preventDefault()

@@ -28,6 +28,7 @@ function CrudPracticaProvider ({ children }) {
   const [responseAll, setResponseAll] = useState(null)
   const [error, setError] = useState(null)
   const {
+    control,
     register, // el form lo usa para los inputs
     handleSubmit, // hace el envio
     watch, // obtener el valor de un atributo
@@ -291,6 +292,7 @@ function CrudPracticaProvider ({ children }) {
     responseAll,
     error,
 
+    control,
     register,
     handleSubmit,
     watch,

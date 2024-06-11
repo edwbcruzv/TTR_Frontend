@@ -9,6 +9,7 @@ import Swal from 'sweetalert2'
 import { ROL_STUDENT, ROL_TEACHER } from '../../../../utils/environments'
 import SessionContext from '../../../../context/SessionContext'
 import RubricScoreForm from './RubricScoreForm'
+import { format, isAfter } from 'date-fns'
 
 export default function SolutionForm ({ solutionId }) {
   const { token, rol, usernameSession, nombreSession, email, isValidSession, validatingSession, deleteSession } = useContext(SessionContext)
@@ -51,6 +52,10 @@ export default function SolutionForm ({ solutionId }) {
   useEffect(() => {
     getSolucion(solutionId)
   }, [])
+
+  const formattedFechaUltimaEdicion = format(new Date(watch('fechaUltimaEdicion')), 'dd/MM/yyyy HH:mm')
+  const formattedFechaLimiteEntrega = format(new Date(watch('fechaLimiteEntrega')), 'dd/MM/yyyy HH:mm')
+  const isLate = isAfter(new Date(), new Date(watch('fechaLimiteEntrega'))) // Cambio isBefore por isAfter
 
   function onSubmit (data) {
     data.strHtml = html
@@ -114,9 +119,12 @@ export default function SolutionForm ({ solutionId }) {
       <Paper elevation={3} sx={{ padding: 2, marginBottom: 2 }}>
         <Grid container spacing={2}>
           <Grid item xs={6}>
-            <Button variant='text' color='primary' onClick={handleSubmit(onSubmit)}>
-              Guardar
-            </Button>
+            {isLate
+              ? <Typography variant='body2' color='warning'>Ya no puedes enviar la respuesta, vencio el periodo de tiempo.</Typography>
+              : <Button variant='text' color='primary' onClick={handleSubmit(onSubmit)}>
+                Guardar
+                </Button>}
+
           </Grid>
           <Grid item xs={6}>
             <Button variant='text' color='primary' onClick={handleExitWithoutSaving}>

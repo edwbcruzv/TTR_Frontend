@@ -7,7 +7,7 @@ import Typography from '@mui/material/Typography'
 import Grid from '@mui/material/Grid'
 import Chip from '@mui/material/Chip'
 import Tooltip from '@mui/material/Tooltip'
-import { format } from 'date-fns'
+import { format, isAfter } from 'date-fns' // Cambio isBefore por isAfter
 import { useNavigate } from 'react-router-dom'
 import { ROL_STUDENT, ROL_TEACHER } from '../../../utils/environments'
 import SessionContext from '../../../context/SessionContext'
@@ -49,6 +49,10 @@ export default function CardSolution ({ solucion }) {
     return text
   }
 
+  const formattedFechaUltimaEdicion = format(new Date(fechaUltimaEdicion), 'dd/MM/yyyy HH:mm')
+  const formattedFechaLimiteEntrega = format(new Date(fechaLimiteEntrega), 'dd/MM/yyyy HH:mm')
+  const isLate = isAfter(new Date(), new Date(fechaLimiteEntrega)) // Cambio isBefore por isAfter
+
   return (
     <Card sx={{ maxWidth: 345, m: 2, borderRadius: 2 }}>
       <CardContent>
@@ -76,32 +80,35 @@ export default function CardSolution ({ solucion }) {
           </Typography>
         )}
         <Typography variant='body2' color='text.secondary'>
-          Última Edición: {format(new Date(fechaUltimaEdicion), 'yyyy-MM-dd HH:mm')}
+          Última Edición: {formattedFechaUltimaEdicion}
         </Typography>
         <Typography variant='body2' color='text.secondary'>
-          Fecha Límite: {format(new Date(fechaLimiteEntrega), 'yyyy-MM-dd HH:mm')}
+          Fecha Límite: {formattedFechaLimiteEntrega}
         </Typography>
         {calificacion !== 0 && (
           <Typography variant='body2' color='text.secondary'>
             Calificación: {calificacion}
           </Typography>
         )}
+        <Typography variant='body2' color={isLate ? 'error' : 'success'}>
+          {isLate ? 'Vencido' : 'A tiempo'}
+        </Typography>
       </CardContent>
       <CardActions>
-
-        {rol === ROL_STUDENT &&
+        {rol === ROL_STUDENT && (
           <Tooltip title='Ver Detalles'>
             <Button onClick={handleView} size='small' variant='contained' color='primary'>
               Resolver
             </Button>
-          </Tooltip>}
-
-        {rol === ROL_TEACHER &&
+          </Tooltip>
+        )}
+        {rol === ROL_TEACHER && (
           <Tooltip title='Calificar'>
             <Button onClick={handleView} size='small' variant='outlined' color='secondary'>
               Ver/Calificar
             </Button>
-          </Tooltip>}
+          </Tooltip>
+        )}
       </CardActions>
     </Card>
   )

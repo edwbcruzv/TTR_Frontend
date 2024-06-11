@@ -94,7 +94,7 @@ const FormTeam = ({ grupoId }) => {
             <Grid item xs={12} sm={12}>
               {left.length > 6
                 ? 'El equipo no puede ser mayor a 6 estudiantes'
-                : <Button variant='outlined' color='primary' type='submit'>Crear</Button>}
+                : <Button variant='outlined' color='primary' type='submit'>Guardar</Button>}
             </Grid>
           </Grid>
         </Box>

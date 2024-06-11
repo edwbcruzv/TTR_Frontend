@@ -7,6 +7,10 @@ import useAxios from '../../../../../hooks/useAxios'
 import { URI_BACKEND } from '../../../../../utils/environments'
 import SessionContext from '../../../../../context/SessionContext'
 import CrudPracticaContext from '../../../../../context/CrudPracticaContext'
+import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker'
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
+import { Controller } from 'react-hook-form'
 
 function sleep (duration) {
   return new Promise((resolve) => {
@@ -25,6 +29,7 @@ export default function ListAsyncPractices ({ grupoId }) {
     responseAll,
     error,
 
+    control,
     register,
     handleSubmit,
     watch,
@@ -51,8 +56,11 @@ export default function ListAsyncPractices ({ grupoId }) {
   } = useContext(CrudPracticaContext)
 
   const [practicas, setPracticas] = useState([])
+  const [selectedDate, setSelectedDate] = useState(null)
   function onSubmit (data) {
     data.grupoId = grupoId
+    const fechaLimiteEntrega = selectedDate ? selectedDate.format('YYYY-MM-DDTHH:mm:ss') : null
+    data.fechaLimiteEntrega = fechaLimiteEntrega
     console.log(data)
     asignarPractica(data)
   }
@@ -150,6 +158,27 @@ export default function ListAsyncPractices ({ grupoId }) {
           /> */}
             </RadioGroup>
           </FormControl>
+        </Grid>
+        <Grid item>
+          <LocalizationProvider dateAdapter={AdapterDayjs}>
+            <Controller
+              control={control}
+              name='fechaLimiteEntrega'
+              rules={{ required: 'La fecha límite de entrega es requerida' }}
+              render={({ field }) => (
+                <DateTimePicker
+                  {...field}
+                  value={selectedDate}
+                  onChange={(newValue) => {
+                    setSelectedDate(newValue)
+                    field.onChange(newValue)
+                  }}
+                  renderInput={(props) => <TextField {...props} />}
+                />
+              )}
+            />
+            {errors.fechaLimiteEntrega && <span>{errors.fechaLimiteEntrega.message}</span>}
+          </LocalizationProvider>
         </Grid>
         <Grid item>
           <Button variant='outlined' type='submit'>Asignar practica</Button>

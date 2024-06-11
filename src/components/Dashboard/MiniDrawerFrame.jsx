@@ -26,6 +26,7 @@ import AddIcon from '@mui/icons-material/Add'
 import PostAddIcon from '@mui/icons-material/PostAdd'
 import SettingsIcon from '@mui/icons-material/Settings'
 import HomeIcon from '@mui/icons-material/Home'
+import LogoutIcon from '@mui/icons-material/Logout'
 import PeopleOutlinedIcon from '@mui/icons-material/PeopleOutlined'
 import CasesOutlinedIcon from '@mui/icons-material/CasesOutlined'
 import GroupsOutlinedIcon from '@mui/icons-material/GroupsOutlined'
@@ -38,7 +39,7 @@ const style_drawer = {
   backgroundColor: '#9d5ceb'
 }
 const itemsHeader = [
-  { textItem: 'Inicio', path: '', iconItem: <HomeIcon /> }
+  // { textItem: 'Inicio', path: '', iconItem: <HomeIcon /> }
 ]
 
 const itemsFooter = [
@@ -282,13 +283,13 @@ export default function MiniDrawerFrame ({ children }) {
           <Typography variant='h6' noWrap component='div' sx={{ flexGrow: 1, textAlign: 'center' }}>
             {nombreSession}
           </Typography>
-          <IconButton
+          {/* <IconButton
             color='inherit'
             aria-label='toggle dark mode'
             onClick={() => toggleDarkMode()}
           >
             {darkMode ? <Brightness7Icon /> : <Brightness4Icon />}
-          </IconButton>
+          </IconButton> */}
           <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
             {/* {rol === ROL_TEACHER && <>
               <IconButton
@@ -319,7 +320,7 @@ export default function MiniDrawerFrame ({ children }) {
               onClick={handleProfileMenuOpen}
               color='inherit'
             >
-              <AccountCircle />
+              <LogoutIcon />
             </IconButton>
           </Box>
           <Box sx={{ display: { xs: 'flex', md: 'none' } }}>
