@@ -39,7 +39,7 @@ const style_drawer = {
   backgroundColor: '#9d5ceb'
 }
 const itemsHeader = [
-  // { textItem: 'Inicio', path: '', iconItem: <HomeIcon /> }
+  { textItem: 'Inicio', path: '', iconItem: <HomeIcon /> }
 ]
 
 const itemsFooter = [

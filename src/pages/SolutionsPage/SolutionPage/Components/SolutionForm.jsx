@@ -119,7 +119,7 @@ export default function SolutionForm ({ solutionId }) {
       <Paper elevation={3} sx={{ padding: 2, marginBottom: 2 }}>
         <Grid container spacing={2}>
           <Grid item xs={6}>
-            {isLate
+            {isLate && rol === ROL_STUDENT
               ? <Typography variant='body2' color='warning'>Ya no puedes enviar la respuesta, vencio el periodo de tiempo.</Typography>
               : <Button variant='text' color='primary' onClick={handleSubmit(onSubmit)}>
                 Guardar

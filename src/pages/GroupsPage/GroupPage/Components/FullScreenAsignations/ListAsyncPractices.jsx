@@ -161,23 +161,26 @@ export default function ListAsyncPractices ({ grupoId }) {
         </Grid>
         <Grid item>
           <LocalizationProvider dateAdapter={AdapterDayjs}>
-            <Controller
-              control={control}
-              name='fechaLimiteEntrega'
-              rules={{ required: 'La fecha límite de entrega es requerida' }}
-              render={({ field }) => (
-                <DateTimePicker
-                  {...field}
-                  value={selectedDate}
-                  onChange={(newValue) => {
-                    setSelectedDate(newValue)
-                    field.onChange(newValue)
-                  }}
-                  renderInput={(props) => <TextField {...props} />}
-                />
-              )}
-            />
-            {errors.fechaLimiteEntrega && <span>{errors.fechaLimiteEntrega.message}</span>}
+            <FormControl fullWidth>
+              <FormLabel id='demo-row-radio-buttons-group-label'>Elija la fecha limite de entrega</FormLabel>
+              <Controller
+                control={control}
+                name='fechaLimiteEntrega'
+                rules={{ required: 'La fecha límite de entrega es requerida' }}
+                render={({ field }) => (
+                  <DateTimePicker
+                    {...field}
+                    value={selectedDate}
+                    onChange={(newValue) => {
+                      setSelectedDate(newValue)
+                      field.onChange(newValue)
+                    }}
+                    renderInput={(props) => <TextField {...props} fullWidth />}
+                  />
+                )}
+              />
+              {errors.fechaLimiteEntrega && <span>{errors.fechaLimiteEntrega.message}</span>}
+            </FormControl>
           </LocalizationProvider>
         </Grid>
         <Grid item>
